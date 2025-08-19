@@ -17,3 +17,14 @@ with mlflow.start_run():
 **We will have a folder called mlruns in VS Code, and in that we have meta.yaml; It have some details**
 
 **We have some id thing it and it corresponds to Experiment in MLFlow**
+
+
+##### **In Between Started NLP Project**
+
+**A) End to End ML Project with HuggingFace and Transformers:**
+
+**HuggingFace provides models for NLP, Computer Vision,etc..**
+
+**We will use a Existing Model and FineTune it; We will also use Dataset from HuggingFace**
+
+**All models in Hugging Face, Transformer library's usage will be generic for tokenizer, checkpoint,etc..**
