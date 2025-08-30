@@ -18,6 +18,12 @@
 
 ## First Dagshub Project - At first stage, the repository has been created in DAGsHub. To start coding, the repository must first be initialized with Git. The first example to be implemented will focus on uploading data to DAGsHub and ensuring that the data is versioned using DVC. Later steps will include tracking code and logging experiments with MLflow.
 
+### Pytest library is used for unit testing. It is capable of executing Python unit test cases.
+
+### Now the workflow for automated testing using GitHub Actions will be created. Inside the repository, create a folder named .github. Inside this, create another folder named workflows. Within workflows, create a YAML file named unit-test.yml. The GitHub Action configuration is always defined in YAML files. A GitHub Actions extension can be installed in VS Code for convenience. After installing, sign in to GitHub if required. Now open the unit-test.yml file and define the workflow. A GitHub Action workflow is defined using key-value pairs. [Refer to "GitHub Action Practicals - Automate Testing Workflow With Python" Project for more information
+
+## GitHub Actions expects few things like key-value pair, the first key is name, which specifies the workflow name. In this example: name: Python CI; the next key is on, which specifies the events that will trigger the workflow. Workflows can be triggered on events like push, pull request, merge, or delete. Here, the workflow will trigger on push and pull request events on the main branch:
+
 **A) Getting Started with MLFlow Tracking Server**
 
 **B) MLFlow with AWS**
@@ -25,6 +31,10 @@
 **C) Grafana - Open Source Tool for Data Visualization and Monitoring**
 
 **D) Getting Started with Dagshub**
+
+**E) GitHub Action Practicals - Automate Testing Workflow With Python**
+
+
 
 **A) Getting Started with MLFlow Tracking Server**
 
@@ -367,3 +377,136 @@ The .dvc file changes with a new MD5 hash. Git is updated with: "git add ."; "gi
 DAGs Hub now shows two commits in the history, allowing comparisons between versions. The history shows the previous version and the modified version, along with different SHA values.
 
 #### This confirms that both code and data are versioned using Git and DVC with DAGs Hub as the remote repository. The pipeline visualization also updates accordingly. This simple pipeline demonstrates the integration of DVC with DAGs Hub. More complex pipelines with experiments and MLflow can be added in future projects for complete end-to-end workflows.
+
+#### **E) GitHub Action Practicals - Automate Testing Workflow With Python**
+
+In this section, we will see the first practical implementation of the GitHub Action workflow. The goal is to create a Python project, and with the help of GitHub Actions, we will enable automated testing. Automated testing will be performed using unit test cases that we write. The steps required to accomplish this will be shown step by step.
+
+The first step is to go to github.com. A new repository must be created. Let the new repository name be test-github-action. This repository will be created for a Python app. While creating the repository, no options such as README file or license need to be selected. After clicking create, the repository will be created and will be visible in the account.
+
+Next, open Visual Studio Code. In VS Code, open the terminal and use the command prompt. Ensure that Git is installed so that repository initialization can begin. The first file to create will be the README.md file. This file will be created with the following content: This is the Python app
+
+After this, the repository must be initialized. This is done using the command: git init
+
+This initializes an empty Git repository in the current folder. A .git folder will now be available inside the repository. After initialization, the next step is to add the README.md file to the staging area. This is done with: git add .
+
+The file is now in the index. Then commit the file: git commit -m "first commit"
+
+Now a branch must be created, named main: git branch -M main
+
+Next, add the remote origin for the repository: git remote add origin <repository-url>
+
+Finally, push the changes to the remote repository: git push -u origin main
+
+At this stage, the README.md file will appear in the GitHub repository.
+
+**Now, continue in VS Code to start writing the Python application. The first file will be requirements.txt, which lists the dependencies. For this project, the dependencies will be: pandas, pytest**
+
+### Pytest library is used for unit testing. It is capable of executing Python unit test cases.
+
+### Next, create a src folder that will contain the application code. Inside this folder, add an __init__.py file so that the folder is recognized as a package. Then create a file named math_operations.py. In this file, define two functions for addition and subtraction:
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+## Next, create a tests folder for unit test cases. Inside this folder, add an __init__.py file and a file named test_operations.py. In test_operations.py, import the functions from math_operations:
+
+## from src.math_operations import add, subtract
+
+### Now, define the test cases. For addition and subtraction: 
+
+def test_add():
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+
+def test_subtract():
+    assert subtract(5, 3) == 2
+    assert subtract(4, 3) == 1
+    assert subtract(3, 3) == 0
+    assert subtract(2, 3) == -1
+
+The test folder will be automatically discovered by pytest, and the test cases will be executed.
+
+Once the application and tests are ready, commit the changes:
+
+git add .
+
+git commit -m "unit test cases updated"
+
+git push origin main
+
+At this point, the repository on GitHub will contain both src and tests folders.
+
+### Now the workflow for automated testing using GitHub Actions will be created. Inside the repository, create a folder named .github. Inside this, create another folder named workflows. Within workflows, create a YAML file named unit-test.yml. The GitHub Action configuration is always defined in YAML files.
+
+### A GitHub Actions extension can be installed in VS Code for convenience. After installing, sign in to GitHub if required. Now open the unit-test.yml file and define the workflow. A GitHub Action workflow is defined using key-value pairs.
+
+## The first key is name, which specifies the workflow name. In this example: name: Python CI
+
+## The next key is on, which specifies the events that will trigger the workflow. Workflows can be triggered on events like push, pull request, merge, or delete. Here, the workflow will trigger on push and pull request events on the main branch:
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+The next section is jobs. Multiple jobs can be defined. Each job runs in a container. In this case, the job will run in an ubuntu-latest container:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+### Runs on Ubuntu Containers - A Linux Container; (In code, based on container we want we can specify accordingly)
+
+## The steps define what will happen inside the job.
+
+(i) Checkout code: This uses the pre-built GitHub Action actions/checkout@v2 to fetch code from the repository.
+
+- name: Check out code
+  uses: actions/checkout@v2
+
+### We defined Name, Event, Jobs; Basically we checkedout and take it to run on container; Job is that is running on some container
+
+(ii) Set up Python environment: This uses the pre-built action actions/setup-python@v2. The version of Python is specified.
+
+We mentioned keyword and Python version we want to create
+
+- name: Set up Python
+  uses: actions/setup-python@v2
+  with:
+    python-version: '3.8'
+
+(iii) Install dependencies: This step installs required libraries from requirements.txt. (To test)
+
+- name: Install dependencies
+  run: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+
+(iv) Run tests: Finally, pytest is executed.
+
+- name: Run tests
+  run: pytest
+
+## As soon as Run Test is executed in the container, it will start looking for test folder, wherever it is present and go ahead and execute the test cases
+
+## This is one example of Continuous Integration
+
+## Once the YAML file is committed and pushed, GitHub Actions will be automatically triggered. This happens because a push event to the main branch occurred.
+
+## As soon as, code is pasted and commited in Github ".github/workflows/python-app.yaml", entire workflow should get triggered; When commiting it means that a Pull/Push Request is basically happening; Push request is basically commit the entire changes
+
+## As soon as committed, it gets trigged; Once we go the "Actions", it shows a brown symbol, means test got executed
+
+## Inside the GitHub repository, go to the Actions tab. The workflow will appear as triggered. The status will show steps such as Set up job, Check out code, Install dependencies, Run pytest, and Post job cleanup. If all test cases pass, the workflow will show success.
+
+From the logs, each step can be examined. For example, in checkout, the repository is initialized. In set up Python, the environment is created with the specified version. In install dependencies, pandas and pytest are installed. Finally, in run tests, pytest discovers the test folder and executes the test cases. If all assertions pass, the result will show the test cases have passed.
+
+From now on, every commit or pull request will trigger this GitHub Action automatically. This ensures continuous integration. Whenever a developer pushes new code, all unit tests will run automatically, and if a failure occurs, it will be visible immediately. This prevents broken code from being merged into the main branch.
+
+This was a complete example of an end-to-end workflow for a Python application using GitHub Actions. As projects grow, more advanced workflows can be added, such as Docker integration, deployment pipelines, or multi-environment testing.
