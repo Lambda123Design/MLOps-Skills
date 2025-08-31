@@ -24,6 +24,8 @@
 
 ## GitHub Actions expects few things like key-value pair, the first key is name, which specifies the workflow name. In this example: name: Python CI; the next key is on, which specifies the events that will trigger the workflow. Workflows can be triggered on events like push, pull request, merge, or delete. Here, the workflow will trigger on push and pull request events on the main branch:
 
+## Astronomer, Docker, Airflow, all are related (Astronomer is a managed platform for Apache Airflow; Airflow will be running within a Docker container) - So now I'm quite excited to start the practical implementation of Airflow. Uh, before I go ahead, you know, I really want to introduce you to this amazing platform which is called as Astronomer. And we also see it as Astro. Uh, what exactly is Astro or Astronomer? It is a managed platform for Apache Airflow. So here you can see Airflow is there. That simplifies running and scaling Airflow while providing additional enterprise features like monitoring, security and automation. Okay, so this entire platform we are going to specifically use, and the best thing will be that this platform will be running your r. So for this you definitely need to have a Docker installed or Docker installed in your, uh, laptop or your desktop. And then only you will be able to use this, okay. Because at the end of the day, when we are creating all our end to end projects, uh, specifically using Airflow, whatever task we are going to define, all these tasks, um, we are going to write it down, and we are also going to use other services which will be specifically running in Docker container. And we'll be making sure that using Docker Compose we’ll make them interact with one another.
+
 **A) Getting Started with MLFlow Tracking Server**
 
 **B) MLFlow with AWS**
@@ -34,6 +36,13 @@
 
 **E) GitHub Action Practicals - Automate Testing Workflow With Python**
 
+**F) Setting Up Airflow With Astro**
+
+**G) Building Your First DAG With Airflow**
+
+**H) Designing Mathematical Calculation DAG With Airflow**
+
+**I) Getting Started With TaskFlow API Using Apache Airflow**
 
 
 **A) Getting Started with MLFlow Tracking Server**
@@ -510,3 +519,962 @@ From the logs, each step can be examined. For example, in checkout, the reposito
 From now on, every commit or pull request will trigger this GitHub Action automatically. This ensures continuous integration. Whenever a developer pushes new code, all unit tests will run automatically, and if a failure occurs, it will be visible immediately. This prevents broken code from being merged into the main branch.
 
 This was a complete example of an end-to-end workflow for a Python application using GitHub Actions. As projects grow, more advanced workflows can be added, such as Docker integration, deployment pipelines, or multi-environment testing.
+
+
+## **F) Setting Up Airflow With Astro**
+
+So now I'm quite excited to start the practical implementation of Airflow. Uh, before I go ahead, you know, I really want to introduce you to this amazing platform which is called as Astronomer. And we also see it as Astro. Uh, what exactly is Astro or Astronomer? It is a managed platform for Apache Airflow. So here you can see Airflow is there. That simplifies running and scaling Airflow while providing additional enterprise features like monitoring, security and automation.
+
+Okay, so this entire platform we are going to specifically use, and the best thing will be that this platform will be running your Airflow within a Docker container. So for this you definitely need to have a Docker installed or Docker installed in your, uh, laptop or your desktop. And then only you will be able to use this, okay. Because at the end of the day, when we are creating all our end to end projects, uh, specifically using Airflow, whatever task we are going to define, all these tasks, um, we are going to write it down, and we are also going to use other services which will be specifically running in Docker container. And we'll be making sure that using Docker Compose we’ll make them interact with one another.
+
+Right. So in this video I'll be talking more about Astronomer and how we can probably go ahead and set up the Airflow with Astro. Okay. So if you just go ahead and search for astronomy documentation with Airflow, so here you also get an amazing, uh, entire documentation how you can probably get started. And trust me, you know, before I used to use Airflow independently to try I used to try to run it as a Docker container. A lot of errors and issues I used to face because there is a lot of dependencies issues. But with the help of this particular platform, it has become really, really easy.
+
+Now let me just go ahead and talk more about this. Astro, as I said that it is a managed platform for the entire Apache Airflow and everything is basically running in a Docker container. Now to get started, what I will do, I will just go to my folder. Let me just open my folder. That is MLOps. Okay. Now inside this, I have this, uh, airflow. Astro. I've created this particular folder. You can also create the folder anywhere you want. Okay, I will copy this and I will open my command prompt. Okay. Once I open my command prompt, I will just go ahead and, uh, go to my E drive, okay. And I will say CD and I'll specifically go to this particular location that is the airflow Astro. Okay. Once I go to this particular location, then I'm going to go ahead and, uh, probably create my project inside this.
+
+So I will go ahead and write "code ." Okay. Once I write "code ." so here you will be able to see that my VS Code has got opened. Now since we are getting started, uh, with setting up the, uh, Airflow with Astro, uh, this is the step that everybody needs to follow. And then probably we'll also see that how we can run this entire Airflow. Okay. And, uh, right now here, let me just go ahead and open my terminal. Okay. And here I'm going to open my command prompt. Or you can also work with Git Bash. Okay.
+
+So once you go over here, the first command. See, right now I don't have any project structure. Nothing as such. Right. And I really want to go ahead and start with a project structure. 
+
+Also probably I need to define a project structure. I need to probably create all the files and all. Now with the help of this Astro, right, it becomes very easy to probably create this entire project structure. And for the Airflow, the kind of project structure that is required automatically will be created by this. 
+
+## Now, in order to do that, just go ahead and write this particular command "astro dev init".
+
+So once you basically write this automatically, it will initialize an Astro project, uh, pulling the Airflow development files from Astro runtime 12.1.1 okay. And it is going to initialize an empty Astro project in this particular drive. 
+
+### Now, if I just go ahead and open it here, you can see the entire project structure is basically created. Right. And here you have this .astro file. Here you have this DAGs folder right. DAGs folder is specifically for Airflow. Right. And if you probably see over here a Docker file is also created. So this is the Docker file that will be, uh, you know, when once we probably run this entire code, right. Once we run this entire project, this is the Docker that is basically going to run in the Docker container. And this internally also calls Airflow. And it will be running in one, one, one another port itself. Okay.
+
+So all those things we'll see how we can actually run it. But I think you found this particular step very much easy because just by writing one line of command, the entire project structure is ready. Okay. Now we'll keep this project structure like this itself. And then we will start working in different different folders. 
+
+### Now let me talk about one of the very important folder which is called as DAGs. And this inside this particular folder we basically create all our DAGs. So let's take this example which is called as example dag.py. And here, uh, this particular example is a default example that is given by Astro. Here they are saying that hey we have astronaut ETL example dag.
+
+### So this is an ETL pipeline example wherein we are reading something. Okay so here is my DAGs that is basically created. Then here you can see I have defined my task. We will go step by step will try to understand it. This is hitting an API. It is bringing all the details and it is returning the list of people in the space. Okay, along with this, you'll be able to see that there is another task which is basically called a sprint. 
+
+## So two important information why we are seeing this as ETL because one, it is trying to get all the astronauts from the API right. ETL components, if you remember from my diagram.
+
+So if you probably see from the top diagram that we have actually discussed, right. Let me just go to that particular diagram. And then you should be able to understand what I am exactly talking about. Right. So if I go to my full screen, if you see over here in the data pipeline, right, we create an ETL pipeline itself in ETL basically means extraction, data extraction, transformation and loading. Right. 
+
+### So similarly here also what it is doing, it is probably getting the astronauts detail from an API, which is this specific API. After getting all the information, it is returning the list of people in the space. And finally we have created another task which is printing all the names. Okay, so this two specific task has been scheduled. And whenever this API has new data, it should be able to we should be able to schedule it regularly.
+
+So yet I have not discussed about the coding part and all. Don't worry because from the next video onwards we will go ahead and start from basics, will create projects, multiple projects and I'll run it. I'll probably write it line by line and show it to you. Okay, now, uh, let's run this entire code. As I said that there are two important modules or two important tasks in this particular DAG. So let's run this in order to run it. Just go ahead and open terminal. Okay. Now inside my command prompt, what I will do. First of all just see in Docker nothing should be running. So right now my Docker is not running any services over here.
+
+So here I will go ahead and write Astro in order to run it. Okay. "astro dev start". Right. So as soon as we go ahead and write this particular command "astro dev start", my entire execution will basically start. So initially you can see it is going to build each and every thing over here. It is building this particular Docker file and from that it is calling this coi.io astronomer Astro runtime 12.12. And after that it is just going to run each and every thing in the Docker itself, right. So using Docker. So here you can see this is basically getting created. Now your Airflow is basically getting started up.
+
+### Now if I open my Docker. So it will take some time to run for the first time. Here you can see my four new containers has got started. So one of the container is about the web server which is running over here. By default a Postgres is scheduled over here that is also running. So if you probably go ahead and see now see this as soon as it runs, this entire Airflow has got started. Okay. And it is running in your 8080. If this is not automatically opening what you can do, you can go to your Docker over here. You can see where the web server is running. It is running in 8080. You can also go ahead and click over here and it will say open with browser.
+
+Now as soon as you open this is the Airflow UI right. Completely managed by Astro okay. And this entirely is running in the Docker container. Okay. So here I will go ahead and write my by default username and password will be "admin admin". Okay. So just go ahead and write "admin admin". This is also set up. I will show you where exactly it is set up and all and how you can actually see all these things, how you can change it. Also, I will go ahead and click on Sign in. Now here is my DAG. Now see this. This is my DAG that has got created that is called as example astronauts okay.
+
+### Tasks in DAG - And right now it is disabled because we have not enabled. And if I talk about this particular DAG, if I just go inside this just double click this. So here you will be able to see that I have two important tasks. One is get astronaut and the other one is print astronaut. Okay. And if I really want to see this in the form of graph. So here is what you will be able to see. Here you have guest astronaut and here you have print astronaut okay. And this is my data set or API which we are actually focusing on. So from here my data will be picked and then this will get executed.
+
+### Two things are - get astronauts, print astronauts
+
+Now in order to run this there is something called as a trigger DAG over here okay. And here we can probably go ahead and trigger the schedule. You can see it is daily. And this is basically the time where it basically has to run. Right. So here, uh, 2020 for ten to, uh, from this particular date it has started. And at this particular time it needs to probably run this entire DAG. But if you really want to manually trigger it, just go ahead and click on this. As soon as you click on this, so here you can see this both the task is now running. Now you are getting green signal. And with respect to this everything is basically also getting displayed.
+
+Now, if I go to the graphs here, you can see if it is showing us green signal. That basically means it is running in an amazing way, like it is running correctly. And we are also able to get the results. In order to see the results, all you have to do is that let's say I will go over here in the Get astronaut. 
+
+## If I click over here, here you will also be able to see the event log right. So event log displays some information. Then if you want to see the code. Code also is basically getting displayed. But, uh, since I want to probably go ahead and show each and everything.
+
+### So let me do one thing. Okay. So, uh, here what I will do, I will go to my example astronaut. So this example astronauts I'm seeing. And here you can see my code. Here there is something called as event log okay. Now in the event log all the necessary information is basically displayed. Print astronaut which all things are basically there and all are are available. All these logs are also visible to you okay. Any errors you will also be able to see that okay. Once you see this okay let me do one thing. Let me just reload. Let me go to the DAGs and open one of my DAG itself over here.
+
+So, uh, inside this, uh, here you are able to see that. Okay, I'm able to see graph. I'm able to see, uh, Gant, uh, code event log, run duration, task duration. Right. Uh, calendar. Right. When all things this. This needs to be getting executed. Now, if I go to the graph, if I go ahead and click on Print astronaut. Okay. Print print astronaut or let me just go and click over here and see this print astronaut okay. So here, uh, if you go ahead and click on Event Logs here, all the information is basically getting displayed. And, uh, if I go and see the details here also you'll be able to see that what task or what run ID it has got executed. Uh, right now we are not printing much more details. So that is the reason you're not able to see the complete logs.
+
+But, uh, in the upcoming videos, I will show you multiple ways to probably see this logs also, so that you'll be able to see each and everything and how it is basically getting displayed right. So this is way like how tasks are getting executed and it is getting executed in a successful way. Okay. And here are some of the details that you are able to see from left to right. Okay. All the all the all the types of graphs and all or what task is basically created when everything you'll be able to see, see, as soon as I go ahead and click on Get Astronauts, if you go ahead and see there is something called as logs, right?
+
+So here also you can see that we are printing some information. Right. Craft is name and all how to do this and all. I will talk about it when we are discussing about it right. So every stage what is basically happening all the information is also basically getting displayed. 
+
+### There is also a component which is called as Xcom. Xcom basically talks about like what information is basically passing from one task to the other task. Now in this particular case, you can see number of people in space is basically getting passed. If I go ahead and click away, if I go ahead and click over here, other information over here, nothing is getting passed. So that is null over here.
+
+But if I go ahead and click over here and if I go ahead and click over here, all this information is basically getting passed to this print astronaut craft function or task. Right. So this was just a basic example to show you that how you can go ahead and set up the basic Airflow project along with the Astro. And here I did not even write a single line of code, but I hope it is able to make you understand that how to run this right now. In order to stop this, I will just go ahead and write "astro dev stop". As soon as I do this, you will be able to see my entire Docker container will get stopped and my entire application will also get stopped.
+
+## Now in the upcoming examples, what I'm actually going to do is that I'll show you some basic examples, how you can go ahead and start your DAG project, and how you can go ahead and start writing each and everything. Okay. Uh, I will be talking about how you can create tasks, how you can probably work with logs, how you can probably work with Eskom and do multiple things. Right. All those things will basically be discussed about it. Okay. And if I also show you this project structure. The project structure looks like you have a DAGs folder. You have include folder, you have plugins folder. You have test folder right here. Obviously you need to write the test cases.
+
+This is very much clear. So this is my test cases that is written by default. But don't worry we will modify each and every file environment variable any environment variable you want to use. You can go ahead and use it. Airflow setting by default. If you want to. Probably go ahead and write any connections over here. So here you will be able to set it up okay. We'll discuss more about it. Then you have this requirement.txt. If you want to install any libraries, um, then you can probably go ahead and write it over here. And this is my README.md file where you'll be able to see all the information.
+
+So I hope you like this particular video. Uh, this was it. Now in the upcoming video, I'm going to probably start everything from basics, and we'll try to do the coding and we’ll create task. We'll see what that Eskom is, how to create logs, how to probably go ahead and create a new DAG. Everything will discuss about it. Right. So yes, this was it from my side. I'll see you all in the next video. Thank.
+
+### Summary:
+
+🔹 Components
+
+Astronomer (Astro): A managed platform for Apache Airflow that simplifies running, scaling, monitoring, and securing Airflow.
+
+Docker: Required since Astronomer runs Airflow within Docker containers.
+
+Docker Compose: Used to enable multiple services (e.g., Airflow webserver, scheduler, database) to interact.
+
+Project Structure (auto-created by astro dev init):
+
+.astro → Astro project config.
+
+dags/ → Folder for DAGs.
+
+Dockerfile → Image definition for running Airflow.
+
+include/ → For additional files.
+
+plugins/ → For Airflow plugins.
+
+tests/ → For test cases.
+
+requirements.txt → For extra Python dependencies.
+
+README.md → Project info.
+
+Airflow UI (localhost:8080): Web interface for managing DAGs.
+
+XCom: Mechanism for passing information between tasks.
+
+🔹 Important Astronomer Commands
+
+Initialize project:
+
+astro dev init
+
+
+→ Creates the Astro project structure with DAGs, Dockerfile, configs.
+
+Start Airflow:
+
+astro dev start
+
+
+→ Builds Docker image, runs Airflow containers (webserver, scheduler, Postgres, triggerer).
+
+Stop Airflow:
+
+astro dev stop
+
+
+→ Stops all running Airflow containers.
+
+🔹 Example DAG (default)
+
+example_dag.py provided in dags/.
+
+Demonstrates an ETL workflow:
+
+Task 1 – Get Astronauts → Fetch astronauts from API.
+
+Task 2 – Print Astronauts → Print list of astronauts.
+
+🔹 Steps to Set Up and Run Airflow with Astro
+
+Install Docker (prerequisite).
+
+Create project folder (e.g., airflow-astro).
+
+Open terminal / VS Code and navigate to folder.
+
+Initialize project → astro dev init.
+
+Inspect structure → dags/, Dockerfile, .astro, etc.
+
+Start Airflow → astro dev start.
+
+Containers for webserver, scheduler, Postgres created.
+
+Airflow UI accessible at http://localhost:8080.
+
+Default credentials: admin / admin.
+
+Check DAGs in UI → example_astronauts.
+
+View tasks (get_astronauts, print_astronauts).
+
+View Graph, Gantt, Logs, Code, XCom, etc.
+
+Trigger DAG manually or let it follow its schedule.
+
+Monitor logs & XComs for task details.
+
+Stop Airflow → astro dev stop.
+
+### **G) Building Your First DAG With Airflow**
+
+So in this tutorial what we are going to do is just look at one good example. And this example is going to give you a very clear idea of how you can get started with Airflow with respect to a practical implementation. Now, in the previous part you might have already seen the example_dag.py file. I am not going to write any code in that same file. Instead, what I’ll do is go inside my dags folder and create a new Python file. Let’s say the file name will be ml_pipeline.py. This file will be my new DAG definition where I will create my DAG, my tasks, and set up the dependencies.
+
+Now, as I said, I want to create a basic ML pipeline here. I won’t go deep into writing actual machine learning logic, because that’s not the focus right now. Instead, I want to show you the skeleton of how you can create tasks, how you can create your DAG, and how you can run it in Airflow.
+
+So first of all, I’ll start by importing the necessary libraries.
+
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+
+Here, from Airflow I am importing DAG, because that’s the class we need to actually define a Directed Acyclic Graph. Then I am importing PythonOperator from airflow.operators.python. Now, why do we need PythonOperator? Basically, whenever you want to create a task in Airflow that just runs a Python function, you use this operator. That’s why it’s called PythonOperator. Later, we’ll also see many other operators like BashOperator, EmailOperator, and so on, but for now let’s just stick to Python because that’s the simplest way to demonstrate. And finally, I am importing datetime because we need it for the scheduling and start date of the DAG.
+
+Once we have the imports ready, the next step is to actually define our task functions. Because at the end of the day, when you create a DAG, it contains multiple tasks. These tasks are connected in a certain order, forming a workflow. So let’s go ahead and define three simple tasks.
+
+def preprocess_data():
+    print("Pre-processing data...")
+
+def train_model():
+    print("Training model...")
+
+def evaluate_model():
+    print("Evaluating model...")
+
+
+Right now, I am not adding any complex logic inside these functions. I am just putting a print statement, because I want to demonstrate how the flow works. Later, in more advanced tutorials, we can actually put real preprocessing code, training logic, or evaluation logic here. But for now this will be enough.
+
+Now that we have our task functions, the next step is to define the DAG. To define a DAG, we use the with DAG(...) as dag: context manager. Let’s write that out.
+
+with DAG(
+    dag_id="ml_pipeline",
+    start_date=datetime(2024, 1, 1),
+    schedule_interval="@weekly",
+    catchup=False
+) as dag:
+
+
+So here I am creating a DAG with the ID ml_pipeline. The start_date is January 1st, 2024. Then I set the schedule_interval to @weekly, which means the pipeline will run once a week. You could also use values like @daily, @hourly, or even cron expressions depending on your use case. Finally, I set catchup=False which means Airflow will not try to backfill all the runs between the start date and today. That’s a good setting when you are testing things.
+
+Now inside this DAG block, I will define my tasks using the PythonOperator. Let’s start with the preprocessing task.
+    preprocess = PythonOperator(
+        task_id="preprocess_task",
+        python_callable=preprocess_data
+    )
+    
+Notice here that I gave the task an ID called preprocess_task. Task IDs should always be unique inside a DAG. Then I set the python_callable to the function we defined earlier, preprocess_data. Also notice that we do not write parentheses here — we don’t call the function directly. We just pass the function reference, because the operator will take care of calling it when the task is executed.
+
+Now let’s define the training task.
+    train = PythonOperator(
+        task_id="train_task",
+        python_callable=train_model
+    )
+
+
+Again, we give it a unique task ID train_task and point the python_callable to the train_model function.
+
+And finally, the evaluation task.
+    evaluate = PythonOperator(
+        task_id="evaluate_task",
+        python_callable=evaluate_model
+    )
+
+
+So now we have three tasks defined — preprocess, train, and evaluate.
+
+The next important thing is to define the dependencies. This is how we tell Airflow in which order these tasks should run. For our ML pipeline, the natural order is preprocessing → training → evaluation. And in Airflow, we can write that very simply like this:
+    preprocess >> train >> evaluate
+
+
+This means first the preprocess task will run, then the train task will run, and finally the evaluate task will run. If any task fails, the downstream ones won’t run until the issue is fixed.
+
+At this point, we have a complete DAG defined. Let me show you the full code in one place.
+
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+def preprocess_data():
+    print("Pre-processing data...")
+
+def train_model():
+    print("Training model...")
+
+def evaluate_model():
+    print("Evaluating model...")
+
+with DAG(
+    dag_id="ml_pipeline",
+    start_date=datetime(2024, 1, 1),
+    schedule_interval="@weekly",
+    catchup=False
+) as dag:
+    preprocess = PythonOperator(
+        task_id="preprocess_task",
+        python_callable=preprocess_data
+    )
+    train = PythonOperator(
+        task_id="train_task",
+        python_callable=train_model
+    )
+    evaluate = PythonOperator(
+        task_id="evaluate_task",
+        python_callable=evaluate_model
+    )
+    preprocess >> train >> evaluate
+
+
+Now once you have written this file, save it inside your dags folder. The moment Airflow starts up, it will automatically detect this DAG. To actually run Airflow, you can go to your terminal and simply start it with:
+
+astro dev start
+
+
+This will bring up your Docker containers and Airflow webserver. Once everything is running, you can open your browser and go to localhost:8080. That’s your Airflow UI. Log in with admin and admin if you are using the default Astro setup. And there you will see two DAGs: the default example_dag and the new ml_pipeline that we just created.
+
+If you click on the ml_pipeline DAG, you will see three tasks: preprocess_task, train_task, and evaluate_task. If you go to the graph view, you will notice the arrows show the exact order — first preprocessing, then training, and then evaluation.
+
+Now if you trigger the DAG manually, you can actually see each task getting executed. For example, after running the preprocess_task, you can click on it and view the logs. In the logs you will see the message “Pre-processing data...” printed. Similarly, when the train_task runs, you will see “Training model...” in the logs. And for evaluate_task, you will see “Evaluating model...”.
+
+This confirms that our Python functions were indeed executed by Airflow. The graph will also turn green for successful tasks, so visually you can track the progress.
+
+And just to mention — if at any point you want to stop your Airflow containers, you can go back to the terminal and type:
+
+astro dev stop
+
+
+This will stop all the containers. If you want to restart them after making code changes, you can use:
+
+astro dev restart
+
+
+That way Airflow will reload and pick up your changes.
+
+So this was a very basic example of creating an ML pipeline DAG. In the next tutorials, we’ll start putting more logic inside these functions, explore passing data between tasks using XComs, and even integrate with external systems like databases. But this foundation — defining a DAG, creating tasks with PythonOperator, and setting dependencies — is the core of how every workflow in Airflow is built.
+
+
+#### Summary:
+
+Components Used
+
+DAG (Directed Acyclic Graph) → Defines the workflow.
+
+PythonOperator → Runs Python functions as tasks.
+
+datetime → Used for scheduling (start date).
+
+Tasks Defined:
+
+preprocess_data() → Pre-processing step.
+
+train_model() → Training step.
+
+evaluate_model() → Evaluation step.
+
+🔹 DAG Definition
+with DAG(
+    dag_id="ml_pipeline",
+    start_date=datetime(2024, 1, 1),
+    schedule_interval="@weekly",
+    catchup=False
+) as dag:
+
+
+dag_id = "ml_pipeline"
+
+start_date = 2024-01-01
+
+schedule_interval = "@weekly" (runs once a week).
+
+catchup=False → Prevents backfilling past runs.
+
+🔹 Tasks Setup (PythonOperator)
+preprocess = PythonOperator(
+    task_id="preprocess_task",
+    python_callable=preprocess_data
+)
+
+train = PythonOperator(
+    task_id="train_task",
+    python_callable=train_model
+)
+
+evaluate = PythonOperator(
+    task_id="evaluate_task",
+    python_callable=evaluate_model
+)
+
+
+Each task has a unique task_id.
+
+python_callable points to the defined Python function.
+
+🔹 Dependencies
+preprocess >> train >> evaluate
+
+
+Execution order: Preprocessing → Training → Evaluation.
+
+If one task fails, downstream tasks won’t run.
+
+🔹 Full DAG File → dags/ml_pipeline.py
+
+Contains imports, task functions, DAG definition, operators, and dependencies.
+
+Saved in dags/ folder so Airflow can auto-detect it.
+
+🔹 Running the Pipeline
+
+Start Airflow:
+
+astro dev start
+
+
+→ Brings up Docker containers (Airflow webserver, scheduler, Postgres).
+
+Access UI:
+
+Open: http://localhost:8080
+
+Login: admin / admin (default).
+
+View DAGs:
+
+example_dag (default).
+
+ml_pipeline (new DAG).
+
+Inside ml_pipeline DAG → see tasks:
+
+preprocess_task → Logs: “Pre-processing data...”
+
+train_task → Logs: “Training model...”
+
+evaluate_task → Logs: “Evaluating model...”
+
+Graph view shows arrows → Preprocess → Train → Evaluate.
+
+Successful runs show green tasks in UI.
+
+🔹 Managing Airflow
+
+Stop containers:
+
+astro dev stop
+
+
+Restart (reload code changes):
+
+astro dev restart
+
+## **H) Designing Mathematical Calculation DAG With Airflow**
+
+So now let us continue our discussion with respect to Airflow. In this example, I am going to show you how we can build a DAG that performs a sequence of mathematical operations, where each operation is dependent on the previous one. Along the way, I’ll also introduce you to a very important concept in Airflow called XComs. Now, what exactly is XCom? XCom stands for “Cross Communication.” It is the mechanism provided by Airflow to allow one task to share data with another task. You will see how that becomes very handy when tasks are chained together like in our case.
+
+So let’s get started. Inside my dags folder, I will go ahead and create a new Python file called maths_operation.py. This will be our DAG file. Now in this file, I want to define a very simple workflow — but it’s a good example to show you how data can move between tasks. Let me just outline what we are going to do.
+
+We will start with an initial number, let’s say 10. Then we will add 5 to the number. After that, we will multiply the result by 2. Next, we will subtract 3 from the result. And finally, we will compute the square of the number. Of course, this example looks very simple — you might be thinking why should we even create a DAG for this. But trust me, this is just to demonstrate the mechanics of Airflow: how we define multiple tasks, how they depend on each other, and how they pass values using XComs. Later, when we move to bigger projects, you’ll see these same concepts apply to things like data ingestion, preprocessing, training ML models, etc.
+
+Alright, so let’s go ahead and start coding. First, we will import the necessary libraries.
+
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+
+Just like in the previous tutorial, we are importing DAG to create our workflow, PythonOperator because all our tasks will be simple Python functions, and datetime to set the start date for the DAG.
+
+Now let’s define our task functions one by one. The first task is to start with the number 10. So I’ll create a function like this:
+
+def start_number(**context):
+    value = 10
+    context['ti'].xcom_push(key='current_value', value=value)
+    print(f"Starting number is {value}")
+
+
+Here, you’ll notice a couple of things. First, I am accepting a parameter called context. When you set provide_context=True in a PythonOperator, Airflow automatically provides information about the task execution, and one of the most useful things inside context is ti, which stands for Task Instance. Using ti.xcom_push(), I can push data into XCom. So in this case, I am pushing a key called current_value with the value 10. This means that any downstream task can later pull this value.
+
+Now the next task is to add 5 to this number. Let’s define that.
+
+def add_five(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='start_task')
+    new_value = current_value + 5
+    context['ti'].xcom_push(key='current_value', value=new_value)
+    print(f"{current_value} + 5 = {new_value}")
+
+
+So here I am pulling the value that was pushed by the start_task. Notice the task_ids='start_task' — that is the ID of the previous task. Once I pull the current value, I add 5 to it, push the updated value back to XCom with the same key, and also print the result.
+
+Next, we’ll multiply the result by 2.
+
+def multiply_by_two(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='add_five_task')
+    new_value = current_value * 2
+    context['ti'].xcom_push(key='current_value', value=new_value)
+    print(f"{current_value} * 2 = {new_value}")
+
+
+Again, the logic is exactly the same: pull the value from the previous task (add_five_task), perform the multiplication, push the updated value, and print it.
+
+Then we’ll subtract 3.
+
+def subtract_three(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='multiply_by_two_task')
+    new_value = current_value - 3
+    context['ti'].xcom_push(key='current_value', value=new_value)
+    print(f"{current_value} - 3 = {new_value}")
+
+
+And finally, we will compute the square of the result.
+
+def square_number(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='subtract_three_task')
+    new_value = current_value ** 2
+    print(f"{current_value}^2 = {new_value}")
+
+
+Here, I didn’t push the final result back into XCom, but you could if you want. For now, printing is enough to verify the output.
+
+Okay, now that we have defined all the task functions, let us define the DAG.
+
+with DAG(
+    dag_id="maths_sequence_dag",
+    start_date=datetime(2023, 1, 1),
+    schedule_interval="@once",
+    catchup=False
+) as dag:
+
+
+So I gave the DAG an ID called maths_sequence_dag. The start date is January 1st, 2023. The schedule interval is @once, which means this DAG will run only when I trigger it manually. And catchup is set to False.
+
+Inside this DAG block, we now define each of our tasks using PythonOperator.
+    start_task = PythonOperator(
+        task_id="start_task",
+        python_callable=start_number,
+        provide_context=True
+    )
+    add_five_task = PythonOperator(
+        task_id="add_five_task",
+        python_callable=add_five,
+        provide_context=True
+    )
+    multiply_by_two_task = PythonOperator(
+        task_id="multiply_by_two_task",
+        python_callable=multiply_by_two,
+        provide_context=True
+    )
+    subtract_three_task = PythonOperator(
+        task_id="subtract_three_task",
+        python_callable=subtract_three,
+        provide_context=True
+    )
+    square_task = PythonOperator(
+        task_id="square_task",
+        python_callable=square_number,
+        provide_context=True
+    )
+
+
+Notice that in each operator I am setting provide_context=True. That is what allows the function to receive the context dictionary we used to push and pull XCom values.
+
+Now finally, we define the dependencies.
+    start_task >> add_five_task >> multiply_by_two_task >> subtract_three_task >> square_task
+
+
+So the order is very clear: start → add five → multiply by two → subtract three → square.
+
+At this point, our DAG is ready. Save the file inside the dags folder. Now to run it, go to your terminal and start Airflow with:
+
+astro dev start
+
+
+This will start up your containers. Once the scheduler and webserver are running, open your browser and go to localhost:8080. Log in with the default credentials. You will see the new DAG maths_sequence_dag listed there.
+
+Now when you trigger the DAG and go to the graph view, you’ll see the exact pipeline we created. Each task is a node, connected in order. When the DAG runs, you can click on each task and view the logs. For example, in the start_task logs, you’ll see the starting number is 10. In the add_five_task, you’ll see 10 + 5 = 15. In the multiply_by_two_task, you’ll see 15 * 2 = 30. Then in the subtract_three_task, you’ll see 30 - 3 = 27. And finally in the square_task, you’ll see 27^2 = 729.
+
+If you check the XCom tab for each task, you’ll also notice how the values were being passed along. First XCom had 10, then 15, then 30, then 27. So you can see clearly how Airflow lets tasks communicate and pass data step by step.
+
+And that is the complete example. A very simple mathematical workflow, but it introduced you to XComs and how to use them in your DAGs. In the next part, I’ll show you a newer and easier way to define tasks using the TaskFlow API with decorators like @task. But for now, try running this DAG, explore the logs and XCom values, and get comfortable with how data flows between tasks in Airflow.
+
+#### Summary:
+
+Key Concept: XCom (Cross Communication)
+
+Mechanism for tasks to share data in Airflow.
+
+Uses:
+
+xcom_push(key, value) → Push value into XCom.
+
+xcom_pull(key, task_ids) → Retrieve value from another task.
+
+Enables data flow between tasks.
+
+🔹 DAG File → dags/maths_operation.py
+Imports
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+
+🔹 Task Functions
+
+Start with 10
+
+def start_number(**context):
+    value = 10
+    context['ti'].xcom_push(key='current_value', value=value)
+    print(f"Starting number is {value}")
+
+
+Add 5
+
+def add_five(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='start_task')
+    new_value = current_value + 5
+    context['ti'].xcom_push(key='current_value', value=new_value)
+    print(f"{current_value} + 5 = {new_value}")
+
+
+Multiply by 2
+
+def multiply_by_two(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='add_five_task')
+    new_value = current_value * 2
+    context['ti'].xcom_push(key='current_value', value=new_value)
+    print(f"{current_value} * 2 = {new_value}")
+
+
+Subtract 3
+
+def subtract_three(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='multiply_by_two_task')
+    new_value = current_value - 3
+    context['ti'].xcom_push(key='current_value', value=new_value)
+    print(f"{current_value} - 3 = {new_value}")
+
+
+Square the number
+
+def square_number(**context):
+    current_value = context['ti'].xcom_pull(key='current_value', task_ids='subtract_three_task')
+    new_value = current_value ** 2
+    print(f"{current_value}^2 = {new_value}")
+
+🔹 DAG Definition
+with DAG(
+    dag_id="maths_sequence_dag",
+    start_date=datetime(2023, 1, 1),
+    schedule_interval="@once",
+    catchup=False
+) as dag:
+
+
+dag_id = "maths_sequence_dag"
+
+start_date = 2023-01-01
+
+schedule_interval = "@once" → Runs only when manually triggered.
+
+catchup=False → No backfilling.
+
+🔹 Tasks Setup (with XCom context)
+start_task = PythonOperator(
+    task_id="start_task",
+    python_callable=start_number,
+    provide_context=True
+)
+# Similar for add_five_task, multiply_by_two_task, subtract_three_task, square_task
+
+
+Each task has provide_context=True → makes context available for XCom push/pull.
+
+🔹 Dependencies
+start_task >> add_five_task >> multiply_by_two_task >> subtract_three_task >> square_task
+
+
+Execution order:
+Start (10) → Add Five (15) → Multiply (30) → Subtract (27) → Square (729)
+
+🔹 Running the DAG
+
+Start Airflow:
+
+astro dev start
+
+
+Open UI: http://localhost:8080 → login admin/admin.
+
+See new DAG → maths_sequence_dag.
+
+Trigger DAG manually.
+
+🔹 Monitoring Results
+
+Graph view → tasks connected in sequence.
+
+Logs:
+
+Start: Starting number is 10
+
+Add: 10 + 5 = 15
+
+Multiply: 15 * 2 = 30
+
+Subtract: 30 - 3 = 27
+
+Square: 27^2 = 729
+
+XCom tab → shows values passed: 10 → 15 → 30 → 27.
+
+This example introduces XComs for passing data between tasks.
+
+Next step: TaskFlow API (with @task decorator) → makes this simpler without manually handling xcom_push / xcom_pull.
+
+**I) Getting Started With TaskFlow API Using Apache Airflow**
+
+So let us continue our discussion on Airflow. In the last example, we learned how to build a DAG using the traditional method with the PythonOperator, where each task was defined as a function and we had to use XComs to pass values between them. That worked fine, but it required a bit of boilerplate — we had to explicitly push and pull values with XCom, define operators for each task, and then set up dependencies.
+
+Now, Airflow provides us with something much cleaner and more intuitive: the TaskFlow API. This feature was introduced in Airflow 2.0, and it allows us to define tasks simply by using Python decorators. The best part is that you don’t need to manually manage XComs anymore. When you use TaskFlow, values that are returned from one task are automatically available to the next task — no explicit push and pull needed.
+
+Let’s see how this works in practice.
+
+Step 1: Create a new DAG file
+
+Inside your dags folder, go ahead and create a new Python file:
+
+taskflow_api.py
+
+
+This is where we’ll define our DAG using the TaskFlow API.
+
+Step 2: Import required libraries
+
+We’ll start by importing the necessary modules.
+
+from airflow import DAG
+from airflow.decorators import task
+from datetime import datetime
+
+
+Notice the difference here: instead of importing PythonOperator, we are importing task from airflow.decorators. This decorator is the key to using the TaskFlow API.
+
+Step 3: Define the DAG
+
+We’ll create a DAG very similar to our earlier math sequence example, but this time using TaskFlow.
+
+with DAG(
+    dag_id="maths_sequence_taskflow",
+    start_date=datetime(2023, 1, 1),
+    schedule_interval="@once",
+    catchup=False
+) as dag:
+
+
+This DAG will run once when triggered manually. We’ve given it the ID maths_sequence_taskflow.
+
+Step 4: Define tasks with TaskFlow API
+
+Now instead of writing functions outside and then wrapping them with PythonOperator, we can directly define tasks inside the DAG using the @task decorator.
+
+Let’s start with the first task, which initializes the number:
+    @task
+    def start_number():
+        initial_value = 10
+        print(f"Starting number is {initial_value}")
+        return initial_value
+
+
+Notice how simple this is. We just write a Python function, decorate it with @task, and return a value. That return value will automatically be available to the next task.
+
+Next, let’s add 5 to the number:
+    @task
+    def add_five(number):
+        new_value = number + 5
+        print(f"{number} + 5 = {new_value}")
+        return new_value
+
+
+Here, the function takes number as an input. That will be provided by the output of the previous task. No need for manual XCom pulls.
+
+Now, let’s multiply the result by 2:
+    @task
+    def multiply_by_two(number):
+        new_value = number * 2
+        print(f"{number} * 2 = {new_value}")
+        return new_value
+
+
+Then subtract 3:
+    @task
+    def subtract_three(number):
+        new_value = number - 3
+        print(f"{number} - 3 = {new_value}")
+        return new_value
+
+
+And finally, compute the square:
+    @task
+    def square_number(number):
+        new_value = number ** 2
+        print(f"{number}^2 = {new_value}")
+        return new_value
+
+Step 5: Set up task dependencies
+
+In the traditional method, we had to chain tasks with >>. But with TaskFlow, dependencies are handled by simply calling functions in sequence and passing their outputs to the next task.
+    start_val = start_number()
+    added_val = add_five(start_val)
+    multiplied_val = multiply_by_two(added_val)
+    subtracted_val = subtract_three(multiplied_val)
+    squared_val = square_number(subtracted_val)
+
+
+This code looks just like normal Python function calls. But behind the scenes, Airflow converts these into tasks, builds the DAG structure, and automatically passes data between them using XCom.
+
+Step 6: Run the DAG
+
+Now save the file and start Airflow as usual with:
+
+astro dev start
+
+
+Once the containers are up, open your browser at http://localhost:8080. Log in, and you should see the new DAG named maths_sequence_taskflow.
+
+Trigger the DAG. When you check the Graph view, you will see all five tasks connected in sequence:
+
+start_number
+
+add_five
+
+multiply_by_two
+
+subtract_three
+
+square_number
+
+When the DAG runs successfully, each task will show up in green. You can click on each task to see its logs. For example:
+
+start_number will show the value 10.
+
+add_five will show 10 + 5 = 15.
+
+multiply_by_two will show 15 * 2 = 30.
+
+subtract_three will show 30 - 3 = 27.
+
+square_number will show 27^2 = 729.
+
+If you check the XCom tab, you’ll also notice that each function’s return value is automatically stored in XCom without us writing a single push or pull statement. That is the magic of TaskFlow API.
+
+Conclusion
+
+So that’s how you create DAGs using the TaskFlow API in Airflow. Compared to the old method with PythonOperator, this is much cleaner and more Pythonic. You just define functions with @task, call them in sequence, and Airflow handles the rest — including task creation, dependencies, and even XComs automatically.
+
+In the next step, we’ll look at additional parameters and features of TaskFlow API, but for now, this simple math sequence example should give you a solid understanding of how it works.
+
+### Summary:
+
+Key Concept: TaskFlow API (introduced in Airflow 2.0)
+
+Lets you define tasks with @task decorator.
+
+Return values from tasks are automatically stored in XCom.
+
+No need to write xcom_push / xcom_pull.
+
+Task dependencies look like normal Python function calls.
+
+Makes DAGs cleaner, simpler, and more Pythonic.
+
+🔹 DAG File → dags/taskflow_api.py
+Imports
+from airflow import DAG
+from airflow.decorators import task
+from datetime import datetime
+
+🔹 DAG Definition
+with DAG(
+    dag_id="maths_sequence_taskflow",
+    start_date=datetime(2023, 1, 1),
+    schedule_interval="@once",
+    catchup=False
+) as dag:
+
+
+dag_id = "maths_sequence_taskflow"
+
+schedule_interval = "@once" → run only when triggered manually.
+
+catchup=False → no backfilling.
+
+🔹 Task Functions with @task
+
+Start with 10
+
+@task
+def start_number():
+    initial_value = 10
+    print(f"Starting number is {initial_value}")
+    return initial_value
+
+
+Add 5
+
+@task
+def add_five(number):
+    new_value = number + 5
+    print(f"{number} + 5 = {new_value}")
+    return new_value
+
+
+Multiply by 2
+
+@task
+def multiply_by_two(number):
+    new_value = number * 2
+    print(f"{number} * 2 = {new_value}")
+    return new_value
+
+
+Subtract 3
+
+@task
+def subtract_three(number):
+    new_value = number - 3
+    print(f"{number} - 3 = {new_value}")
+    return new_value
+
+
+Square
+
+@task
+def square_number(number):
+    new_value = number ** 2
+    print(f"{number}^2 = {new_value}")
+    return new_value
+
+🔹 Task Dependencies (looks like normal Python calls)
+start_val = start_number()
+added_val = add_five(start_val)
+multiplied_val = multiply_by_two(added_val)
+subtracted_val = subtract_three(multiplied_val)
+squared_val = square_number(subtracted_val)
+
+
+Behind the scenes → Airflow builds DAG structure.
+
+Dependencies:
+start → add_five → multiply → subtract → square
+
+🔹 Running the DAG
+
+Start Airflow:
+
+astro dev start
+
+
+Open Airflow UI → http://localhost:8080
+
+Trigger maths_sequence_taskflow DAG.
+
+🔹 Monitoring Results
+
+Graph View → tasks connected in sequence.
+
+Logs:
+
+start_number: Starting number is 10
+
+add_five: 10 + 5 = 15
+
+multiply_by_two: 15 * 2 = 30
+
+subtract_three: 30 - 3 = 27
+
+square_number: 27^2 = 729
+
+XCom tab: return values (10 → 15 → 30 → 27 → 729) are auto-stored.
+
+**Conclusion**
+
+Compared to PythonOperator + manual XComs, TaskFlow API:
+
+Is cleaner and requires less boilerplate.
+
+Automatically handles XComs & dependencies.
+
+Feels like writing normal Python code, but produces a DAG.
+
+Next, we can dive into advanced TaskFlow features (like retries, retries with exponential backoff, custom XCom backends, branching).
