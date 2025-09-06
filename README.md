@@ -1,5 +1,7 @@
 # MLOps-Skills
 
+### "python-box" - A Python Library which can be used for Exception Handling
+
 ### Boto3 is an important Library when we want to work with AWS S3; Experiments will get saved in S3 Bucket and MLFlow server will pick it up from there
 
 ### Refer to - AWS Cloud EC2,IAM,S3 Bucket Set Up - 79th Video for AWS Setup
@@ -46,6 +48,7 @@
 
 **J) End-to-End Github Action Workflow Project with DockerHub**
 
+**K) Getting Started With Your First End To End Data Science Project With Deployment**
 
 **A) Getting Started with MLFlow Tracking Server**
 
@@ -1666,3 +1669,1541 @@ That is the most amazing thing. So this is entirely done. Now if I go ahead and 
 Uh, so I hope you were able to understand this particular video. Uh, this was about creating an amazing workflow. Now as we go ahead, we'll be seeing more different workflows. But the main thing will be that we'll try to implement all these things along with our end to end projects.
 
 So yes, this is this was it from my side. I will see you in the next video. Thank you.
+
+### **K) Getting Started With Your First End To End Data Science Project With Deployment**
+
+**1. Project Structure, Github Repo And Environment Set Up**
+
+Hello guys! So welcome to this new amazing module about end to end projects with deployment. So till now we have discussed about MLflow. We have discussed about astronomy. We have discussed about airflow. We have discussed about data version control. We have seen how to probably go ahead and deploy in AWS. Even I've actually shown you how to deploy an astronomer cloud. And in short, we have seen the entire lifecycle of machine learning project or data science project. But this kind of projects were very, very basic and I feel that it is still, for starters, okay. But everybody should understand that how you should if you are probably going to work in one of the companies, right? How do you probably go ahead and create your end to end data science project where we flow, where we follow a complete life cycle of a data science project, you know, from data ingestion to data transformation to feature engineering, to model training, to model evaluation. So all that specific steps are. The main aim of this entire course is that to teach you about end to end projects. Along with that, how we can use specific MLOps tool, uh, to manage that entire lifecycle of a data science project. And also make sure to show you multiple deployment techniques.
+
+So considering this now from this particular module, uh, and in the upcoming series of videos, we are going to see different, different end to end projects and what all different kind of, uh, MLOps tools I'll be specifically using. And these are all the best part of this particular projects will be that we'll try to deploy this. And for this I'm going to consider the cloud called as AWS, which is one of the most famous cloud platform right now. Many, many companies are specifically using this, okay. And even in interviews this will be very helpful for you. Uh, so in this module and in the upcoming series of video, first of all, we are going to discuss about one end to end project. We will see how in production right when we are specifically working in a company. How do you develop a project? What strategies you specifically used? How what kind of code you actually write? Uh, when we say modular programming, how that entire modular programming is there, how do we create the entire ML pipeline? You know, each and every steps. I will start showing you, okay.
+
+Now, first of all, what I will do is that I'll go to my repositories, okay. So I will go ahead and create one simple repository. Let's say this is my repository over here. And this repository that I'm actually going to create will be my, let's say my data science project. Okay. Data science project. The prerequisite for this entire session will be that you really need to know Python programming language. You need to understand the entire life cycle of a data science project, at least some some understanding about machine learning algorithms and all. So here I'm going to keep this particular project as private just for now okay. And I will just go ahead and add a Readme file Okay. And let's choose a license. Let's say that I'm going to probably go ahead and select a general public license. Okay. So I will first of all create this specific repository. Because in this repository itself I will be writing my entire code. If you have never developed a complete end to end project, this project will be very, very handy and very, very useful for you. Because here, step by step, coding wise, each and every line of code, I will write it in front of you. Okay. So let's go ahead and create this specific repository. Now once you create this particular repository this is my entire repo.
+
+Now the first thing that I'm actually going to do is that I'll just go ahead and clone this entire repository. Okay. So for that I will open my, uh, folder. Let's say, uh, I have actually created one, uh, location over here so that all the code will be provided at one place. Okay. So if you see this particular folder, MLOps. Okay. This is my folder in E drive. You can create it anywhere you want. Okay, so from here, what I will do, I will just go ahead and open my command prompt. Okay. Now from here, after opening your command prompt, the next thing that I'm actually going to do is that I'll go ahead and take this entire repo, and I'm just going to clone it. So let's go ahead and write "git clone <your repo URL>". Okay. So I'm cloning the entire data science project over here right. So if you probably now go ahead and see the folder here, you'll be able to see somewhere like data science projects. So this is the default clone that you have actually done. And this is coming from the repository itself. Then I will go to "cd" uh inside my data science. Let's say this is my data science project and I'm going to start my VS code. Okay. Everything from step by step we will see. And how you can basically go ahead and start with your project implementation. Okay. Now this is the basic step that we usually do in order to probably just. I've just cloned. I have my readme file. I have some license file over here. Okay, now, uh, what I will do is that I will also go ahead and create one "gitignore" file okay. " .gitignore". Okay. And in this git ignore let me just go ahead and create some of the folders like "venv". Because this will be my virtual environment which I don't want to even track it. Now this git ignore file, I will also go ahead and commit it. Okay. So I will open my terminal. I'll go to my command prompt. It's okay. You can also do it in PowerShell and all. Since I have already done the clone, I will go ahead and add all the files. I'll try to show you by committing this file. So whether the commit is working or not, then I will write "git commit -m 'git ignore is committed'". Okay so done. So here we have actually done the git commit for this particular file. Then I will go ahead and say "git push origin main". So we will see this is entirely getting pushed. So the code should be visible over here. Now if I go ahead and reload this you will be able to see my gitignore there. So the first step which is really important a GitHub repository setup is already done and we are good to go with respect to the coding.
+
+Okay. Now let's start our main project development. Main project development. Now this is really important for you all to understand. Uh, what is the usual first step that we usually do. Okay. And that is what I'm actually going to explain you about. Right. So here let me just go ahead and write about this. So this is my end to end end to end data science project. Now inside this project we are going to add many more things okay. You will be seeing data science project. Now usually whenever you start any project, the first and the foremost important thing is that about environment. Okay. You need to go ahead and create your environment. Now why this environment is necessary. Let's say, uh, in a company, right there is a lead developer. Okay. Lead developer. Now, in this lead data science developer, what he will be doing is that let's say that he's working in multiple companies. Uh, sorry. He's working in multiple projects. So this is my project one. This is my project two. This is my project three. And this is my project four. Now, when this person is working in multiple, uh, projects. Right? And again, inside this lead developer, there will be many other data scientists who will be working. Right. And some may be in this project, some may be in this project, some may be in this project. Right. Now, one very important thing about this particular project is that each and every project has a separate Penances. When I say dependencies, it can be libraries, it can be packages, okay, it can be even different. Python version right? Let's say this particular project we are working in Python 3.8. This project we are specifically working in Python 3.9. This we may be working in Python 3.12. So different different requirements. And this project has just started. Let's say we are working in 3.11 okay. So based on this specific versions we may have different different dependencies of the libraries and all.
+
+Now just imagine if the lead developer wants to probably set up this entire project in his or her system, then what she or he has to do first of all, to set up this particular project, they need to have a separate environment. So let's say this is environment one. For this there will be another environment that is env two. Then for this project there will be another environment. Environment three and similarly this will be environment four. The reason is very simple because he or she wants to segregate all the information related to projects separately. If they just create one specific environment and try to run all this project in the same environment, then it will not work right because there may be some conflicts that will happen because of the different different versions, right? So the first step, whenever you really want to go ahead and create a data science project, it's always a good idea that you go ahead and create your environment. Now, creating an environment obviously can be done by multiple ways, but the most efficient way. What I feel is by using conda. Okay, so what I'm actually going to do is that I will just show you how to go ahead and create your environment. Now, this time, the environment that I'm actually creating, I will create my environment folder over here. You know, so that I should be able to install all the packages inside this environment. And my environment name should be Venv. So here what I'm actually going to do, I will just go ahead and create conda command "conda create -p venv python=3.10". Okay. And then we will go ahead and click on yes. So once we do this here you will be able to see that my installation will start taking place. And this is my venv environment. Now see this is not getting tracked by the git because I have written this particular information in the git ignore.
+
+Okay now what I will do till the installation is taking place, I will go ahead and update my "requirements.txt". Okay, so the environment that the python that we have specifically using is 3.10 okay. You can also use 3.11, 3.12. But again please do check because I have already created this entire project in 3.10. For me, everything is working. Uh, if you change the environment, there may be some issues with respect to different different packages. They may come. Okay. I also don't know okay. Because there may be updates in some of the libraries and all. Okay. Now once I have created this environment I will go ahead and activate this environment. So "conda activate venv". Okay. So once you can see over here I have activated this environment. So here you can see "conda activate venv". So inside my venv. It is basically referring to my environment to this particular venv okay. Now let's say that if I go ahead and create one file "app.py". So on the right hand side you can see 3.10 venv. Conda is basically selected by default. If you want to change this just click this. Select the different environment that you really want okay. So for right now I will not create this app.py. So this will be my "requirements.txt". Now for uh easiness. Uh, what I'm actually going to do is that I will try to write down all the requirements that I'm actually going to use. Okay. And step by step, I will also show you that what all things we will be using and all as we go ahead. Okay. So right now let me do one thing. You know, since this should be efficiently working okay. Uh, I will update all my "requirements.txt" over here. Okay, so I'm going to use "mlflow", whichever is the recent version "python-box", whichever is the recent version and "ensure". Okay, so this all libraries we will be specifically using. I will be talking about each and every libraries. "scikit-learn" is for my machine learning problem statement. If you want to do any kind of visualization it will be "matplotlib". Then I have "python-box", then I have I'll talk about what exactly is this python box, why it is useful, you know. Then we also have this something called as "ensure", right. And we'll be implementing our front end with the help of "flask" and "flask-cors". So that is the reason I have imported all these things. Okay now for the name sake. Right now let's go ahead and install all these libraries. See I will talk about it. Why I have installed import. I have used all these libraries and why I'm installing it once I develop the project. Okay. So now here I will let me clear the screen. I will go ahead and write "pip install -r requirements.txt". So once I go ahead with the installation here, you'll be able to see that my installation is taking place and we are good to go. And the best thing is that you have to be in that venv environment. So that basically means all my packages that I am probably installing. It is all getting installed in my venv environment. Right. This is the most important thing over here.
+
+Okay, so let this installation take place and uh, quickly the installation is happening. Let's see. Okay. Uh, once this installation takes place, then we are going to go ahead with the next step. Okay. Now till the installation is basically taking place, what I am also going to do is that let's go ahead and create one more file which is called as "template.py". Okay. Now you may be thinking Krish, why did I create this specific file? It is very simple guys. See I need to have a generic project structure. Okay, there are different different libraries that are available in Python. Uh, so that by using those libraries also, you can probably go ahead and create your entire project structure. Okay. Like "cookiecutter", there are some libraries like cookie cutter and all. Okay. But again, if this is your first project, I would suggest never use that. Instead, focus on creating a generic project structure which is used in the industries and understand each and every file why you have created it. Okay. So what I will do is that I'll write an automated script over here, you know, and that automated script will actually help you to create your entire project structure. Okay. And that will be written in the with the help of Python. So till this installation is taking place, I'll just go ahead and minimize it. Now inside my "template.py" I will go ahead and "import os". Okay. Along with this I'm going to "from pathlib import Path". I'm going to specifically use this particular library, which is called as path. Then we are going to go ahead and "import logging". Then you have this "logging.basicConfig()". Okay. And we are going to set the logging some level okay. Some kind of logging. We are going to apply in this uh it is not required right now because let's go ahead and do this in the later stages, because I want to go ahead and create a generic logging for my entire project that I will try to develop in, in probably in some time. Okay. Here. Now the first thing that I'm actually going to write is "project_name = 'data_science_project'". Okay. I'll just go ahead and write data science over here. So this will basically be my project name. Now here I will go ahead and write my list of files that I really want to create. Now let's go ahead and create all my list of files. Now for the list of files, uh, the first file that I'm actually going to create, I will try to create a ".github" folder. Inside that we'll create "workflows" folder, and then inside that we'll keep this ".keep". Okay, ".keep". It's a generic file. But understand that uh over here I'm going to probably go ahead and create one of the file which will be responsible in doing the deployment. That is my GitHub actions okay. Automated deployment. So right now I'll just keep this particular file. Later on I'll update those files as we go ahead.
+
+Now in my second file I will just go ahead and write "src/project_name". So this is very important, okay. So src will start with src, my entire project. So over here you’ll be able to see that one src folder will get created on this level. Inside that, my project name that is "data science" folder will get created. And we specifically go ahead and create one constructor "__init__.py". Now why we are specifically using "__init__.py" is so that we can convert this entire source folder into a package so that it can be imported anywhere. If I want to import any functionalities inside this, write whatever classes or functions or libraries that I write, this will be imported within the project, right? I can actually use it anywhere I like, so that is the reason inside every folder that we create, or a fresh folder that we create, we always need to create a constructor file that is "__init__.py", okay.
+
+Then coming to the next folder, or the next folder, what I am actually going to create, I’ll just go ahead and copy and paste it. Now this time instead of writing "__init__.py", you know that inside my project, whenever I follow a life cycle of a data science project, I have techniques like data ingestion, data component—sorry, data ingestion, data transformation, model training, model evaluation. So based on that, all this should be developed in the form of pipeline. And this entire pipeline will be developed inside one common folder, and that folder I will be naming as "components", okay. So inside components I will also again go ahead and create this particular file "__init__.py". Again why I’m creating this particular file? Okay, this file will be created so that any functions, any libraries that I am or any classes that I’m calling inside this, it can be referenced anywhere, right. Because this will be considered as a package and it will get installed within the local itself right over here. So I will be able to call any libraries, any packages from here because of this particular constructor, okay.
+
+Now coming to the next one, here I’m going to go ahead and use my f-string again, and this time let me go ahead and copy and paste it again, okay. So this time I will be using instead of "components", this time I will be using "utils", okay. Utils will be my generic functionality that I’m actually going to define. So any functionality that is generic and that is required to be used in my entire project, everything will be inside this util folder. So inside this util folder, I’ll be having my "__init__.py". Okay, coming to the next step here, I’ll again go and copy paste this, and this will be again utils. And inside utils I will create a file which is called "common.py". Now again this naming convention it is up to you whatever things you are able to understand. If you are not comfortable with this name, you can use your own name, okay. This "common.py" will be having all the functionalities that I’m going to write which are common to most of the different components that I’m actually going to define, okay.
+
+So here is my next one. Then similarly I will go ahead and use one more folder which is called "config", okay config. And this will basically be having my "__init__.py" which is my constructor, okay. Along with this, I will also go ahead and use a "configuration.py", okay. Then similarly you can go ahead and use it for "pipeline". Pipeline "__init__.py". Similarly, this pipeline folder will be having all the information regarding what all different pipelines I want to create. One is the training pipeline, one is the prediction pipeline, right. And training pipeline, it should run all the important components that are present inside this components folder and whatever components are specifically using the functionalities from utils, that it will be accessed from here, like after importing it will be able to do it. So this is a generic folder structure that I’m actually going to use, okay.
+
+Now after pipeline there are some more things that I really want to create, because here we are also going to have something like "entity", then entity config. Entity basically means configuration details. I will talk more about it, but right now we are still focusing on following a generic folder structure. Then we’ll be defining constants inside this "constants". If I really want to go ahead and define any constants, it will be created over here, right. And here is my constructor file. See, I can also use this particular file and define things over there. But I will show you once I probably go ahead and start the coding, okay. Now these are all folders. This is a generic folder structure that I’ve actually created.
+
+Now what I’m actually going to do is that I’ll also go ahead and create some more files. One will be my "config.yaml", okay. This config folder along with the "config.yaml" will have all my configuration details. If any parameters are required for my machine learning training, I’ll be writing inside this particular YAML file. The reason why I’m creating the YAML file is so that I will be able to read all the configuration directly from this YAML file, okay—a very generic structure which is basically used in any project. Then this is "schema.yaml", one more file that I’m actually going to create. Then we have this "main.py" which will be my file. Along with this I’m also going to go ahead and create my "Dockerfile". Along with this Dockerfile, I also require a "requirements.txt". But this file is already created, so I don’t want to create it again. But in a generic way, if you want I can go ahead and write my "requirements.txt" here, okay. So it is up to you whether you want this. There will be one more file that I really want to create, it is "setup.py". Okay "setup.py". This setup.py I will talk about the importance of this because it actually helps you to create your entire project as a package. You know, let’s say you want to probably deploy an entire package into a PyPI environment, right? PyPI where most of the libraries we specifically download from. Then this "setup.py" file will be very, very much handy.
+
+Along with this, I also want to create one "research" folder so that I go ahead and play with Jupyter Notebook, okay. So here I will go ahead and create "research.ipynb", okay. Done. Then you have this "templates" folder. Since I’m using Flask, I’ll be using this "index.html", okay. So almost all the folder structure is done, so I will just go ahead and close this, okay. So these are all the files that I’m going to create, folders that I’m actually going to create. So whenever I write "config/config.yaml" this becomes a folder and this becomes my file, okay.
+
+Now the next thing is that okay, I have all this list of files. Now how do I create this? So for this I will be writing a specific code, okay. Now what will be the code that I will be writing? I will go ahead and write "for file path in list of files:". Okay, let me just go ahead and define "file_path =". So for every file we are going to take this entire, this—we are going to use this library called "path". And this path with respect to this particular project is going to create that particular path. So I’m just going to go ahead and define my file path over here. Now you know that inside my file path, if I keep on splitting, right, like this "///". If I keep on splitting it, right, so if I keep on splitting, I may get my file directory along with my file name, okay. So if I’m splitting it "os.path.split(file_path)". So just try to understand what we are specifically doing over here. I’m just trying to take out my file name along with my file path, that’s it, okay.
+
+So here I’ll write a condition "if file directory != ''", okay. Then I will say "os.makedirs(file_dir, exist_ok=True)". So this is a generic code that can actually run in Linux, in Windows, or in Mac. So that is the reason I’m writing this specific code, right. Whether you are implementing this in your Mac machine or your Linux machine, it will work for each and everything. So here I’m going to use "os.makedirs(file_dir, exist_ok=True)". That basically means if the file exists do not make it, okay. Then, let me do one thing, let me also add a logging over here so that I should be able to see the logging. So first of all, in the case of logging—see logging, exception handling, these are something like a prerequisite for all of you, okay. So here I’m going to write "logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')" and once I probably go ahead and create my directories, I’m going to go ahead and write "logging.info(f'Creating directory {file_dir} for the file {file_name}')" okay.
+
+So this is what we are basically doing. If the file directory value is not empty, we are just going to go ahead and create the directory in short, okay. Then I’m just going to put one more condition. Okay I will go ahead and write "if not os.path.exists(file_path)". If that file path does not exist, then we’ll get the size of the file path. If the file path is equal to zero, okay, then what we are basically going to do, if the file path does not exist and if the file is not available, we will "open(file_path, 'w') as f: pass". And then we are going to create that particular file, right. We are going to probably create the file or any kind of operation that we want to do, we can do it over here. So I’ll just write "pass" because I don’t want to put any content over there, right. The reason is very simple because I don’t have any content to put, I just want to create the file itself, okay. So here you will be able to see as soon as I write "pass", after pass I will basically go ahead and write "logging.info(f'Creating empty file {file_path}')" okay.
+
+Now in the else block I’ll go with the next step wherein I’ll be writing "logging.info(f'{file_name} already exists')" so if it does not exist, then only the upper condition will get executed. Perfect. So I have written the code for my entire "template.py", and I have automated this entire process. In the upcoming projects also you’ll be seeing that I’ll try to create manually also, so there also you’ll be getting a good understanding, but just by writing this "template.py", now I should be able to probably go ahead and create my entire project structure, okay.
+
+Now in order to do this, I will just go ahead and open my terminal, okay. And here, in order to run this "template.py", just save this file, okay. And one more very important thing guys: just go ahead and click over here, save, okay, save. You can probably do a save over here, and just look for an option wherein whenever you write a code it should automatically save, okay. So I think it is somewhere over here, I will show you that particular option probably in the next video, but I have already kept that particular option. Save control S. You can also do a save as, okay. Save all, okay. I think there is one option, I’ll show you as we go ahead, okay.
+
+So till here I hope everybody is clear. And now what I will do in order to execute this, I will just go ahead and write "python template.py". Now see, see the magic? Nothing is over here, I will go ahead and execute it, now my entire file should get created. See, all the folder structure is ready—my "template.py", my "setup.py", my "main.py", my "Dockerfile", "params.html", templates, source, all the components, config "__init__.py", config "configuration.py", constants, entity, pipeline, utils "common.py", everything is basically getting created, research "research.ipynb", config "config.yaml", get workflows, everything is basically getting created over here, okay. Now just by writing this one "template.py" file, I am able to create it.
+
+Now let’s see whether it will work or not, okay. So I’ll go ahead and update one more file which is like "app.py", okay. So I want also "app.py". And now let’s go ahead and execute it. Now let’s see only the "app.py" file will get created or will everything get updated. So once I execute it, here you can see created empty file this, this, this and my entire "app.py". Also, I think I should be able to see it over here. So this is my "app.py", okay. So right now I’ll just go ahead and delete it, I don’t require it, okay. Perfect. So this is how we go ahead and create our entire folder structure just by writing some lines of code, you know, in the "template.py", and I’m able to do it.
+
+Now I’ll go ahead and commit this "git add ." "git commit" and I will just go ahead and write a message saying that hey, my project structure is ready, "Project structure". Okay, now you may be thinking Krish, why you are using this technique. See, there are also different different extensions like source control and all, right. And you can directly use that and you can probably see this is source control, source control. I think the source control using source control also you can directly commit the code. But I don’t want to use that. I want to specifically make sure to show you how I’m committing each and everything, okay. And that is the best way to learn something, okay. So here after I have committed, I will go ahead and write "git push origin main", okay. So this is the push that is going on. And now I think it should be updated in my GitHub repo. So see this, my entire file has been updated. Perfect. So I hope you like this particular video. Now in the next tutorial I’m going to go ahead and talk more about different different files like "setup.py".
+
+**Summary:**
+
+**What was done in the project setup section:**
+
+Created GitHub repository (data_science_project)
+
+Initialized with README.md and license.
+
+Cloned repo locally for development.
+
+Created .gitignore file
+
+Excluded venv/ and other unnecessary files from version control.
+
+Set up Python environment
+
+Created a conda environment → keeps dependencies isolated.
+
+Installed required packages from requirements.txt.
+
+Added requirements.txt
+
+Listed dependencies like python-box, PyYAML, joblib etc.
+
+Installed them with pip install -r requirements.txt.
+
+Created template.py
+
+Python script that auto-generates folder and file structure.
+
+Runs os.makedirs to create directories.
+
+Ensures consistent and clean project skeleton for all modules.
+
+Executed template.py
+
+Generated folders like src/, logs/, notebooks/, etc.
+
+Verified clean folder structure.
+
+Git workflow
+
+Staged (git add .), committed (git commit -m), and pushed (git push origin main) the changes.
+
+**Why each is needed:**
+
+GitHub repo → Centralized code hosting, collaboration, and version control.
+
+.gitignore → Prevents unnecessary/large files (e.g., venv, cache, data dumps) from cluttering the repo.
+
+Conda environment → Isolates dependencies, ensures reproducibility across machines.
+
+requirements.txt → One-click installation of all dependencies, standard practice for reproducibility.
+
+template.py → Automates project scaffolding; avoids manual folder creation; ensures consistency in structure for every new project.
+
+Logs folder (from template.py) → Placeholder for logging system, useful for monitoring runs.
+
+Git add/commit/push → Tracks progress, keeps repo up to date with latest code changes.
+
+In short: This section established the foundation of the project by setting up version control, environment management, dependencies, and a clean automated folder structure.
+
+### Fully created template.py and when he ran using "python template.py" everything got created; Every folder got created automatically
+
+**2. Custom Logging Implementation**
+
+Hello guys. So, we are going to continue our discussion with respect to our end-to-end project. In the previous video, we already created the entire folder structure. There was one topic that I really wanted to talk about, which was related to the setup.py file. Okay, I’ll keep this topic for later. I won’t discuss it right now, but in the upcoming project, I’ll specifically be discussing why we exactly use setup.py. The reason is very simple—because this setup.py, let’s say you want to create your entire project as a package, you can probably use it. But I don’t want to dive deep into it right now, since this is your very first project. Usually, we discuss this when you really want to package your entire project and put it into PyPI. As we move ahead in upcoming projects, we will see more about setup.py. For now, I’ll just keep it empty.
+
+Now let’s do one thing. Let’s go ahead and start working on the logging part. Inside my source folder, I have data_science, and there is an __init__.py file. I could also create a separate folder called logging, and inside that I could add an __init__.py. But instead, what I’ll do is just open the existing one, and inside this I’ll go ahead and set up my logging.
+
+In order to set up logging, we’ll also make sure to test it. So first, I’ll import the required modules. "import os\nimport sys\nimport logging". Now, for the logging, we’ll be using a generic logging structure so that we can log every detail across all files. This way, you’ll see all the information related to the pipeline execution.
+
+The first thing to think about is what kind of message format and file name we should create. So, I’ll create a variable called logging_str, and inside this I’ll define a format like this: "logging_str = '[%(asctime)s] %(levelname)s %(module)s - %(message)s'". This basically represents the time, the level name (whether it’s INFO, WARNING, etc.), the module name (for example, if I’m in the components folder, that module name will be shown here), and the message I want to display.
+
+Next, I’ll create my logging directory. So, "log_dir = 'logs'". Then I’ll create a log file path: "log_file_path = os.path.join(log_dir, 'running_logs.log')". What I’m doing here is joining my logging directory with the file name running_logs.log to create the full path.
+
+Now, in order to make this folder, I’ll write "os.makedirs(log_dir, exist_ok=True)". This ensures that the directory is created if it doesn’t already exist.
+
+After this, I’ll configure the logging using basicConfig. So "logging.basicConfig(level=logging.INFO, format=logging_str, handlers=[logging.FileHandler(log_file_path), logging.StreamHandler(sys.stdout)])". Here, I’m setting the level as INFO, using my defined format, and adding two handlers.
+
+The first handler is "logging.FileHandler(log_file_path)". This ensures that the logs get written to a file. The second is "logging.StreamHandler(sys.stdout)", which ensures that the logs also show up in the terminal. You might wonder why both are needed. The stream handler with sys.stdout ensures that if I run the code in the terminal, I’ll see the log messages printed there, while the file handler stores them in the log file.
+
+Once that’s done, I’ll initialize the logger using "logger = logging.getLogger('data_science_logger')".
+
+Now, let’s test whether everything works properly. For that, I’ll open my main.py file. Inside this file, I’ll import the logger from my data_science package: "from src.data_science import logger". Then I’ll simply call "logger.info('Welcome to our custom logging for data science')".
+
+Next, I’ll run this code from the terminal. I need to be inside my data science project folder, and then I’ll run "python main.py". When I do that, I should be able to see the log message both in the terminal and in the log file.
+
+For example, in the terminal, the output looks like this: the time is shown, then the level name INFO, the module name (which is main in this case), and finally the message: Welcome to our custom logging for data science.
+
+If I check the logs folder, I’ll also find a running_logs.log file where the same information is stored.
+
+So this was all about the logging functionality. Now, exception handling is another important concept. Yes, we also need to implement exception handling, but don’t worry about it right now. In the requirements.txt, I’ve already included a package called python-box. Many people might not know about this, but we’ll try to implement exception handling with the help of Python Box. You may be thinking—shouldn’t we implement a custom exception class? Yes, we will do that as well, but you’ll see that example in the next project. For this one, I just wanted to show you something new so you enjoy learning these concepts.
+
+So, I hope you liked this video. This was about logging. Now, I’ll just open my terminal and quickly do a git commit. First, I’ll run "git add ." to add all the files. For now, I’ll delete the separate logging folder because I don’t want it anymore. Then I’ll commit the changes with "git commit -m 'Added logging functionality'". After that, I’ll push the changes using "git push origin main". And yes, it has been successfully pushed.
+
+Now, if you check inside my GitHub repo under source/data_science, you’ll see that the updates are there in my __init__.py. So yeah, the code is updated.
+
+In the next video, we’re going to look at some more things—specifically the utils part. We’ll see what common functionalities we can write inside common.py. That’s what we’ll work on next.
+
+So yeah, this was it. Thank you, and I’ll see you in the next video.
+
+**Summary:**
+
+What was done in the logging section:
+
+Created logging setup inside src/data_science/__init__.py.
+
+Imported required modules: os, sys, logging.
+
+Defined log message format:
+
+Time → %(asctime)s
+
+Log level (INFO/WARNING/ERROR) → %(levelname)s
+
+Module name → %(module)s
+
+Message → %(message)s
+Example format: "[2025-09-06 10:30:12] INFO main - Welcome to logging".
+
+Created logs directory (logs/) and log file path (running_logs.log).
+
+Ensured directory creation with os.makedirs(log_dir, exist_ok=True).
+
+Configured logging with logging.basicConfig:
+
+FileHandler → writes logs into running_logs.log.
+
+StreamHandler(sys.stdout) → prints logs in the terminal.
+
+Both together ensure logs are saved and visible during execution.
+
+Initialized custom logger: logger = logging.getLogger("data_science_logger").
+
+Tested logging in main.py:
+
+Imported logger → from src.data_science import logger.
+
+Logged a test message → logger.info("Welcome to our custom logging for data science").
+
+Verified logs appeared both in terminal output and inside logs/running_logs.log.
+
+**Why each is needed:**
+
+Logging format → Provides structured, detailed logs (time, level, module, message).
+
+Logs directory & file → Keeps a persistent history of pipeline runs.
+
+FileHandler → Saves logs for later debugging & auditing.
+
+StreamHandler → Displays logs live in the terminal.
+
+Custom logger → Centralized logging, reusable across the entire project.
+
+Testing → Ensures logging works correctly before integrating into other components.
+
+**Additional Notes:**
+
+setup.py: Introduced briefly (for packaging projects), but postponed for later projects.
+
+Exception handling: Mentioned as important, will explore with Python Box & custom exceptions in future projects.
+
+Git workflow: Demonstrated git add ., git commit -m, git push origin main after implementing logging.
+
+In short: This video set up a robust logging system to track project execution, making debugging and monitoring much easier.
+
+#### Wrote Logging Code in "src/datascience --> __init__.py" and used that in "main.py"
+
+**3. Common Utilities Functions Implementation**
+
+Hello guys. So we are going to continue our discussion with respect to our end-to-end project. In the previous video, we implemented the logging functionality. Now you know how we can go ahead and create our custom logs.
+
+In this video, I’m going to discuss the utils section, where I have a file called common.py. Some of the common functionalities that will be used across the project will be written here.
+
+First, let me import the libraries:
+"import os\nimport yaml\nimport json\nimport joblib\nfrom src.data_science import logger\nfrom ensure import ensure_annotations\nfrom box import ConfigBox\nfrom box.exceptions import BoxValueError\nfrom pathlib import Path\nfrom typing import Any"
+
+I’m using YAML because we’ll have multiple YAML files in our project—for example, params.yaml will contain parameters, and to read them, we need this library. I’m also importing our logger that we created earlier inside __init__.py. Then I’m adding json for saving/loading data, and joblib for model serialization (saving/loading models in .joblib format).
+
+Along with these, I’m importing ensure_annotations (a very useful decorator) and ConfigBox from the box library. ConfigBox will help us treat dictionary keys like attributes, which I’ll explain with an example. Finally, I’m importing Path and Any for type handling.
+
+Now let’s define one common function called read_yaml. Here’s the code:
+"@ensure_annotations\ndef read_yaml(path: Path) -> ConfigBox:\n try:\n with open(path) as yaml_file:\n content = yaml.safe_load(yaml_file)\n logger.info(f\"YAML file: {path} loaded successfully\")\n return ConfigBox(content)\n except BoxValueError:\n raise ValueError(\"YAML file is empty\")\n except Exception as e:\n raise e"
+
+This function takes the path to a YAML file, reads it using yaml.safe_load, logs success, and returns the contents wrapped in a ConfigBox. If the file is empty, we raise a BoxValueError. This makes YAML handling cleaner and safer.
+
+Now why do we need ConfigBox? Let’s say I have a dictionary:
+"example = {\"key1\": \"value1\", \"key2\": \"value2\"}". Normally, to access value1, I’d write example["key1"]. But if I try example.key1, it will throw an error, since dictionaries don’t support dot notation. If I wrap it with ConfigBox like "example = ConfigBox(example)", then I can directly call example.key1 and get value1. This is super helpful when working with YAML configs, because we’ll have lots of them (schema.yaml, params.yaml, config.yaml), and dot-notation access is much cleaner.
+
+Now let’s talk about ensure_annotations. It enforces that the function arguments and return types match the annotations. For example:
+"@ensure_annotations\ndef get_product(x: int, y: int) -> int:\n return x * y"
+
+If I call get_product(2, 4), it works fine. But if I accidentally call get_product(2, "4"), normally Python would happily multiply and return '44'. With ensure_annotations, it will raise an error because y is expected to be an int, not a string. This makes type checking strict and avoids subtle bugs in big projects.
+
+Now, besides read_yaml, let’s add more generic functions:
+
+create_directories
+"@ensure_annotations\ndef create_directories(path_to_directories: list, verbose=True):\n for path in path_to_directories:\n os.makedirs(path, exist_ok=True)\n if verbose:\n logger.info(f\"Created directory at: {path}\")"
+
+This function creates a list of directories.
+
+save_json
+"@ensure_annotations\ndef save_json(path: Path, data: dict):\n with open(path, \"w\") as f:\n json.dump(data, f, indent=4)\n logger.info(f\"JSON file saved at: {path}\")"
+
+Saves any dictionary to a JSON file.
+
+load_json
+"@ensure_annotations\ndef load_json(path: Path) -> ConfigBox:\n with open(path) as f:\n content = json.load(f)\n logger.info(f\"JSON file loaded successfully from: {path}\")\n return ConfigBox(content)"
+
+Loads JSON data and returns it as a ConfigBox so we can access keys easily.
+
+save_bin (for models)
+"@ensure_annotations\ndef save_bin(data: Any, path: Path):\n joblib.dump(value=data, filename=path)\n logger.info(f\"Binary file saved at: {path}\")"
+
+This saves a serialized object (like a model) into a .joblib file.
+
+load_bin
+"@ensure_annotations\ndef load_bin(path: Path) -> Any:\n data = joblib.load(path)\n logger.info(f\"Binary file loaded from: {path}\")\n return data"
+
+Loads the serialized object back.
+
+So overall, in common.py, we now have functions for reading YAML, creating directories, saving/loading JSON, and saving/loading models. These utilities will be reused throughout the project.
+
+That was the explanation of the utils section. We introduced the important libraries, explained ConfigBox and ensure_annotations, and added a set of generic, reusable functions. I hope this makes sense. I’ll see you all in the next video. Thank you and take care.
+
+### From src.data science, imported Logging;  joblib - Saving Model; 
+
+### datascience --> utils --> common.py --> read_yaml; Wrote YAML Codes
+
+### Went to research folder, and tried about ConigBox; For dict, dict[value1] works while dict.value1 doesn't; So similar to support it, as many YAML Files has key-value pairs, we used ConfigBox; So that we can read any keys specifically 
+
+### When int, what if we gave it as str, we raised an exception from "ensure_annotations" (We say whatever data type I am excepting, it should get it)
+
+**Summary:**
+
+**What was done in common.py (utils section):**
+
+Imported essential libraries:
+
+os → for creating directories.
+
+yaml → to read YAML config files.
+
+json → for saving/loading JSON files.
+
+joblib → for saving/loading serialized models.
+
+logger → custom logger created earlier.
+
+ensure_annotations → to enforce type checking.
+
+ConfigBox (from box) → to access dictionary keys with dot-notation.
+
+Path, Any → type hinting.
+
+Created utility functions:
+
+read_yaml → Reads YAML safely, logs success, returns as ConfigBox.
+
+create_directories → Creates multiple directories, logs creation.
+
+save_json → Saves dictionary as JSON file.
+
+load_json → Loads JSON, returns as ConfigBox.
+
+save_bin → Saves binary objects (e.g., ML models) using joblib.
+
+load_bin → Loads binary objects back.
+
+Why each is needed:
+
+YAML support → Project will use multiple YAML configs (params.yaml, schema.yaml, config.yaml).
+
+ConfigBox → Enables dot-notation (config.key1) instead of dictionary-style (config["key1"]), making config handling cleaner.
+
+ensure_annotations → Strict type checking, prevents silent bugs (e.g., string passed instead of int).
+
+Logger → Standard logging for better debugging & traceability.
+
+create_directories → Ensures required project folders exist before saving files/models.
+
+save/load JSON → For persisting intermediate results, metadata, or configs.
+
+save/load bin → For persisting ML models or other objects in .joblib format.
+
+In short: common.py is the utility hub for configuration management, logging, directory handling, and saving/loading data & models — all reusable across the project.
+
+**4. Step By Step Building Data Ingestion Pipeline - Part 1**
+
+Hello guys.
+
+So we are going to continue our discussion with respect to our end-to-end project. Till our previous video, we have developed all the common functionalities, and it is available in common.py file. If you remember, this particular file is available in the utils folder. Right. Then we also discussed what exactly is this config.yaml and along with that, we saw what ensure_annotation is.
+
+Now, what we are going to do is that I will just go ahead and close all these files. Okay. And let me just go ahead and open the Readme file because here we are going to work on an end-to-end data science project. Right. We are specifically working on this, and here we are going to use extreme modular coding, you know, like how we specifically do the coding and how we build projects in the industry.
+
+First of all, the most important thing now is about workflows. Workflows mean ML Pipeline. Now we are going to start building our ML pipeline. For all those who have some basic understanding of the life cycle of a data science project, the first step is nothing but data ingestion, right? And we have discussed this many times. Second is data transformation. Third is model trainer. Then we have model evaluation. So, let's consider these four important modules which are really important in any data science project or any end-to-end data science project that we specifically work in. All these modules need to be created in the form of a pipeline so that it runs one after the other.
+
+The main part that I really want to teach in this video and in the upcoming videos is how we can go ahead and design each specific module in a much more modular way. See, I can just open a Jupyter notebook and write code for data ingestion, data transformation, model training, or model evaluation. It will be very simple. But what does modular coding mean here? It is about how we can specifically use classes. That is why we have actually created additional folders like components and config.
+
+Now, let me go ahead and write some generic steps that we will follow. In every workflow, every pipeline that we build, let's say we are building data ingestion, there are some steps that we will definitely follow. The first step while designing data ingestion is to update the config.yaml file. This file is about some important configurations that we basically require. If we consider data ingestion, it basically means reading some kind of data from somewhere. It can be a database, an API, or if an ETL pipeline is created, most of the time we will fetch that particular data from a data source like MySQL or MongoDB.
+
+Whenever we are talking about data ingestion, we definitely require some inputs, like knowing the data source input from where we will be taking the data and how we will be ingesting it. Those kinds of information are updated in the config.yaml file.
+
+The second step is about schema.yaml. schema.yaml is not used in data ingestion. There is also a step called data validation, which can come after data ingestion. In data validation, we need to check the schema of the input that we are getting because it is really important whenever we get new test data to test our model. That schema needs to be validated, and that is what we specifically do in data validation. So schema.yaml is not required for data ingestion but may be needed for data validation.
+
+Similarly, there is something called params.yaml which is used for specific conditions where we need to provide parameters. These are the steps we follow in every workflow. After completing the third step, we go ahead and update the entity. I will explain this when we start working on data ingestion. Then we update the configuration manager in the config source. After that, we update the components, update the pipeline, and finally update main.py. Usually, we create two types of pipelines: one is the training pipeline, and one is the batch prediction pipeline. Similarly, we update main.py.
+
+I know I’ve just listed down the points and you may be confused about how to start. Let me do it step by step. Let's say we are going to design our data ingestion. I will open the research folder and create a file 01_data_ingestion.ipynb. I am showing you in Jupyter notebook first so you get a clear idea, and later we will convert this into modular programming.
+
+Before writing any code, I will import os using "import os". First, let's select the environment. After importing, we check the present working directory using "!pwd" and execute it. Here, you can see the directory is data_science_project, and I am inside the research folder. One thing to do is always execute the program from the main project folder. To go back, we use "os.chdir('..')" and then check "!pwd" again. Now we are in the data_science_project folder.
+
+Now, let's go to the config.yaml file. Inside this file, the data ingestion pipeline requires some input. First, I will create a key "data_ingestion", and within this, I will define key-value pairs. The first parameter is "root_dir", which is the folder created after data ingestion is executed. This folder is related to artifacts, so I will also create "artifacts_root": "artifacts". Then I define "source_URL" which is the dataset URL, in this case, the wine quality dataset. The next parameter is "local_data_file", which defines where the zip file downloaded from the URL will be saved. Finally, "unzip_dir" defines where the zip file will be extracted, in this case "artifacts/data_ingestion".
+
+After updating config.yaml, next is schema.yaml. Right now, schema.yaml is not required for data ingestion.
+
+Next, in the notebook, I will import "from dataclasses import dataclass" to create a data class, and "from pathlib import Path" for handling paths. I will define the data class "@dataclass class DataIngestionConfig" and inside, I define "root_dir: Path", "source_URL: str", "local_data_file: Path", "unzip_dir: Path". This matches exactly with the keys defined in config.yaml. The difference between a data class and a normal class is that in a normal class, we often use self, whereas in a data class, we focus on assigning values to variables without functions.
+
+This DataIngestionConfig will be passed to the data ingestion pipeline because it contains all the values read from config.yaml. After this step, we will go to the next one, which is updating the entity.
+
+Now, if I probably go ahead and show you what exactly an entity is, okay, entity is something I will talk about. I’ll update it when I’m doing the modular coding. Right now, I’m updating everything in my Jupyter notebook so that you understand the flow.
+
+The next step will be, after updating the entity, to update the configuration manager in source/config. Configuration manager—what does it basically do? Let me create a class called "class ConfigurationManager". Inside this configuration manager, the first thing I will write is an init function "def __init__(self, config_file_path)". Here, the parameter is self along with config_file_path which is the path to my config YAML file. Whenever I load this configuration manager, whatever is in my config, schema, and params should be loaded already because for every pipeline that information will be available.
+
+To make it simple, I create a constant "CONFIG_FILE_PATH". You may be thinking, where is this defined? Go to the project folder, inside source there is constants. Inside constants, I define all the paths: config path, params path, and schema path. I import "from pathlib import Path" and set "CONFIG_FILE_PATH = Path('config/config.yaml')". Similarly, I define PARAMS_FILE_PATH and SCHEMA_FILE_PATH.
+
+Now, to call this, I import it using "from source.data_science.constants import *". By importing *, all constants like CONFIG_FILE_PATH, PARAMS_FILE_PATH, and SCHEMA_FILE_PATH are available. In the constructor, I assign "self.config = read_yaml(CONFIG_FILE_PATH)". Similarly, "self.params = read_yaml(PARAMS_FILE_PATH)" and "self.schema = read_yaml(SCHEMA_FILE_PATH)". These read YAML files are functions already defined in "source.data_science.utils.common.py" along with a function to create directories.
+
+Once these are loaded, the first folder that needs to be created as soon as the data ingestion pipeline runs is the artifacts folder. So I call "create_directories([self.config['artifacts_root']])". This basic configuration manager ensures that whenever my data pipeline is running, like data ingestion, the artifacts folder is created first.
+
+To initiate data ingestion, I need all configuration details of the data ingestion itself. I create another function "def get_data_ingestion_config(self) -> DataIngestionConfig". Remember, DataIngestionConfig was already defined earlier. This function returns all the field values of the data ingestion configuration, like root directory, source URL, local file path, and unzip directory. I extract the config using "config = self.config['data_ingestion']" and create directories using "create_directories([config['root_dir']])". Then I return "DataIngestionConfig(root_dir=config['root_dir'], source_URL=config['source_URL'], local_data_file=config['local_data_file'], unzip_dir=config['unzip_dir'])".
+
+Now, this DataIngestionConfig will be passed to the data ingestion pipeline. We are reading the entire YAML file and returning all the information inside this class. This class is the data class we created.
+
+Next, we need to update the components. The main component is the data ingestion component. I define it using "class DataIngestion" and the init function "def __init__(self, config: DataIngestionConfig)". I assign "self.config = config". Once I get the configuration details in data ingestion, I need to download the zip file from the GitHub URL. I define a function "def download_file(self)". Inside, I check "if not os.path.exists(self.config.local_data_file)", and then I use "urllib.request.urlretrieve(self.config.source_URL, self.config.local_data_file)" to download the file. I import "import urllib.request as request" for this.
+
+Next, we define "extract_zip_file(self)". I import "import zipfile". Inside this function, I create the directory "os.makedirs(self.config.unzip_dir, exist_ok=True)", open the zip file using "with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:" and extract it "zip_ref.extractall(self.config.unzip_dir)". This ensures that the entire zip file is extracted to the specified path. Inside the zip, we have a CSV file with the dataset.
+
+Now, we have implemented everything: the data ingestion config, the data ingestion component, and the functions to download and extract the zip file. To execute this, I write "config = ConfigurationManager()" to create the configuration manager. Then "data_ingestion_config = config.get_data_ingestion_config()". I create the component using "data_ingestion = DataIngestion(config=data_ingestion_config)". To run it, "data_ingestion.download_file()" and "data_ingestion.extract_zip_file()". This is wrapped in a try-except block "try: ... except Exception as e: raise e".
+
+When executed, initially the artifacts folder is not present. After running, the YAML files are successfully loaded, directories created, the zip file is downloaded and extracted, and the data ingestion folder contains the CSV file.
+
+Finally, in .gitignore, I include "logs" and "artifacts" to avoid committing them. This workflow successfully downloads and extracts the dataset, prepares directories, and completes the data ingestion step.
+
+In the next video, we will convert this Jupyter notebook code into modular coding, showing exactly how to structure it across the project folders. We will also update Config.yaml, Schema.yaml, and the entity in source/entity. That’s all for this session.
+
+**Summary:**
+
+What Has Been Done
+
+Common utilities (common.py) created
+
+Functions like read_yaml, create_directories, etc. were implemented.
+
+Needed so that repetitive operations (reading configs, creating dirs, logging) don’t get duplicated across modules.
+
+Config system introduced
+
+config.yaml → Stores pipeline-level configuration (artifacts root, dataset URL, file paths).
+
+schema.yaml → Placeholder for data validation rules (column names, types).
+
+params.yaml → Placeholder for model/training hyperparameters.
+
+Needed because configs should be separated from code so changes don’t require code modification.
+
+Data class created for ingestion config
+
+@dataclass DataIngestionConfig holds values (root_dir, source_url, local_data_file, unzip_dir).
+
+Needed because it provides a clean structure to pass configuration around instead of using loose dicts.
+
+Configuration Manager implemented
+
+Loads all YAML configs (config.yaml, params.yaml, schema.yaml).
+
+Creates base artifact directories at runtime.
+
+Provides methods like get_data_ingestion_config() to return a structured DataIngestionConfig.
+
+Needed because each pipeline step should consistently load config and setup its required directories.
+
+Data Ingestion Component built
+
+download_file() → Downloads dataset (zip file) from source URL and saves locally.
+
+extract_zip_file() → Extracts dataset into artifacts directory.
+
+Needed because ingestion is the first step in ML lifecycle, ensuring raw data is available locally in a controlled structure.
+
+Execution in Jupyter Notebook (research phase)
+
+Demonstrated how configs are read.
+
+Verified that artifacts folder is created, data.zip downloaded, and extracted.
+
+Needed because before modularizing, you first prototype in notebook to confirm flow.
+
+**Why This Flow is Needed (Big Picture)**
+
+Industry-grade modular coding: Instead of messy Jupyter scripts, each part (config, entity, component, pipeline, main) is separated → easier debugging, scaling, productionization.
+
+Reproducibility: Using YAML configs + entity classes means experiments can be re-run with same settings.
+
+Extensibility: Adding more steps (transformation, training, evaluation) becomes systematic, as each will follow the same structure: update config → update entity → add component → wire into pipeline.
+
+Automation: Pipelines can be triggered end-to-end (main.py) without manual notebook execution.
+
+Industry practice: This is how real ML projects are structured for CI/CD and MLOps.
+
+**In Short** - You have finished the foundation for Data Ingestion — configs, manager, entity, and component — and proved the workflow works by downloading + extracting the dataset.
+
+**5. Data Ingestion Pipeline - Part 2**
+
+We are going to continue the discussion regarding our data ingestion pipeline. In this video, whatever data ingestion we had written in the Jupyter notebook, we will now convert into modular coding, step by step.
+
+First of all, the readme instructed us to update config.yaml. My config.yaml is already updated, as we have already seen. So, I can close all other unnecessary windows. The next step in the readme is to update the schema and params YAML. We don’t require that at the moment. The next step is to update the entity.
+
+What does updating the entity mean? If you navigate to source/data_science/entity, there is a file called config_entity.py. Here, we need to import the data ingestion config that we initially created. This config contains the inputs for our data ingestion pipeline. Similarly, other pipelines like data transformation or additional components will have their own configs. This completes the first step: updating the entity.
+
+The second step is updating the configuration manager in source/config. Inside config, there is a file called configuration.py. Here, we need to update the code to include the data ingestion config. To import it, we write "from src.data_science.entity.config_entity import DataIngestionConfig". We can also add additional configs later in the same import statement. This completes the second step.
+
+Next, we update the components. The first component we create is the data ingestion pipeline. In source/components, I create a file called data_ingestion.py. Inside this file, I import the necessary libraries such as zipfile, urllib.request, and utilities from source/data_science/utils. I also import the data ingestion config using "from src.data_science.entity.config_entity import DataIngestionConfig". Once all imports are done, I define the class "class DataIngestion" with functions download_file() and extract_zip_file() to handle downloading and extracting the dataset zip file.
+
+After creating the component, we update the pipeline. In source/pipeline, I create a file called data_ingestion_pipeline.py. First, I import the configuration manager, the data ingestion component, and the logger using statements like "from src.data_science.config.configuration import ConfigurationManager", "from src.data_science.components.data_ingestion import DataIngestion", and "from src.data_science import logger".
+
+Inside this pipeline, I define the stage name "stage_name = 'Data Ingestion Stage'". Then I define the class "class DataIngestionPipeline". The constructor is empty for now, using pass. I also define a function "initiate_data_ingestion" where I initialize the configuration manager, get the data ingestion config, and execute the download and extraction steps. Finally, I call this pipeline using the if __name__ == "__main__": block, creating an object of the pipeline and running "obj.initiate_data_ingestion()".
+
+To run the pipeline, I use main.py. From here, I import the data ingestion pipeline using "from src.data_science.pipeline.data_ingestion_pipeline import DataIngestionPipeline". Then I initialize and call the pipeline. Executing python main.py triggers the data ingestion stage, downloads the dataset, extracts the zip file, and creates the artifact folder containing winequality-red.csv.
+
+In this way, we have successfully converted the Jupyter notebook implementation into modular code. The steps are now organized into entities, configuration, components, pipelines, and finally executed from main.py. The same structure will be followed for other modules such as data validation. Configuration, config_entity, and pipeline files will be updated accordingly for each new component. We can also run any specific pipeline directly, but using main.py ensures that all stages are executed sequentially.
+
+This completes the data ingestion step. In the next video, we will explore additional pipelines and the subsequent steps for our end-to-end project.
+
+**Summary:**
+
+What Has Been Done
+1. Updating the Entity
+
+File: src/data_science/entity/config_entity.py
+
+Task: Import DataIngestionConfig that holds inputs (root dir, dataset URL, local file path, unzip dir) for the data ingestion pipeline.
+
+Purpose:
+Entities act as structured containers for pipeline inputs. Each pipeline (ingestion, transformation, etc.) has its own entity. This separates configuration from implementation.
+
+2. Updating the Configuration Manager
+
+File: src/data_science/config/configuration.py
+
+Task: Update ConfigurationManager to include methods to fetch DataIngestionConfig.
+
+from src.data_science.entity.config_entity import DataIngestionConfig
+
+
+Purpose:
+The configuration manager centralizes loading configs from YAML files and ensures every pipeline can access its required configuration in a consistent and reusable way.
+
+3. Updating Components
+
+File: src/data_science/components/data_ingestion.py
+
+Imports:
+
+Standard libraries: zipfile, urllib.request, os
+
+Utilities: from src/data_science/utils (e.g., read_yaml, create_directories)
+
+Config entity: DataIngestionConfig
+
+Class: DataIngestion
+
+download_file(): Downloads the dataset zip file from the given URL.
+
+extract_zip_file(): Extracts the downloaded zip file into the specified artifacts folder.
+
+Purpose:
+Components encapsulate specific tasks of a pipeline (here: downloading and extracting data), making them reusable and modular.
+
+4. Updating the Pipeline
+
+File: src/data_science/pipeline/data_ingestion_pipeline.py
+
+Imports:
+
+from src.data_science.config.configuration import ConfigurationManager
+from src.data_science.components.data_ingestion import DataIngestion
+from src.data_science import logger
+
+
+Class: DataIngestionPipeline
+
+Stage name: "Data Ingestion Stage"
+
+Constructor: __init__() (empty for now, pass)
+
+Method: initiate_data_ingestion()
+
+Initialize configuration manager
+
+Get data ingestion config
+
+Execute download_file() and extract_zip_file()
+
+Execution: Using the if __name__ == "__main__": block to run the pipeline.
+
+Purpose:
+The pipeline orchestrates multiple components in sequence, ensuring steps execute in order and can be reused in larger workflows.
+
+5. Running the Pipeline via main.py
+
+File: main.py
+
+Task: Import and execute the pipeline:
+
+from src.data_science.pipeline.data_ingestion_pipeline import DataIngestionPipeline
+
+obj = DataIngestionPipeline()
+obj.initiate_data_ingestion()
+
+
+Outcome:
+
+Downloads dataset zip
+
+Extracts CSV into artifacts folder
+
+Artifact folder contains winequality-red.csv
+
+Purpose:
+main.py serves as the entry point for the project, executing all stages sequentially.
+
+**Why this structure is needed:**
+
+Modular coding: Each part (entity, config, component, pipeline) is separated, making code maintainable and scalable.
+
+Reusability: Components and configs can be reused across pipelines or projects.
+
+Consistency: Pipelines follow the same structure, making onboarding and debugging easier.
+
+Production-ready: The approach mimics industry-level end-to-end pipelines, preparing the project for CI/CD or MLOps deployment.
+
+Flexibility: Can run specific pipelines directly or via main.py for sequential execution of all stages.
+
+**The Jupyter notebook implementation is now fully modular, organized, and ready for extension to additional steps (data validation, transformation, training, etc.).**
+
+**6. Complete Data Validation Pipeline Implementation**
+
+We are going to continue the discussion with respect to our end-to-end project. In the previous tutorial, we implemented a data ingestion pipeline and saw how we could convert it into modular coding. From main.py, we are able to call each step, and based on this, we can create artifact folders. For example, the data ingestion folder is now displayed in the artifacts directory. Although I have not committed the code yet, it’s good practice to commit each module as you create it, especially in a company environment.
+
+The next module we will focus on is data validation. Data validation is important because, once we train a model with a fixed set of input and output features, any new data for prediction should maintain the same feature names and data types. Otherwise, the model may not perform correctly. Data validation ensures that all features are consistent with a predefined schema, which we define in our YAML files.
+
+To start, we follow similar steps as in the data ingestion module. We create a new Jupyter notebook called data_validation.ipynb in the research folder, select the appropriate kernel, and set the working directory to the main project directory using os.chdir().
+
+Next, we update config.yaml with the necessary parameters for data validation. This includes a root directory for storing artifacts, an unzipped data directory for input datasets (from data ingestion, e.g., winequality-red.csv), and a status file (status.txt) to record whether the validation succeeded or failed.
+
+Before creating the modular component, we read the dataset using pandas:
+
+import pandas as pd
+data = pd.read_csv("artifacts/data_ingestion/winequality-red.csv")
+
+
+We then inspect the dataset using data.info() to determine the data types of each column. This helps us define the schema in schema.yaml, including the feature names, their data types, and the target column. Null values can be checked with data.isnull().sum(). Handling nulls is part of machine learning preprocessing, but for this module, we focus only on validation.
+
+Once the schema is defined, we create the data validation config using a dataclass:
+
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass
+class DataValidationConfig:
+    root_dir: Path
+    status_file: str
+    unzip_data_dir: Path
+    all_schema: dict
+
+
+This config contains the root directory, unzip directory, status file, and the full schema dictionary. These inputs are required for the data validation component.
+
+Next, we update the configuration manager (configuration.py) to include a function get_data_validation_config() that reads the data validation parameters from config.yaml and returns an instance of DataValidationConfig. This follows the same pattern used for data ingestion.
+
+For logging, we import the logger:
+
+from src.data_science import logger
+
+
+We then define the data validation class. This class accepts the configuration and implements a function validate_all_columns():
+
+Read the dataset from the unzipped directory.
+
+Compare all dataset columns with the schema defined in all_schema.
+
+If any column is missing, write False to status.txt.
+
+If all columns match, write True to status.txt.
+
+Return the validation status as a boolean.
+
+This basic function ensures the column names match the schema. You can extend it to validate data types as an exercise.
+
+After creating the component, we convert it into modular code by creating data_validation.py in the components folder. We import DataValidationConfig, pandas, and the logger. All functions from the notebook are now part of the Python module.
+
+Next, we create a pipeline for data validation in data_validation_pipeline.py. Similar to the data ingestion pipeline, we import the configuration manager, logger, and data validation component. We define a class DataValidationTrainingPipeline with a function initiate_data_validation(). This function calls get_data_validation_config() and validates all columns, writing the result to status.txt.
+
+Finally, we integrate the data validation pipeline into main.py. We import DataValidationTrainingPipeline and call initiate_data_validation(). Running python main.py executes the full pipeline: data ingestion followed by data validation. The status file in the artifact folder confirms the validation result.
+
+Once verified, we commit the changes:
+
+git add .
+git commit -m "Data validation completed"
+git push origin main
+
+
+The .gitignore ensures logs are not tracked.
+
+Following this approach, we have successfully implemented and modularized the data validation pipeline. The same methodology can now be applied to other pipelines such as data transformation, model training, and model evaluation. By following these steps, we ensure a clean, modular, and maintainable project structure focused on building machine learning projects.
+
+**Summary:**
+
+**What has been done:**
+
+Purpose of Data Validation
+
+Ensures that new input data for predictions matches the schema used during training.
+
+Checks that:
+
+All required feature names exist.
+
+Data types are consistent (can be extended in future).
+
+Avoids model failures due to schema mismatches.
+
+Schema is defined in YAML files.
+
+2. Creating Initial Notebook
+
+File: research/data_validation.ipynb
+
+Setup:
+
+Select the appropriate kernel.
+
+Set working directory using os.chdir().
+
+Update config.yaml with:
+
+root_dir (for artifacts)
+
+unzip_data_dir (from data ingestion)
+
+status_file (e.g., status.txt)
+
+Read dataset:
+
+import pandas as pd
+data = pd.read_csv("artifacts/data_ingestion/winequality-red.csv")
+data.info()   # Inspect columns and data types
+data.isnull().sum()  # Check for nulls
+
+
+Define schema in schema.yaml:
+
+Feature names
+
+Data types
+
+Target column
+
+3. Creating Data Validation Config
+
+File: src/data_science/entity/config_entity.py
+
+Dataclass:
+
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass
+class DataValidationConfig:
+    root_dir: Path
+    status_file: str
+    unzip_data_dir: Path
+    all_schema: dict
+
+
+Purpose: Stores inputs needed for validation, including root directory, schema dictionary, unzip directory, and status file path.
+
+4. Updating Configuration Manager
+
+File: src/data_science/config/configuration.py
+
+Task: Add a method get_data_validation_config():
+
+Reads parameters from config.yaml
+
+Returns an instance of DataValidationConfig
+
+Purpose: Standardized access to configuration for data validation, similar to data ingestion.
+
+5. Creating Data Validation Component
+
+File: src/data_science/components/data_validation.py
+
+Imports:
+
+DataValidationConfig, pandas, logger
+
+Class: DataValidation
+
+Method: validate_all_columns()
+
+Read dataset from unzip_data_dir
+
+Compare columns with schema in all_schema
+
+Write True or False to status_file
+
+Return boolean validation status
+
+Purpose: Encapsulates the validation logic, making it modular and reusable.
+
+6. Creating Data Validation Pipeline
+
+File: src/data_science/pipeline/data_validation_pipeline.py
+
+Imports: Configuration manager, logger, data validation component
+
+Class: DataValidationTrainingPipeline
+
+Method: initiate_data_validation()
+
+Get DataValidationConfig via configuration manager
+
+Call validate_all_columns()
+
+Log and save result to status.txt
+
+Purpose: Orchestrates validation as part of the end-to-end pipeline.
+
+7. Integrating with main.py
+
+Task: Add:
+
+from src.data_science.pipeline.data_validation_pipeline import DataValidationTrainingPipeline
+
+obj = DataValidationTrainingPipeline()
+obj.initiate_data_validation()
+
+
+Execution: Running python main.py:
+
+Executes data ingestion
+
+Executes data validation
+
+Generates status.txt confirming validation result
+
+8. Committing Changes
+
+Commands:
+
+git add .
+git commit -m "Data validation completed"
+git push origin main
+
+
+.gitignore ensures logs and other unnecessary files are not tracked.
+
+**Why this Structure is needed:**
+
+Modularity: Each step has its own entity, config, component, and pipeline.
+
+Reusability: Validation logic can be reused for other datasets or pipelines.
+
+Consistency: Mirrors the structure used in data ingestion.
+
+Maintainability: Easy to extend validation logic (e.g., checking data types, ranges, nulls).
+
+Production-ready: Each pipeline can be run independently or as part of main.py.
+
+**Result** : The Jupyter notebook implementation is now fully modular, the status file confirms validation, and the structure can be extended for further pipelines such as data transformation, model training, and evaluation.
+
+**7. Complete Data Transformation Pipeline Implementation**
+
+We are continuing our discussion on the end-to-end project. So far, we have implemented data ingestion and data validation. The data validation component is already created, and we have integrated the pipeline in main.py.
+
+The next step is data transformation. In this stage, we perform tasks such as feature engineering and other data pre-processing steps. For this project, we won’t focus much on advanced feature engineering or missing value handling, as that falls under typical machine learning preprocessing tasks. Those topics will be covered in upcoming projects where we implement full end-to-end pipelines including feature engineering.
+
+To implement data transformation, the first step is to open config.yaml and define input parameters for the data transformation configuration. Similar to data ingestion and validation, we need to provide a root directory and data path. We also need to create a data_transformation folder where the transformed data will be saved. For now, since our dataset is clean, we will simply perform a train-test split of the Wine Quality dataset and save the resulting train and test datasets.
+
+Next, we go to the research folder and create a Jupyter notebook named 3_data_transformation.ipynb. We first import necessary libraries such as os and set the working directory to the main project folder. Then, we define the data transformation config using a dataclass similar to the one used for data validation. This config contains the root directory and data path parameters.
+
+After defining the config, we update the configuration manager by adding a function get_data_transformation_config. This function reads the YAML file, creates required directories, initializes the data transformation config, and returns it.
+
+With the configuration ready, we move on to the data transformation component. We import necessary libraries including pandas and train_test_split from sklearn. In the component, we define a function that reads the dataset, performs the train-test split, and saves the resulting CSV files in the configured directory. We also integrate logging to track the steps.
+
+Once the component is ready, we integrate it into the pipeline. We create a file data_transformation_pipeline.py and follow a similar structure as other pipelines. The pipeline initializes the data transformation component, fetches the configuration, and calls the train-test split function. We also implement a try-except block to check the data validation status before running the transformation. If the status is not valid, an exception is raised, ensuring only validated data is transformed.
+
+Finally, we update main.py to include the data transformation stage. We import the pipeline and call the function to initiate data transformation. After running main.py, the pipeline reads the validated dataset, performs train-test split, and saves the transformed data.
+
+At this point, the data transformation folder contains train.csv and test.csv. All steps are modular, following the same structure used for data ingestion and validation. The next steps in the project will focus on model training and model evaluation, followed by deployment.
+
+This process highlights the importance of maintaining a modular structure for reproducibility and ease of debugging. Each component—data ingestion, validation, and transformation—is clearly separated and integrated into a main pipeline, ensuring scalability for future projects.
+
+**Summary:**
+
+**What we have done:**
+
+Purpose of Data Transformation
+
+Prepares the dataset for machine learning tasks.
+
+Includes basic preprocessing steps:
+
+Train-test split
+
+(Optional) Feature engineering and other preprocessing steps in future projects
+
+Ensures clean, validated data is ready for modeling.
+
+Only transforms data that passes the data validation stage.
+
+2. Updating Configuration
+
+File: config.yaml
+
+Parameters for Data Transformation:
+
+root_dir: Folder for storing transformation artifacts
+
+data_path: Path to the validated dataset
+
+transformed_data_dir: Folder where transformed train/test datasets will be saved
+
+3. Creating Jupyter Notebook
+
+File: research/3_data_transformation.ipynb
+
+Setup:
+
+Import necessary libraries (os, pandas, train_test_split)
+
+Set working directory to the main project folder
+
+Define data transformation config using a dataclass:
+
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass
+class DataTransformationConfig:
+    root_dir: Path
+    data_path: Path
+    transformed_data_dir: Path
+
+
+Purpose: Stores paths and directories for data transformation outputs.
+
+4. Updating Configuration Manager
+
+File: src/data_science/config/configuration.py
+
+Function: get_data_transformation_config()
+
+Reads parameters from config.yaml
+
+Creates necessary directories (transformed_data_dir)
+
+Returns an instance of DataTransformationConfig
+
+5. Creating Data Transformation Component
+
+File: src/data_science/components/data_transformation.py
+
+Imports: pandas, train_test_split, logger, DataTransformationConfig
+
+Class: DataTransformation
+
+Function: initiate_data_transformation()
+
+Reads the validated dataset (data_path)
+
+Performs train-test split using train_test_split
+
+Saves train.csv and test.csv in transformed_data_dir
+
+Logs all steps for reproducibility
+
+6. Creating Data Transformation Pipeline
+
+File: src/data_science/pipeline/data_transformation_pipeline.py
+
+Imports: Configuration manager, logger, data transformation component
+
+Class: DataTransformationPipeline
+
+Function: initiate_data_transformation()
+
+Checks data validation status before transformation
+
+Raises exception if validation fails
+
+Calls the DataTransformation component to split and save datasets
+
+7. Integrating with main.py
+
+Update main.py:
+
+from src.data_science.pipeline.data_transformation_pipeline import DataTransformationPipeline
+
+obj = DataTransformationPipeline()
+obj.initiate_data_transformation()
+
+
+Execution: python main.py
+
+Reads validated dataset
+
+Performs train-test split
+
+Saves train.csv and test.csv in the transformation artifact folder
+
+8. Output
+
+Folder: artifacts/data_transformation/
+
+Files:
+
+train.csv
+
+test.csv
+
+**Why it is needed:**
+
+Modular structure: Each component has its own config, component, and pipeline.
+
+Reproducibility: All steps are logged and artifact paths are controlled by config.
+
+Scalability: Easy to extend for feature engineering, scaling, or advanced preprocessing.
+
+Validation check: Ensures only clean, validated data is transformed.
+
+**Result:** The data transformation module is fully modular, integrated into the main pipeline, and produces separate train/test datasets ready for modeling.
+
+**8. Model Trainer Pipeline Implementation**
+
+We are going to continue our discussion with respect to our end-to-end project. So far, we have implemented data ingestion, data validation, and data transformation. Now, we will focus on the Model Trainer component.
+
+The concept of the model trainer is straightforward: we are going to train our machine learning model. First, let’s create a new file named for_model_trainer.ipynb. As usual, we select the appropriate kernel. I recommend closing all other files to avoid confusion, keeping only the main.py, config.yaml, and data_transformation files open.
+
+Next, we import os and set the working directory to the project root using os.chdir(). Confirm the working directory with os.getcwd().
+
+Following the project structure, the first step is to update the config.yaml for the model trainer. We need to define a root directory under artifacts, along with train data path and test data path, which are outputs from the data transformation stage. Additionally, we define the model filename (e.g., model.joblib) to store the trained model. Joblib is used here as a serialization technique to save the trained model to disk. In future projects, we may also explore Pickle.
+
+Once the configuration is updated, we define a data class for the model trainer. Using the @dataclass decorator, we create ModelTrainerConfig containing the following parameters: root_dir, train_data_path, test_data_path, model_name, alpha, l1_ratio, and target_column. Here, alpha and l1_ratio are parameters required for the Elastic Net algorithm. These parameters are specified in the params.yaml file. This approach allows us to manage algorithm hyperparameters separately from the configuration. The target_column comes from the schema.yaml.
+
+Next, we implement the configuration manager. Here, we define the function get_model_trainer_config() which returns an instance of ModelTrainerConfig. The function reads values from config.yaml, params.yaml, and schema.yaml to initialize the configuration for model training.
+
+With the configuration in place, we move to training the model. First, we import necessary libraries such as pandas, sklearn.linear_model.ElasticNet, joblib, and our logger. Using the model trainer config, we read the train and test datasets. Then we split the datasets into X_train, X_test, y_train, and y_test using the target column. We initialize the Elastic Net model with alpha and l1_ratio from the configuration and fit it on the training data. Finally, we save the trained model using joblib.dump() to the specified root_dir.
+
+During initial testing, we encountered an error: “no such file or directory”. This was because the model trainer directory did not exist. We fixed it by creating the directory inside the configuration manager before training the model. After this fix, running the training script successfully created the model.joblib file under artifacts/model_trainer/.
+
+The next step is to modularize the code. First, we update the entity by adding ModelTrainerConfig in config_entity.py. Next, we update the configuration manager to include the get_model_trainer_config() function. Then, we create the model trainer component as a separate file model_trainer.py under components. This component handles reading data, training the model, and saving it.
+
+After updating the component, we create the model trainer pipeline in a new file model_trainer_pipeline.py under the pipeline folder. Here, we define a function initiate_model_training() that calls the configuration manager, initializes the model trainer, and triggers training. Finally, we integrate this pipeline into main.py just like previous stages (data ingestion, validation, and transformation).
+
+Once everything is set, we test the pipeline by deleting the model_trainer folder and running python main.py. This successfully executes the data transformation stage and the model training stage, producing the trained model in artifacts/model_trainer/model.joblib.
+
+After verifying functionality, we commit the code using Git:
+
+git add .
+git commit -m "Model trainer implementation"
+git push origin main
+
+
+In conclusion, the model trainer stage is now fully integrated and functional. The next step will be model evaluation, where we will use MLflow to track experiments and integrate with a remote repository like DAGsHub.
+
+This completes the explanation of the model trainer implementation.
+
+**Summary:**
+
+**What we have done:**
+
+Purpose of Model Trainer
+
+Trains a machine learning model using the transformed dataset.
+
+For this project:
+
+Uses Elastic Net regression.
+
+Saves the trained model to disk for future inference.
+
+Ensures reproducibility and consistent model storage.
+
+2. Updating Configuration
+
+File: config.yaml
+
+Parameters for Model Trainer:
+
+root_dir: Directory under artifacts to store trained model
+
+train_data_path: Path to train dataset from data transformation
+
+test_data_path: Path to test dataset from data transformation
+
+model_name: File name for the trained model (e.g., model.joblib)
+
+File: params.yaml
+
+Hyperparameters for Elastic Net:
+
+alpha
+
+l1_ratio
+
+File: schema.yaml
+
+Contains the target_column for model training
+
+3. Creating Jupyter Notebook
+
+File: research/4_model_trainer.ipynb
+
+Setup:
+
+Import libraries: os, pandas, ElasticNet, joblib, logger
+
+Set working directory to project root
+
+Confirm working directory with os.getcwd()
+
+Define Config DataClass:
+
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass
+class ModelTrainerConfig:
+    root_dir: Path
+    train_data_path: Path
+    test_data_path: Path
+    model_name: str
+    alpha: float
+    l1_ratio: float
+    target_column: str
+
+4. Updating Configuration Manager
+
+File: src/data_science/config/configuration.py
+
+Function: get_model_trainer_config()
+
+Reads values from config.yaml, params.yaml, and schema.yaml
+
+Ensures artifact directories exist (creates if missing)
+
+Returns an instance of ModelTrainerConfig
+
+5. Creating Model Trainer Component
+
+File: src/data_science/components/model_trainer.py
+
+Imports: pandas, ElasticNet, joblib, logger, ModelTrainerConfig
+
+Class: ModelTrainer
+
+Function: train_model()
+
+Reads train and test datasets
+
+Splits into X_train, X_test, y_train, y_test using target_column
+
+Initializes Elastic Net with alpha and l1_ratio
+
+Fits model on training data
+
+Saves trained model to root_dir using joblib.dump()
+
+Note: Directory must exist before saving the model (created in configuration manager).
+
+6. Creating Model Trainer Pipeline
+
+File: src/data_science/pipeline/model_trainer_pipeline.py
+
+Imports: Configuration manager, logger, model trainer component
+
+Class: ModelTrainerPipeline
+
+Function: initiate_model_training()
+
+Fetches ModelTrainerConfig from configuration manager
+
+Initializes ModelTrainer component
+
+Calls train_model()
+
+Ensures that only validated and transformed data is used
+
+7. Integrating with main.py
+
+Update main.py:
+
+from src.data_science.pipeline.model_trainer_pipeline import ModelTrainerPipeline
+
+obj = ModelTrainerPipeline()
+obj.initiate_model_training()
+
+
+Execution: python main.py
+
+Runs all prior stages: data ingestion → validation → transformation → model training
+
+Saves trained model in: artifacts/model_trainer/model.joblib
+
+8. Output
+
+Folder: artifacts/model_trainer/
+
+File: model.joblib (serialized trained Elastic Net model)
+
+**Why it is needed:**
+
+Modular structure: Config, component, and pipeline are separated for clarity
+
+Reproducibility: Trained model saved with controlled paths
+
+Scalability: Easy to swap in other models or algorithms
+
+Integration: Works seamlessly with prior stages (data ingestion, validation, transformation)
+
+**Result:** The Model Trainer stage is fully modular, integrated into the main pipeline, and produces a trained machine learning model ready for evaluation or deployment.
+
+**9. Model Evaluation Pipeline Implementation**
+
+We are going to continue our discussion regarding our end-to-end project. In the previous video, we implemented the Model Trainer. In this video, we will focus on the next pipeline: model evaluation. For model evaluation, I will use platforms such as MLflow and DAGs Hub. DAGs Hub serves as a remote repository to track everything, while MLflow will be used for experiment tracking.
+
+The steps are similar to the model training pipeline, but this time we will focus on evaluation metrics. First, ensure that your DAGs Hub account is set up and connected properly. I will start by opening my browser and connecting DAGs Hub to my GitHub repository. I select the repository for the Data Science project, authenticate with my GitHub credentials, and connect it. Once connected, I can track experiments, version data, and version models through DAGs Hub.
+
+Next, I need to configure my MLflow tracking URI, along with the username and secret access token from DAGs Hub. These are stored as environment variables so that all experiments are tracked on the remote repository. I then create a Jupyter notebook file called model_evaluation.ipynb and import the necessary libraries. I also verify my present working directory to ensure it points to the project folder.
+
+I update the config.yaml file to include keys relevant to model evaluation: root_dir for storing evaluation artifacts, test_data_path for input data, model_path for loading the trained model, and metric_file to save evaluation metrics in JSON format.
+
+After updating the configuration, I create a ModelEvaluationConfig data class containing all required parameters, including the target column from the schema and the MLflow URI. I also update the ConfigurationManager to include a get_model_evaluation_config method that reads the configuration and creates the necessary directories. This method returns a fully initialized ModelEvaluationConfig object.
+
+The next step is implementing the model evaluation component. I create a class that calculates evaluation metrics such as RMSE, MAE, and R² score. I also include a method to log results to MLflow. The process involves reading the test data, loading the trained model, separating features and targets, computing predictions, calculating metrics, saving metrics as a JSON file, and logging parameters and metrics to MLflow. The model is optionally logged as an artifact depending on the tracking URI type.
+
+After verifying this workflow in the notebook, we convert it into a modular component. This involves updating the entity folder with model_evaluation_config, updating the configuration manager to fetch evaluation config, creating a component file model_evaluation.py, and importing utility functions like save_json. Finally, I create the model evaluation pipeline in model_evaluation_pipeline.py, which imports the evaluation component, fetches the configuration, and executes the MLflow logging.
+
+The main.py file is updated to include the model evaluation pipeline. The function initiate_model_evaluation is called in the main script, similar to other pipelines. Running the main script now executes the model evaluation, saves metrics as JSON, and logs all experiments to MLflow. This ensures that evaluation results are tracked remotely. Finally, I commit all changes to GitHub, ensuring sensitive keys are removed before deployment.
+
+With this, the model evaluation pipeline is complete. In the next step, we will focus on implementing the training plus batch prediction pipeline.
+
+**Summary:**
+
+Purpose of Model Evaluation
+
+Evaluate the trained machine learning model on test data.
+
+Track experiments, parameters, and metrics using MLflow.
+
+Use DAGsHub as a remote repository for versioning datasets, models, and experiments.
+
+Key evaluation metrics: RMSE, MAE, R² score.
+
+2. Setup DAGsHub and MLflow
+
+DAGsHub:
+
+Connects to GitHub repository
+
+Tracks experiments, data versions, and model artifacts
+
+Authenticate using GitHub credentials
+
+MLflow:
+
+Configure MLFLOW_TRACKING_URI, MLFLOW_USERNAME, MLFLOW_PASSWORD as environment variables
+
+Tracks metrics, parameters, and artifacts remotely on DAGsHub
+
+3. Updating Configuration
+
+File: config.yaml
+
+Parameters for Model Evaluation:
+
+root_dir: Directory under artifacts for evaluation outputs
+
+test_data_path: Path to the test dataset (from data transformation)
+
+model_path: Path to the trained model (from model trainer)
+
+metric_file: JSON file to save evaluation metrics
+
+Schema: Uses target_column from schema.yaml
+
+MLflow URI: Stored as part of the configuration
+
+4. Creating Jupyter Notebook
+
+File: research/5_model_evaluation.ipynb
+
+Setup:
+
+Import libraries: os, pandas, joblib, sklearn.metrics, mlflow, logger, json
+
+Set working directory to project root
+
+Define Config DataClass:
+
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass
+class ModelEvaluationConfig:
+    root_dir: Path
+    test_data_path: Path
+    model_path: Path
+    metric_file: str
+    target_column: str
+    mlflow_uri: str
+
+5. Updating Configuration Manager
+
+File: src/data_science/config/configuration.py
+
+Function: get_model_evaluation_config()
+
+Reads values from config.yaml and schema.yaml
+
+Ensures artifact directories exist
+
+Returns a ModelEvaluationConfig object
+
+6. Creating Model Evaluation Component
+
+File: src/data_science/components/model_evaluation.py
+
+Imports: pandas, joblib, sklearn.metrics, logger, json, ModelEvaluationConfig, save_json utility
+
+Class: ModelEvaluation
+
+Function: evaluate_model()
+
+Load test dataset from test_data_path
+
+Load trained model from model_path
+
+Split features (X_test) and target (y_test) using target_column
+
+Generate predictions
+
+Compute metrics: RMSE, MAE, R² score
+
+Save metrics to JSON file (metric_file)
+
+Log parameters, metrics, and optionally model artifact to MLflow
+
+Ensures experiment reproducibility and centralized tracking of evaluation results
+
+7. Creating Model Evaluation Pipeline
+
+File: src/data_science/pipeline/model_evaluation_pipeline.py
+
+Imports: Configuration manager, logger, model evaluation component
+
+Class: ModelEvaluationPipeline
+
+Function: initiate_model_evaluation()
+
+Fetch ModelEvaluationConfig from configuration manager
+
+Initialize ModelEvaluation component
+
+Call evaluate_model() to compute metrics and log to MLflow
+
+8. Integrating with main.py
+
+Update main.py:
+
+from src.data_science.pipeline.model_evaluation_pipeline import ModelEvaluationPipeline
+
+obj = ModelEvaluationPipeline()
+obj.initiate_model_evaluation()
+
+
+Execution: python main.py
+
+Runs all prior stages: data ingestion → validation → transformation → model training → model evaluation
+
+Saves evaluation metrics as JSON
+
+Logs experiments to MLflow (remote tracking via DAGsHub)
+
+9. Output
+
+Folder: artifacts/model_evaluation/
+
+Files:
+
+metrics.json – Contains RMSE, MAE, and R² score
+
+MLflow logs for experiment tracking
+
+**Why it is needed:**
+
+Modular structure: Follows the same entity → config → component → pipeline pattern
+
+Experiment tracking: All metrics, parameters, and artifacts are logged via MLflow
+
+Remote reproducibility: DAGsHub ensures versioned tracking of models and datasets
+
+Reusability: Evaluation pipeline can be reused for new models or updated datasets
+
+**Result:** The Model Evaluation stage is fully modular, integrated into the main pipeline, and tracks evaluation metrics remotely using MLflow and DAGsHub, ensuring reproducibility and maintainability.
+
+**10. Training And Prediction Pipeline With Flask App**
+
+We are going to continue the discussion regarding our end-to-end project. In the previous video, we implemented all the important modules required for this project. Alongside, we have been developing our pipeline and executing it through Main.py.
+
+The pipeline in Main.py essentially serves as our training pipeline. It covers every step, from data ingestion to data validation, data transformation, model training, and model evaluation. Now, it’s time to create a prediction pipeline, which is crucial because our trained model is available as a model.joblib file in the artifacts folder, specifically inside the model trainer folder.
+
+To implement this, we create prediction_pipeline.py. In this file, we first import the necessary libraries: joblib, numpy, pandas, and Path from pathlib. We then define a PredictionPipeline class, where the __init__ function loads the trained model using joblib.load. The predict function takes input data, passes it to the model’s predict method, and returns the predictions. This completes the prediction pipeline.
+
+Next, we integrate this prediction pipeline with a Flask API to enable a front-end interface. We create app.py and import Flask modules (Flask, render_template, request) along with os, numpy, pandas, and our PredictionPipeline. We initialize the Flask app and define the home route (/) to render index.html, which will serve as our front-end form.
+
+The index.html form is designed using Bootstrap and collects features such as fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulfates, and alcohol. Upon clicking the predict button, the form sends data to the /predict route.
+
+In app.py, we define the /train route to execute main.py for training the pipeline. The /predict route handles form submissions, reads user inputs, reshapes them into the required array format, calls the prediction pipeline, and renders results.html to display the predicted output. A try-except block ensures proper error handling.
+
+Finally, we run the Flask app with app.run(host="0.0.0.0", port=8080). Once running, we can navigate to the index page, train the model, input feature values, and view predictions. For example, based on given inputs, the predicted wine quality might be 2.82 on a scale of 0–7.
+
+All code and logs are now ready. We can push the project to GitHub using standard Git commands (git add, git commit, git push) while excluding unnecessary folders like MLruns. This completes our end-to-end project, including both training and prediction pipelines. The next step will focus on model deployment.
+
+This approach provides a complete hands-on understanding of creating an end-to-end data science project, integrating training, prediction, and front-end interaction.
+
+**Summary:**
+
+Purpose
+
+Use the trained model (model.joblib) to make predictions on new data.
+
+Provide a user-friendly front-end using Flask for input and output.
+
+Separate training and prediction pipelines for modularity and reusability.
+
+2. Prediction Pipeline
+
+File: src/data_science/pipeline/prediction_pipeline.py
+
+Imports:
+
+import joblib
+import numpy as np
+import pandas as pd
+from pathlib import Path
+
+
+Class: PredictionPipeline
+
+init():
+
+Loads the trained model from artifacts/model_trainer/model.joblib using joblib.load()
+
+predict(data):
+
+Accepts input features as a DataFrame or array
+
+Calls self.model.predict(data)
+
+Returns predictions
+
+Functionality: Encapsulates prediction logic and allows easy reuse in API or scripts
+
+3. Integrating with Flask
+
+File: app.py
+
+Imports:
+
+from flask import Flask, render_template, request
+import os, numpy as np, pandas as pd
+from src.data_science.pipeline.prediction_pipeline import PredictionPipeline
+
+
+App Initialization: app = Flask(__name__)
+
+4. Flask Routes
+
+Home Route (/):
+
+Renders index.html
+
+Provides a form for user input of features:
+
+fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulfates, alcohol
+
+Train Route (/train):
+
+Executes main.py to retrain the model pipeline
+
+Ensures the latest model is available for prediction
+
+Predict Route (/predict):
+
+Handles form submissions
+
+Reads feature values from the form
+
+Converts inputs to a NumPy array with the correct shape
+
+Calls PredictionPipeline.predict() to generate predictions
+
+Renders results.html to display predicted wine quality
+
+Includes try-except blocks for error handling
+
+5. Front-End (Bootstrap Form)
+
+index.html:
+
+Collects all input features in a structured form
+
+Submits data to /predict route
+
+results.html:
+
+Displays predicted output in a readable format
+
+Example: Predicted wine quality = 2.82 (scale 0–7)
+
+6. Running the Application
+
+Command:
+
+python app.py
+
+
+Access: Navigate to http://localhost:8080 or server IP
+
+Workflow:
+
+Optionally train the model using /train
+
+Input feature values on the form
+
+Click Predict → view results
+
+7. Project Structure
+
+Training pipeline: main.py → executes all stages (ingestion → validation → transformation → training → evaluation)
+
+Prediction pipeline: prediction_pipeline.py → called by Flask API
+
+Front-end templates: index.html and results.html
+
+Artifacts:
+
+artifacts/model_trainer/model.joblib (trained model)
+
+Logs for debugging
+
+8. Version Control
+
+Git commands:
+
+git add .
+git commit -m "Prediction pipeline and Flask integration"
+git push origin main
+
+
+.gitignore: Exclude unnecessary folders like MLruns and logs
+
+**Why it is needed:**
+
+Modular separation of training and prediction
+
+User-friendly interface for interacting with the model
+
+Can be extended for batch predictions or REST API integration
+
+Ensures reproducibility and maintainability
+
+**Result:** The Prediction Pipeline is now fully functional and integrated with a Flask front-end, completing the end-to-end project workflow. Users can train models, input feature data, and receive predictions in real-time, all in a modular and maintainable structure.
