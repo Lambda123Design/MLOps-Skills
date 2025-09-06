@@ -50,6 +50,8 @@
 
 **K) Getting Started With Your First End To End Data Science Project With Deployment**
 
+**L) End To End Machine Learning Pipeline Using GIT, DVC,MLFLOW And DAGSHUB**
+
 **A) Getting Started with MLFlow Tracking Server**
 
 1. Type "mlflow ui: in command prompt and it provides mlflow tracking URL; Once if we abort this, we won't be tracking anything
@@ -3207,3 +3209,772 @@ Can be extended for batch predictions or REST API integration
 Ensures reproducibility and maintainability
 
 **Result:** The Prediction Pipeline is now fully functional and integrated with a Flask front-end, completing the end-to-end project workflow. Users can train models, input feature data, and receive predictions in real-time, all in a modular and maintainable structure.
+
+### **L) End To End Machine Learning Pipeline Using GIT, DVC,MLFLOW And DAGSHUB**
+
+**1. Getting Started With Project Structure**
+
+Hello guys.
+
+Now in this module, I'm quite excited that we will be implementing our first end to end machine learning pipeline using DVC for data version control and even for model versioning. Along with that, we'll also be using MLflow for experiment tracking. Already in our previous video, we have seen that how we can actually work with DVC along with DAGs hub remote. But if you probably see DAGs hub right as a remote repository, it has three main important functionalities. You'll be able to track your code. You'll be able to even upload data datas to the DAGs hub, and you'll probably be able to do the versioning along with the model versioning itself. And finally, you'll also be able to log experiments with MLflow. If you have these three amazing capabilities, then obviously you can actually develop an amazing pipeline, you know, end to end machine learning pipeline where you can integrate with DVC. Along with that, you can integrate with MLflow and all, and that is what we are going to probably do in this particular project.
+
+Now, what I will do, first of all, I will just go ahead and create a new repository. So let me just go ahead and click create a new repository. Now obviously you can also go ahead and create a repository in GitHub and probably do it. But I really want to create a repository directly over here. And I don't want to connect any repository from my GitHub itself. So first of all let's go ahead and create a blank repository. Uh so here I will be creating it. Here I will say, hey this is my machine learning pipeline okay. So I'm going to probably go ahead and create my machine learning pipeline, uh, machine machine learning pipeline or I'll just say pipeline. Okay. So this will basically be my project. So name will be this. I will just go ahead and create a repository.
+
+Now as soon as I probably go ahead and create a repository. This is where I'm going to probably create my entire ML pipeline, which will be having data pre-processing, model training and evaluation. And based on that we will try to log experiments. We will try to also do data versioning, model versioning and many more things. Okay. So here, uh, this is what I really need to clean, uh, clone. Sorry. So if I go to my MLOps. Right. So there is a folder called as ML pipeline. Okay. So let me just go ahead and delete this okay. Because here I will just go ahead and do my git clone. So in this particular path again you can go ahead and create anywhere you really want right in whichever drives. But I have used this e I have just used this particular folder ML pipeline and this is where I'm actually going to create it okay.
+
+So first of all, let's go ahead and open my command prompt. Inside my command prompt I'll go to my E drive. Then I'll go to CD this okay. Again if you have Linux go to your terminal. Just go to that particular path over here. And then we will just go ahead and clone this okay. So once we clone it you'll be able to see that this entire repository will be created. Right. So if I go to my folder back so this machine learning pipeline is over here okay. And you have this dot git folder because it is configured to this particular GitHub repository. Okay. Now if I go to my command prompt. So from here I will go ahead and start my project. So I will go ahead and write "code ." And this is where my VS code will open okay. So here you can see VS code is there.
+
+Now first of all what we will do is that we will go ahead and commit at least something okay. And here we can go ahead and create my Readme file. So here what I will do I will just go over here, I will go to my machine learning folder. And let me just go ahead and create my Readme file. Now inside this Readme file, what I am actually going to do is that I'm going to provide you some information of the project that we are going to do, and we'll discuss about that particular project right now. Okay. So here is my project that we are going to perform. Okay.
+
+So what is the project over here. So let me just go ahead and execute this and let me just see the preview open preview okay. So the project is nothing but data pipeline with DVC and MLflow for machine learning. The project demonstrates how to build an end to end machine learning pipeline using DVC. That is data version control for data and model versioning, and MLflow for experiment tracking. The pipeline focuses on training a random forest classifier on the Pima Indian Diabetes dataset, with clear stages for data pre-processing, model training, and evaluation. So in short, we are going to use DVC. We are going to use MLflow. We will train a model and we will follow this entire pipeline of data preprocessing, model training and evaluation.
+
+The reason why I am solving this specifically in the DAGs hub, right. So here, uh, okay. First of all, uh, there was something called as data pipeline, you know, and here you can visualize the data pipeline, which is quite amazing in the DAGs repository itself. So what I will do, first of all, let me just go ahead and open my terminal. Okay. Open my command prompt. You can also work with git bash if you want. Now first of all what I will do. You know that I have added this readme file. Let me just go ahead and add this readme file and let me commit it. Then you will be able to see all the things. Okay, so let me go ahead and add it or not a GitHub repository. Why it is not because okay, just a second. I think I have opened my wrong repository.
+
+Okay, so I will go back to my command prompt. So I'll say "CD ml pipeline". Right. So "CD machine learning pipeline". So inside this my git was there. Right. So if you see over here inside this my dot git was there. See this kind of simple issues may come. So don't worry. You need to probably go ahead and fix it. Okay. So now I'll go ahead and write "code ." open my VS code okay. Open my VS code. That is the reason I could not execute the git command. And I'm not going to edit this video because I want to see all those you I definitely want you all to see all those errors. So here I will go ahead and create my "README.md" file. Okay. And after this I will go ahead and paste this entire thing about my project. Okay. So this is the update that we are going to keep it in the Readme file. You can also go ahead and preview it okay. Open preview okay. And this is all steps we are basically going to perform.
+
+Now let me quickly go ahead and open my terminal or let's open my command prompt. And here I will be adding "git add readme.md" file okay. And then I will say git. So after adding you know first time when we are setting up please make sure that you watch this. Okay. So after adding I need to go ahead and do the commit okay. First commit. So here I will just go ahead and write my sorry, I need to go to my VSCode and go ahead and write my first commit okay. After I probably do the first commit. Uh, then uh, I also need to probably go ahead and set this up. Okay. So here you will be able to see this. I will go ahead and set up my branch. The default branch will be "minus M main" okay. So this one. So we are going to go ahead and create a branch over here. And finally I will go ahead and push "git push minus u origin main". Okay. Like how we did in the get is almost all the steps are same.
+
+So if you probably see this, if you have followed all these things, you will be able to see that I will be able to reload it. And it is asking me to generate an image for your project. I'll say no thank you. And here you can probably see that my readme file has got updated. And now this three main things are available over here, where you can upload the data into the DAGs of remote. You can probably log experiments with MLflow and all. Okay, now why I really want to create machine pipeline by using this, uh, remote repository because, uh, the best part about this is that there is something called as data pipeline. And this data pipeline is a complete version control data pipeline. Right. And this will be quite amazing here. You can probably track your data. You can track your code, you can track your model versions. You can even track different, different metrics using MLflow. And that is the reason I'm going to probably write this. And all the information about this project is given over here. Right. So anyhow, I will be giving you all these resources in the resource section of this particular module itself.
+
+Okay. Now, once you have done this, the next step that we are probably going to do over here is that let's go ahead and create our new new environment. So first of all I'll write "conda create minus p v env python double equal to 3.10". And I'll say yes. Okay. Because since we are creating a complete machine learning pipeline, it is better that you have a separate environment. So that environment will be getting created over here V and V. And along with that I will have my "requirements.txt" file. Okay. Now inside this requirement dot txt file I will be making sure that I'll write all the libraries that I'm actually going to use. Okay. Uh, so all those things I'll specifically write in my requirements.txt file. Okay. So over here in the requirement dot txt file you will be seeing I will be using DVC dags hub scikit learn. MLflow. Okay, all these things will be getting added. And along with this, I also will be requiring one more library so that uh. And if you remember, in a previous project also we had imported that DVC, S3. Okay. So that will be able to upload in the DVC remote with respect to any data or models. Okay, so here we have this DVC, S3 okay. All these things is basically getting we need to install it in our environments.
+
+Now in the next step we will be able to see that I will go ahead and first of all activate. So "conda activate Venv" okay. And from here I will go ahead and right "pip install minus r requirements.txt". So here you can see all the installations are specifically taking place. Okay. So here you can see the installation is basically taking place. That is good enough. Okay. Uh, one more file that I really want to create over here is nothing but ".gitignore". Okay? Because I don't want to track v and v folder because it is on my virtual environment. Okay. But anyhow, uh, as soon as we probably like any folder that you don't want to track, you can basically write it over here. Okay.
+
+So once this is done, the next thing is that, uh, I will also go ahead since we need to start with our data pre-processing, we need to have some kind of data first. Right. As you will be seeing right now, I have still not spoken about ETL pipelines and how you can probably develop ETL pipelines because, uh, with the help of ETL pipelines, you will be able to probably create that data ingestion phase, you know, so that we will discuss in the later stages, because I need to probably teach you about airflow and all. So right now what I will do, I will just go ahead and create one folder data inside this folder I will go ahead and create raw data. So this is my raw data itself. And I will be taking a data set, as I said from the from the if you probably see over here in the Readme file, write preview readme, I've told you that we will be using this Pima Indian Diabetes data set. We'll talk more about this particular data set, what exactly it is and what exactly it does. Okay, so first of all, let me just go ahead and upload this particular data set. This is our data set is even available in Kaggle and all okay.
+
+So if you see over here if I just go ahead and explore this particular data set, this data set has features like pregnancies, glucose, blood pressure, skin thickness, insulin BMI uh diabetes. Diabetes, pedigree function, age. Right. And your outcome is basically your output feature. So what you really need to do is that you need to design a model. You need to create a model which takes this input feature. And it should be able to predict the outcome. The outcome is 0 or 1, which is just saying that based on this feature, whether the person is going to have diabetes or not. Okay. Uh, that is what is the entire problem statement over here? Yeah. Uh, and based on this particular data set, what we will do is that we will create this entire pipeline. The pipeline will be created for data pre-processing, model training and then model evaluation. And within this entire pipeline, we will see that how you can use multiple MLOps tools like DVC, MLflow. You know how we can probably go ahead and use Dax hub remote, you know, to store each and everything. And when the model is created, how we can probably go ahead and do the model versioning and all right. So everything will be specifically included, uh, with respect to this okay.
+
+So, uh, till now, I hope you have basically understood, you know, all the steps. Um, now what we are going to basically do is that now, see, I hope in the terminal. Also, if I go ahead and see the installation of the library is taking place and it is going to take some amount of time. But what we are basically going to do is in the next video is that I will go ahead and create even one source folder. Okay. Source folder. and along with the source folder, I will be creating one more file which is called as "params.yaml" file. So here I will also introduce you to this YAML file. Why? Why specifically we use this kind of YAML file. Uh and what kind of parameters we are going to specify over here. So that is the reason I'm actually creating this. And inside this source, uh, you know, I will be creating one first of all, one file which is called as "init.py". Because through this particular file, what we will be able to do is that we will be able to call it as a package. So I think the installation has been completed. So let me just go ahead and minimize this.
+
+And inside this itself source "init.py" I will also go ahead and create my another file which is nothing but "evaluate.py". Okay. Uh evaluate dot pi is specifically for evaluation. Okay. Um, but we should always start with something called as "pre-process.py" okay. So pre-process is specifically for data pre-processing like from reading data to probably doing any kind of feature learning. Feature engineering will be probably creating in this. And then along with this I will also have my "train.py" file. Okay. So all these things are files has been created. Okay. This is the project structure. The basic project structure. Uh, to get started with this. Okay. So everything is ready now.
+
+In the next video we will start with "pre-process.py". But before that we'll have "params.yaml". Like what all information I need to probably put up. Okay, so once I design this entire pipeline then I'll show you that how we can use DVC and MLflow for doing the model version, data version and probably the experiment tracking. Right. So yes, this was it. In this video we have done the entire project structure setup. Along with that we have created a virtual environment. We have spoken about the data. We have spoken about the project. Uh, and uh, yeah, we'll continue in the next video where we are going to probably create our entire pipeline, from data pre-processing to training to evaluation. So yes, this was it. I will see you in the next video. Thank you.
+
+**Summary:**
+
+**What is done:**
+
+Project Setup in DagsHub
+
+A new repository was created directly in DagsHub (instead of GitHub).
+
+Initialized with Git and linked locally through cloning.
+
+README file was added with project details.
+
+First commit and push were made to set up version control.
+
+Defined the Project Objective
+
+Build an end-to-end ML pipeline using:
+
+DVC (Data Version Control): for data & model versioning.
+
+MLflow: for experiment tracking.
+
+Dataset: Pima Indian Diabetes dataset (predict diabetes outcome from health features).
+
+ML algorithm: Random Forest Classifier.
+
+Environment & Dependencies Setup
+
+Created a new Conda virtual environment (Python 3.10).
+
+Added all required dependencies into requirements.txt (DVC, DagsHub, scikit-learn, MLflow, DVC-S3, etc.).
+
+Installed dependencies.
+
+Added .gitignore to avoid tracking virtual environment and unnecessary files.
+
+Dataset Preparation
+
+Created a data/raw folder.
+
+Uploaded the Pima Indian Diabetes dataset with features like pregnancies, glucose, insulin, BMI, etc.
+
+Project Structure Initialization
+
+Created a src (source) folder with initial Python files:
+
+__init__.py – package initializer.
+
+preprocess.py – for data preprocessing & feature engineering.
+
+train.py – for model training.
+
+evaluate.py – for model evaluation.
+
+Mentioned upcoming params.yaml file to store pipeline configurations (like parameters, paths, hyperparameters).
+
+**Why it is needed:**
+
+DVC with DagsHub: To version datasets, models, and pipeline stages, ensuring reproducibility and easy collaboration.
+
+MLflow: To log experiments (metrics, hyperparameters, models) and compare results.
+
+Virtual Environment: To isolate project dependencies and avoid conflicts.
+
+Project Structure: To keep the code modular, maintainable, and ready for scaling.
+
+Dataset Preparation: To provide raw input for the pipeline stages.
+
+YAML Config File (params.yaml): To centralize pipeline parameters, making experiments more flexible and configurable.
+
+**Result:** The session focused on setting up the foundation for an MLOps-driven ML project — preparing repo, environment, dependencies, dataset, and project structure — so that future steps (preprocessing, training, evaluation, versioning, and experiment tracking) can be implemented in a clean and reproducible way.
+
+**2. Implemeting Data Preprocessing Pipeline:**
+
+So we are going to continue the discussion with respect to our end to end ML pipeline using DVC and MLflow. Uh, already I have made this entire folder structure. Uh, in the previous video you have your data dot csv. We have also spoken about the problem statement, what we are going to solve.
+
+Now in this entire pipeline the first important component is your data pre-processing. Uh, for that I have actually created this particular file. Then you have to train a model, and then you have to probably evaluate metrics. And during the stages in this pipeline, we will try to use multiple MLOps tools like DVC and MLflow.
+
+DVC will be specifically used for data versioning, MLflow to log experiments, track experiments and do multiple things. Now first of all, uh, before we go ahead and start writing our code, we will go ahead and set our normal parameters, all the basic parameters that we are going to work with. Okay.
+
+So inside this particular params dot YAML file, let’s say I will go ahead and write one parameter like "pre-process". Now for pre-process, what I will be doing is that I will, uh, you know, we will just use some key value pairs with respect to this and we’ll try to set up some parameters. Okay. And those parameters I’ll be just displaying in front of you like this.
+
+So it is saying that, hey, your input data is given somewhere over here. This is the basic information that you have. After you process the particular information or process the entire data, the data should be saved in this particular folder. So your output will be over here. So this is just like I’m providing some parameters.
+
+The input parameter will be nothing but "data/raw/data.csv". After you perform the pre-processing, then your output, probably any data that you really want to save, it needs to be saved in this particular folder. Okay. So, uh, that is the basic common information that I’m giving.
+
+The main aim of parameters dot YAML is that I’m trying to provide some parameters over here. And these all parameters will be hard coded so that we can actually use it in our code. Now, similarly for our training data, you know, I will be creating some parameters again over here.
+
+So first of all where my data is basically present. After processing, the data is basically saved over here. So this is the same path that we are going to use. After we train the model we need to save the model in this particular path name and with the help of this particular file name "model.pickle". So this will be the path where our models will be saved.
+
+Then you have this random state value, number of estimators I’m going to take as 100, and "max_depth=5". So these are some basic parameters that I’ll be giving during my training phase. And in the pre-processing phase, since I need the input data and where my output data needs to be saved, all this information I’m actually providing it.
+
+This is a very good way to start any projects because as you will be seeing as we go ahead, I will be creating this params dot YAML in different end to end projects and this will be very, very much like many parameters will be coming over here. Uh, this is just the beginning over here.
+
+Right now, after we have set all the parameters and our params dot YAML file, I will first of all start with my "pre-process.py" file. Now in the pre-process dot py file, which is my first step, let me just go ahead and import some of the libraries: "import pandas as pd". Okay, along with this I will go ahead and import this. Okay, since we need to do the pre-processing.
+
+Then in order to read the params dot YAML file, I will be importing "yaml" library. And finally I will go ahead and import "os" so that I will be able to set the path and all. Okay, now first of all I need to load all the parameters from the YAML file. So here we will go ahead and write the code.
+
+So I’ll write load parameters from param dot YAML. Now here I’m going to create a variable called as "params". And we can use "yaml.safe_load()" and inside the safe load I will be using my "open()" function. Let me go ahead and define my YAML file so it is nothing but "params.yaml".
+
+As soon as we load this, you know what key you really need to call. Since this is my pre-process dot py, I will just go ahead and call this particular key. Okay. So let me just quickly go ahead and write this, call this key where we are going to call this. Okay. This is nothing but my parameters that I’m actually going to get from this YAML file. That basically means I’ll be having this two keys: input and output information available over here.
+
+Now in the data pre-processing step we will go ahead and create a function "pre_process(input_path, output_path)". So these are the two parameters that I will be giving. "input_path" will be having the data that is already present. Because on this particular data only I need to perform any pre-processing.
+
+So what I will do: I will go ahead and write "data = pd.read_csv(input_path)". Initially I thought of setting "header=None" but then I realized we need to use the headers itself. So I’ll remove that. Okay. Then what I will do after this, I will quickly go ahead and write "os.makedirs(os.path.dirname(output_path), exist_ok=True)".
+
+Because in the params dot YAML, I know that my data dot csv needs to be stored in "data/preprocessed". So obviously whatever is my output path, I need to create a folder with respect to that. So here I’m going to give my output path. And this output path will be provided with this feature only.
+
+Then finally what I will do, I will just read this dataset and I will save it in the form of a CSV in my output path using "data.to_csv(output_path, index=False)". So finally, let me just go ahead and write "print(f'Pre-processed data saved to {output_path}')".
+
+Now you may be thinking, Krishnan data pre-processing is not performing any feature engineering at all. Guys understand right. Right now I just want to show you we are starting from some point. Later on you’ll be seeing EDA, you’ll be seeing feature engineering, you’ll be seeing multiple things as we go ahead.
+
+But right now, if you really want to perform any feature engineering here, you can perform it before you save it into CSV. Right now I know that most of this particular data does not have any null values, it has numerical values, so I’m actually going to use this. Just to show you that how the pipeline is basically created. This will give you a super cool idea with respect to this.
+
+So this is my pre-process dot py. Now if I go ahead and execute "if name == 'main':", I will first of all call my pre-process over here. So my pre-process function will be called as "pre_process(params['input'], params['output'])".
+
+Because when I’m loading this params on pre-process, if you see in the param dot YAML you have your input key and your output key. You need to pass this information. So I’m passing params of input and params of output here.
+
+So everything is working absolutely fine. Let’s execute this and see whether everything works well. So I’ll go to my command prompt. Understand, I’m not running this as a pipeline. I’ll run this file independently, but later on we will connect all the steps — pre-processed, evaluate, train — in a pipeline.
+
+Just to test, I’m going to run "python src/pre-process.py". So here you can see it is executing. But here you are getting an error: it has no attribute "make directory". Okay, I made one error. So it should be "makedirs". Now I think it should work.
+
+I will also not remove the error; I’ll show it to you directly. Now another error: "exist" unaccepted keyword argument. It should be "exist_ok". No worries, small errors will definitely be there.
+
+Then again run "python src/pre-process.py". So here you can see my data has got created. Now inside my data I have my preprocessed file, so I have my data dot csv. Everything is perfectly ready. And here you can see that everything is working fine and it is getting saved to this particular location.
+
+So my data pre-processing step is working absolutely fine. Now if I really want to go ahead and do any feature engineering, even convert my categorical features into numerical features, or change the scale of the data, I can actually do it over here. All the steps can be done over here.
+
+But my main aim is basically to show you the entire data pipeline with the help of MLflow and DVC. When we are discussing about an end to end project at that time, we’ll be discussing. Initially we’ll build our basics and then we will probably go ahead and discuss more about it.
+
+Okay. So I hope you like this particular video. Now in the next step, we will start working on our training pipeline. Then we’ll work on our evaluate. And then finally we’ll connect all these three and I’ll show you, with the help of DVC, how you can connect all these things.
+
+So I hope you like this particular video. This was it from my side. I’ll see you in the next video. Thank you.
+
+**Summary:**
+
+**What has been done:**
+
+Introduced the First Step of the Pipeline – Data Preprocessing
+
+Created params.yaml file to store all project parameters.
+
+For pre-processing: defined input (raw data path) and output (processed data path).
+
+For training: defined paths for processed data, model save path (model.pickle), and ML hyperparameters (random_state, n_estimators=100, max_depth=5).
+
+Purpose: keep configurations separate from code, so they can be easily reused or updated.
+
+Implemented pre-process.py
+
+Imported required libraries (pandas, yaml, os).
+
+Loaded parameters from params.yaml.
+
+Defined a function pre_process(input_path, output_path):
+
+Reads CSV from the input path.
+
+Creates the output directory (if not present).
+
+Saves the processed dataset as CSV in the output path.
+
+Added a simple test run with if __name__ == '__main__': to execute the preprocessing step.
+
+Debugging & Fixes
+
+Encountered small errors (make directory instead of makedirs, wrong keyword exist instead of exist_ok).
+
+Fixed them and re-ran the script.
+
+Verified that the preprocessed data (data/preprocessed/data.csv) was successfully created.
+
+Demonstrated Execution
+
+Ran python src/pre-process.py independently (not yet as a pipeline).
+
+Confirmed that the script works and saves preprocessed data.
+
+**Why it is needed:**
+
+Params.yaml:
+
+Centralizes all parameters (data paths, hyperparameters, model save paths).
+
+Makes the pipeline configurable, reproducible, and easier to maintain.
+
+Prevents hardcoding values inside Python scripts.
+
+Preprocess.py:
+
+Ensures raw data is read, cleaned, and stored consistently before model training.
+
+Acts as the first stage of the ML pipeline.
+
+Provides flexibility to later add transformations like missing value handling, encoding categorical features, scaling, or feature engineering.
+
+Independent Testing:
+
+Running preprocessing separately ensures each pipeline step works correctly on its own before connecting them with DVC.
+
+Debugging early avoids issues when integrating into the full pipeline.
+
+**Result:** This step set up the preprocessing stage of the pipeline. A params.yaml file was created to manage configurations, and pre-process.py was implemented to read raw data, process it, and save it to a defined location. This modular design ensures reproducibility, maintainability, and scalability, laying the foundation for the next stages (training and evaluation).
+
+**3. Implementing Model Training Pipeline with MLFLOW Setup**
+
+So we are going to continue the discussion with respect to our end to end ML pipeline using DVC and ML flow.
+
+Uh, already I have made this entire folder structure. Uh, in the previous video you have your data dot csv. We have also spoken about the problem statement, what we are going to solve now in this entire pipeline. The first important component is your data pre-processing. Uh, for that I have actually created this particular file. Then you have to train a model, and then you have to probably evaluate metrics. And during the stages during in this pipeline, we will try to use multiple MLOps tools like DVC and MLflow.
+
+DVC will be specifically used for data versioning, MLflow to log experiments, track experiments and do multiple things. Now first of all, uh, before we go ahead and start writing our code. So we will go ahead and set our all the normal parameters, all the basic parameters that we are going to work with. Okay.
+
+So inside this particular params dot YAML file. So here uh, you know right. Let's say I will go ahead and write one one parameter like pre-process okay. Now for pre-process. What I will be doing is that I will, uh, you know, we will just use some key value pairs with respect to this and, uh, we'll try to set up some parameters, okay. And those parameters, I will be I'll be just displaying it in front of you like this.
+
+So it is, it is saying that, hey, your input data is given somewhere over here. Uh, this is the basic information that you have. After you process the particular information or process the entire data, the data should be saved in this particular folder. So your output will be over here. So this is just like I'm providing some parameters. The input parameter will be nothing but "data/raw/././data.csv" which is nothing but this uh, after you perform the, uh, pre-processing, then your output, probably any any data that you really want to save, it needs to be saved in this particular folder. Okay.
+
+So, uh, that is the basic common information that I'm giving. And the main aim of parameters dot YAML is that I'm trying to provide some parameters over here. And these all parameters will be hard coded so that we can actually use it in our code. Now, similarly for our training, our data, you know, I will be creating some parameters again over here.
+
+So first of all where my data is basically present. So after the processing the data is basically saved over here. So this is the same path that we are going to use. After we train the model we need to save the model. Uh, in this particular path name and in with the help of this particular file name right. "model.pickle". So this will be the path where our models will be saved. Then you have this random state value number of estimators. I'm going to take it as 100 and "max_depth = 5". So I'm taking these are some basic parameters that I'll be giving during my train training phase okay.
+
+And in the pre-processing phase, since I need the input data and where my output data needs to be saved. Okay. All this information, I'm actually providing it. And this is a very good way to probably start any projects because as you will be seeing as we go ahead, I will be creating this params dot YAML in different end to end projects and this will be very very much like many many parameters will be coming over here. Uh, this is just a beginning over here, right now, after we have set all the parameters and our params dot YAML file, I will first of all start with my pre-process dot py file.
+
+Now in the pre-process dot py file, which is my first step, let me just go ahead and import some of the libraries. "import pandas as pd". Okay, along with this I will go ahead and import this. Okay, since we need to do the pre-processing. Okay. Then in order to read the params dot YAML file right I will be importing "yaml". Okay YAML file, YAML library. And finally I will go ahead and import "os" so that I will be able to set the path and all.
+
+Okay, now first of all I need to load all the parameters from the YAML file. So here we will go ahead and write the code. So I'll write "load parameters from param.yaml". Okay. Now here I'm going to create a variable called as "params". And we can use "yaml.safe_load". And inside the safe_load I will be using my "open" function. And let me go ahead and define my YAML file so it is nothing but "params.yaml" file okay.
+
+And "params.yaml" file. Uh, as soon as we load this, you know that what key you really need to call. Because since this is my pre-process dot py, I will just go ahead and call this particular key okay. So let me just quickly go ahead and write this. Call this key where we are going to call this. Okay. So this is nothing. But this is my parameters that I'm actually going to get from this YAML dot file. That basically means I'll be having this two keys input and output information available over here.
+
+Now in the data pre-processing step we will go ahead and create a function "pre_process". Okay. And here I'm going to basically go ahead and write my "input_path". Then your "output_path". Okay. So these are the two parameters that I will be giving. "input_path" will be having the data that is already present. Because on this particular data only I need to probably perform any pre-processing. Right.
+
+So what I will do, I will go ahead and write "data = pd.read_csv(input_path)". Okay. Let me set my "header=None" so that I don't want to use any header by default. Okay. So I can directly read the CSV file. Now after that what I will do. See. Anyhow, if I'm reading the data dot csv, if I'm keeping "header=None", I think it if you also keep like header without any headers also, then also it is going to read this entire data set because it is already having the data. So let me just remove this "header=None" because I need to use the headers itself. Okay.
+
+Then what I will do after this. Okay. Uh I will quickly go ahead and write "os.makedirs". So we'll first of all make the directory path okay. And here I will write "os.path.dirname". And what directory I need to first of all create. Because in the params dot YAML. I know that my data dot csv needs to be stored in "data/preprocessed". Right? So obviously whatever is my output path, I need to probably create a folder with respect to that. So here I'm going to go ahead and give my "output_path".
+
+Okay. And this output path will be provided with this feature only. I'll show you how you can actually go ahead and provide your output path also over here. So I will first of all go ahead and create the folder. And the folder should be inside this data folder itself. And that is what I have given. "data/preprocessed/data.csv". Okay. And then what I will do after this is that I will just go ahead and say, hey, if that folder already exist, "exist_ok=True". Okay. I'm just putting this particular parameter over there.
+
+Then finally what I will do, I will just read this particular data set and I will convert this. I will probably save this in the form of a CSV in my "output_path". And here I can probably go ahead and take my "header=None", because I don't have to worry about any features or anything as such. So "index=False". I don't have to worry about any feature names and all. Okay, because we'll take this particular data set later on and we'll do the train test split, uh, whenever it is required. Okay. That will try to see it. But right now I'm just trying to save this particular data set in my output path itself. Okay.
+
+So finally, let me just go ahead and write "print(f'Pre-processed data saved to {output_path}')". Now you may be thinking Christian data pre-processing is not perform any feature engineering at all. Guys understand right. Right now I just want to show you we are we are starting from some at some point. Right later on you'll be seeing EDA, you'll be seeing feature engineering. You'll be seeing multiple things as we go ahead.
+
+But right now, uh, if you really want to perform any feature engineering here, only you can actually perform it right before you save it into CSV. But right now, I know that most of this particular data does not have any null values. It has numerical values. So I'm actually going to use this. Okay. Just just to show you that how the pipeline is basically created. This will give you a super cool idea with respect to this okay. So this is my pre-process dot py.
+
+Now if I go ahead and execute "if name == 'main'". Okay I will prove first of all I will call my pre-process over here okay. So my pre-process function will be over here I will call "params['input']". Right. Because when I'm loading this params right on this pre-process, if you see in the param dot YAML you have your input key and your output key. You need to pass this information. You need to pass this information. So I'm passing "params['input']" over here. And finally I will also pass "params['output']" over here. Right. So everything is working absolutely fine right.
+
+So let's execute this and let's see whether everything works well okay. So I'll go to my command prompt. Understand uh, I'm not running this as a pipeline. I'll run this file independently, but later on we will connect all the steps preprocessed to evaluate to train in a form of pipeline. But just to test, what I'm actually going to do is that I will just go ahead and run "python src/pre_process.py". Okay.
+
+So here you can see it is executing. But here you are getting an error. Uh it has no attribute make directory or make direct. So let's see. Okay I made one error. So it should be "makedirs". Okay. Now I think it should work. So I will also not remove the error. I'll show it to you directly. Now uh exist uh unaccepted keyword argument exist underscore okay. So it should be "exist_ok". Okay no worries. Small small errors will definitely be there.
+
+Okay then "python src/pre_process.py". So here you can see my data has got created. Now inside my data I have my preprocessed file. So I have my data dot csv. Everything is perfectly ready. And here you can see that, okay, everything is working fine and it is getting saved to this particular location. Okay, so my pre-processing step is data pre-processing step is working absolutely fine.
+
+Now if I really want to go ahead and put do any feature engineering, even probably convert my categorical features into numerical features, even if I want to go ahead and probably, um, you know, change the scale of the data, I can actually do it over here. Right? All the steps can be done over here. But my main aim is basically to show you the entire data pipeline with the help of MLflow and DVC. But when we are discussing about an end to end project at that time, we'll be discussing. Right?
+
+So initially we'll build, we'll build our basics, uh, and then we will probably go ahead and discuss more about it. Okay. So I hope you like this particular video. Now in the next step, we will start working on our training training pipeline. Uh, then we'll work on our evaluate. And then finally we'll connect all these three and I'll show you, with the help of DVC, how you can connect all these things. So I hope you like this particular video. This was it from my side. I'll see you in the next video. Thank you.
+
+**Summary:**
+
+**What has been done:**
+
+Folder Structure Prepared
+
+data.csv is available in the raw data folder.
+
+A project structure is created for building the ML pipeline.
+
+Defined Parameters with params.yaml
+
+Created a YAML file to store input/output paths and training parameters.
+
+Parameters include:
+
+Input data location (data/raw/.../data.csv)
+
+Output data location (data/preprocessed/.../data.csv)
+
+Model save path (model.pickle)
+
+Training parameters (random_state, n_estimators=100, max_depth=5).
+
+Built the Preprocessing Script (pre_process.py)
+
+Imported required libraries: pandas, yaml, and os.
+
+Loaded parameters from params.yaml.
+
+Implemented a function pre_process(input_path, output_path) to:
+
+Read the raw CSV data.
+
+Create the output directory if it doesn’t exist.
+
+Save the processed data to the specified output path.
+
+Added a main block (if __name__ == '__main__') to run the preprocessing step.
+
+Tested Preprocessing Step
+
+Executed python src/pre_process.py.
+
+Fixed minor errors (makedirs, exist_ok).
+
+Successfully saved the preprocessed data to data/preprocessed/data.csv.
+
+**Why it is needed:**
+
+Parameterization with YAML:
+Using params.yaml ensures that paths, hyperparameters, and configurations are not hardcoded in scripts. This makes the pipeline flexible, reusable, and easier to modify.
+
+Preprocessing Step:
+This serves as the first building block of the ML pipeline. Even though no feature engineering is performed yet, it sets up the foundation for reading raw data, saving processed data, and ensuring the pipeline structure is ready.
+
+Error Handling & Directory Setup:
+Using os.makedirs(..., exist_ok=True) ensures output directories are created dynamically, making the workflow robust and reproducible.
+
+Pipeline Readiness:
+Running preprocessing independently verifies correctness before connecting it with training and evaluation. Later, DVC will orchestrate the entire workflow and MLflow will track experiments.
+
+**Result:** We created a parameterized preprocessing step that prepares raw data into a structured, reusable form, forming the first step of the end-to-end ML pipeline with DVC and MLflow.
+
+**4. MLFLOW Experiment Tracking In Dagshub**
+
+Hello guys.
+
+So we are going to continue the discussion with respect to our end to end machine learning pipeline. Already we have finished the training pipeline itself, and you could see that we are able to get accuracy score and why we have written the code till here and in this video we are going to probably go ahead 1 or 1 step ahead and we will go ahead and start tracking our MLflow experiments. And again all the tracking will specifically happen in the DAGs repository. So before that, I hope everybody has set up the set tracking URI in this specific code, which was shown in the next previous video. Right now let's go ahead and log log additional metrics okay.
+
+Now in order to log additional metrics. As you all know, we are already inside this particular condition with the "MLflow.start_run". Uh, we are inside that particular block. So I will go ahead and write "MLflow.log_metric". So first of all we will go ahead and log our metric, which is nothing but accuracy. And you know that we have got our accuracy from the accuracy score itself. So here I will just go ahead and display my accuracy score.
+
+Along with this, uh, I will also go ahead and log "log_param". So we are also going to log the parameters. Now some of the parameters that we are specifically going to log is like, uh, inside this "best_estimators". Right. We will go ahead and log what is the "n_estimators". Right. Uh what is the max depth. What is the minimum sample split. All those things will try to log.
+
+So here uh my first parameter name I will just go ahead and write "best_n_estimators". And this is basically present inside my "grid_search.best_params". And here I will go ahead and write an "n_estimators". Okay. Now this "n_estimators" uh is basically coming from this particular value. And this entire is basically saved inside this "best_estimators". Because after the hyperparameter tuning with the help of this particular key we can actually retrieve it, right. Similarly for the Maxdepth I will be doing the same thing over here. We will also go ahead and log this.
+
+After maxdepth we will log couple more parameters. One is "minimum_sample_split" okay. And the other one is "minimum_samples_leaf" okay. So let me name "best_sample_split" and "best_samples_leaf" okay. So all these values has been set over here. Okay. Uh, so this is the parameters that we are going to log. Along with that we are logging the metrics. This is good enough.
+
+Then the next thing that we are going to log is the entire confusion matrix. And we'll try to log this entirely inside my artifact. Okay. So let's see this. So log the confusion confusion matrix and classification report. Okay so here is my confusion matrix. And here I have my "y_test, y_pred". This is my confusion matrix. Uh along with that I can also get my classification report by just using this "y_test" and "y_pred".
+
+So, uh, all these things will be there, and, after this, what I'm actually going to do is that I'm going to log this entire confusion matrix and classification report in the form of one more important parameter, which is called as "log_text". Okay. So here I will write "MLflow.log_text". And I hope I've not shown you before. But there is also one more feature. When I was going through the documentation, I saw this one more feature, which was pretty much cool, right?
+
+And I'll convert that entire confusion matrix into a string before, and then save it with the name as confusion matrix. Okay. And I'll show you where this will also be visible, which will be amazing. Then I will be also displaying "MLflow.log_text". Okay. And here you will be able to see CR. And here I will be writing my classification report "classification_report". And let me do one thing. See when I'm logging the text. Right. The second parameter that needs to be given is a text file, or it can be any of the files itself. So here I'll be giving a txt file which will be saving all this information like confusion matrix and classification report over here okay.
+
+And finally the last step after probably logging each and everything is that I will take my I will create a variable called as "tracking_URL_type_store" okay. And I will go ahead and parse this "urlparse". And I will just get this "get_tracking_URL". This is just one conditions. I'm trying to put it over here so that I should be able to get it ".scheme". Okay. Scheme. Over here I will be getting my tracking URI type store which we have already discussed previously why we are doing this.
+
+And along with this, I will just go ahead and write my condition. If the tracking URL type is not set, that is, it is not equal to file. That basically means whether it is equal to HTTP or Https. Then what we really need to do is that we will go ahead and learn "MLflow.sklearn.log_model". And here I'm going to basically go ahead and take "best_model, model". And I will just name it as "registered_model_name=best_model". Okay.
+
+Otherwise I need to if it is of file type we need to set it as signature okay at the end. So I'll just go ahead and paste it over here. Else We will just go ahead and set the log this particular model. And we'll also include the signature over here. Okay. So this is done. All the steps are done.
+
+But one thing I forgot to tell you is that finally, we also need to go ahead and create our pickle file. Right. So this is basically the logging part. The logging part is completed. Now what we are basically going to do is that we are going to create a directory to save the model okay. The directory directory to save the model okay. So for that I will write "os.makedirs". And I'll just sorry "makedirs". And here I'm going to go ahead and give my "os.path.dirname". And here I'm going to give that path entirely in the model path. And this in "params.yaml" I have this entire path. Right? "model/model.pickle".
+
+So I have to take this particular path and that will be passed in my in my function over here. Right. That that path will get passed over here. And that also will I'll try to show you how we can proceed with that. Okay. Then along with this setting up with this particular directory path, I will also write a condition "if exists=True". Okay. If it exists, don't do anything. Don't create that particular path okay. Then I know what is my file name. My file name is nothing but this particular "model_path". Okay. "model_path" I will take this entire "model_path". And I will just use this "pickle.dump". And we will go ahead and dump our best model in the form of pickle file.
+
+So for that I will open this file name in the form of write byte mode. Okay. So we are just going to open this entire file in the right byte mode. And we are going to dump this particular bus model. And the name of the model will be nothing but "model.pickle". Okay, so that is what what is going to happen once we have this. Okay.
+
+So finally I will also go ahead and print for my sake. I will go ahead and write. Hey model saved to "model_path". Okay. "model_path". So we are going to save this. And finally you'll be able to see that after this particular definition I think this is my entire function. What I've actually written step by step, what all things we have actually done is that we have read that particular data set. We have done the train test split. So let me go ahead and, uh, show you over here. So we have done the train test split over here. We have also set up the set tracking URI. Then we have set up the parameter grid. Then we have performed hyperparameter tuning. Then you have this entire grid search. We have calculated all the metrics. We have logged all the metrics even confusion matrix. Then we have set up the tracking URI and then finally we are saving the model also.
+
+So finally I will just go ahead and run this. "if name=='main'". And then I will just go ahead and write "train". Now when I call this particular function it should be given as params. Okay. Params with the name of with the name of this particular data. Right. So data over here I will pass data along with that. The second parameter that I'm actually going to pass is my. This is my params model path. So that will basically be my model. Along with this if you want to pass your params random state. Okay. "random_state". This params is nothing, but with the help of a code we had read the param your uh. See, with the help of this particular code, we have read this YAML file. Right? So all the configuration is basically present over here and we are reading it. And then finally you can also see that I will also go ahead and write my parents. And "n_estimators". Okay. And finally all these parameters. So we had "n_estimators". Also we have max depth also. Anyhow I'm not using those parameters. But just for your sake I am showing each and everything over here. Okay Max. Let's go. Depth. Perfect. I think we are good to go. So once this code is basically getting executed, this entire thing is going to happen. All the tracking will also happen.
+
+Do you want to test it? Let's test this now. And I think we should be able to run this. So right now if I see inside my machine learning pipeline nothing has been logged yet. Okay, I'm not even committed any code, but we are going to commit it just in some time. But let's see whether we are able to log something or not over here. Okay, that is the most important thing. Now in order to log I have to run this train.py file. So I'll go ahead and write "python source/train.py". Let's run this also to get some error. But we'll try to fix it because I want to show each and every thing in front of you. Okay.
+
+So cannot import name confusion matrix. Okay. So these are some of the problems. While typing you will face this problem confusion matrix. Let's see where I have used confusion matrix over here. Okay. Confusion matrix. Perfect. I think now it should be running it. So "python source/train.py". Okay now you see fitting three folds for three each for 24 candidates. All the information is coming over here. Uh, okay. Accuracy score. Local variable accuracy score. Reference before assignment. Okay, let's see this where it exactly it is. And I'll make some changes so that, uh, okay. This is the problem. No worries. I will just go ahead and copy this and paste it over here. And since I have just changed the name, uh, because this same accuracy, we will be using it over here, okay. Because internally I don't want to use accuracy score. Accuracy score. Because accuracy score is a different function over here. And same thing we are trying to use. Accuracy is fine. Uh let's see whether it should run now.
+
+So finally we'll go ahead and run it. And the main thing is that whether my model file is basically getting created or not. So it has started its fitting three folds for each of 24 candidates. This is basically the hyper parameter tuning. I got the accuracy to 72%. I think I should be able to see my model. Okay, it is still not getting created, but first of all it will log all the experiments. Yeah. See it is logging now. Successfully registered perfect experiment tracking. Now you can also see my models folder is created. "model.pickle" is also there. Perfect. And the best part will be that if I just go ahead and reload this, my experiment should be there. See my experiments is basically getting created. Two experiments has got created. First of all, let's see what all information we have got. So this is with respect to all the parameters accuracy metrics okay. And uh accuracy is also over here. And your entire artifacts along with the "model.pickle" see "classification_report.txt". So this is also created confusion matrix is also created, which isn't good, right? Amazing.
+
+Now another experiment which I see what has got. Okay, this was the previously failed one. No worries. But here you can see clearly, right? This has got created. If you want to probably see it in a much more better way. I can go ahead over here and inside my experiments, I think there should be a MLflow UI. See, MLflow ui is there, and this MLflow ui is basically running inside this DAGs hub remote repository. So this is a successful one. You can probably check it out. And the best part is that this model is already registered. Right. Because we have registered it and artifacts you are able to see this. This is the code to probably read anything or any kind of code later on. This is my runs everything you'll be able to see. And you can also write the code with respect to spark data frame. And if I go ahead and see in the models, my best model is also registered okay.
+
+So in short, you know, this entire entire pipeline of training pipeline is working, which is good enough. But we will probably see at the end of the day, this will not be sufficient because we need to make sure that when I say pipeline, right, I'm not just talking about a single pipeline. This pipeline should work together. First pre-process, then train, then evaluate. So right now till train we have written the code. Now in the next step we will go ahead and write our "evaluate.py". And then I'll try to show you how with the help of DVC we can connect all these pipelines. And here you will be able to see a very good visualization. Diagrams can also be seen over here in data pipeline. We have still not yet committed anything, but just in the next tutorial you'll be able to see that.
+
+So I hope you like this particular video. Now in the next tutorial I will go ahead and start working on my evaluate.py. Yeah, so this was it. I will see you in the next video. So yeah, this was it. I will see you all in the next video. Thank.
+
+**Summary:**
+
+**What we did:**
+
+Extended Training Pipeline with MLflow Logging
+
+Added experiment tracking with MLflow inside the training pipeline.
+
+Set up tracking URI (configured in the earlier step).
+
+Started logging within the mlflow.start_run() block.
+
+Metrics Logging
+
+Logged the accuracy score using mlflow.log_metric("accuracy", value).
+
+Parameters Logging
+
+Retrieved best hyperparameters from grid_search.best_params_.
+
+Logged key parameters:
+
+n_estimators
+
+max_depth
+
+min_samples_split
+
+min_samples_leaf
+
+Confusion Matrix & Classification Report
+
+Generated confusion matrix (y_test, y_pred).
+
+Generated classification report.
+
+Converted both into text format and logged them using mlflow.log_text.
+
+Saved outputs as artifacts (confusion_matrix.txt, classification_report.txt).
+
+Model Logging
+
+Checked tracking URI type:
+
+If remote store (http/https) → logged model using mlflow.sklearn.log_model.
+
+If local file store → logged model with signature.
+
+Registered the model under best_model.
+
+Pickle File Creation
+
+Created directory for model storage (from params.yaml: model/model.pickle).
+
+Used pickle.dump to save the best model locally.
+
+Confirmed with a print message: Model saved to model_path.
+
+Final Execution
+
+Wrapped everything in if __name__ == "__main__":.
+
+Passed parameters from params.yaml (e.g., model path, random_state).
+
+Ran python src/train.py to test.
+
+Fixed small errors (confusion_matrix import, accuracy variable conflict).
+
+Successfully:
+
+Performed grid search CV.
+
+Logged metrics, parameters, confusion matrix, classification report.
+
+Saved model.pickle.
+
+Registered the model in MLflow.
+
+MLflow UI Verification
+
+Verified in MLflow UI (via DAGsHub remote repo):
+
+Metrics and parameters logged.
+
+Confusion matrix and classification report stored as artifacts.
+
+Model successfully registered.
+
+Experiment runs tracked (both failed and successful).
+
+**Why it is needed:**
+
+Metrics Tracking: Enables monitoring accuracy and performance across different runs.
+
+Parameter Tracking: Logs hyperparameters used in training for reproducibility.
+
+Artifacts Logging: Storing confusion matrix & classification report provides deeper insights into model performance beyond a single metric.
+
+Model Versioning: Registering the model ensures experiment reproducibility and version control.
+
+Pickle File Storage: Provides a local copy of the model for deployment.
+
+MLflow UI: Centralized dashboard to visualize experiments, compare runs, and manage models.
+
+**Result:** This step upgraded the training pipeline by integrating MLflow experiment tracking. Now, all metrics, parameters, artifacts, and the trained model are logged, saved, and registered—making the workflow reproducible, transparent, and ready for collaboration.
+
+**5. ML Evaluation Piepline With MLFLOW**
+
+So we are going to continue the discussion with respect to our end to end ML pipeline project with the help of DVC, ML flow and DAGs hub.
+
+Uh, already in our previous video, we have implemented our training pipeline. We also executed it was working absolutely fine, and we were also able to track all the experiments in the MLflow UI that also we had actually checked. You could see in the experiment section all the ML flow experiments were basically getting created.
+
+Okay, now the next step, what we are going to do is that we are going to basically go ahead and implement our evaluate pipeline. So for that I have this evaluate.py file inside this source. So first of all I will go ahead and import all these things. See evaluation is more about understanding with respect to any new data that we are going to have. You know how the accuracy is and what kind of accuracy we are able to get. Right. And for that you can actually do a separate MLflow tracking.
+
+So initially you go ahead and import all this libraries. Pandas pickle sklearn dot metrics, accuracy SQL, YAML OS MLflow okay. And then again with respect to train.py what I am actually going to do, I will go ahead and import all these environment variables quickly. So let me go ahead and import this, because I will be requiring all this environment variable so that I know where we can specifically go ahead and track it. Right.
+
+Uh, then what we will be doing is that we will be specifically going and loading our params dot YAML file. So and that also we require the training information again with respect to the same data. We will be working along with that right then.
+
+Uh I will go ahead and create my function which is called as "def evaluate". And inside this I will go ahead and write "data_path, model_path". Right. And finally I have "data = pd.read_csv(data_path)". And here I'm going to go ahead and uh give my data_path okay. After reading it I will go ahead and set up. Or I will go ahead and probably create my x and y variable. Okay x and y variable with respect to our data. That is input and dependent input features. Uh and my output features.
+
+Along with this, I will also go ahead and set up my "mlflow.set_tracking_uri" because I also I need to go ahead and upload all my metrics in my remote repository, right? The same data pipeline. I'm actually setting it up over here, not data pipeline. I think the name was this one, right. So here you have this. I will go ahead and paste it over here. I will close it. Okay. So this is nothing but machine learning pipeline right. And you can also go ahead and set it up. Okay.
+
+Now the next step is that we already have our pickle file. Right. We know where the pickle file is. So I will be loading the model from the disk okay. And in in order to load it I will go ahead and write "model = pickle.load(open(model_path, 'rb'))" whatever model path we have defined from our params dot YAML, and we'll try to read this in the form of a read byte mode. Okay. So once we read it then we can actually do the predictions.
+
+So predictions. I will just go ahead and do it. And I will go ahead and write "model.predict". And this will be predicting on my input data. And this can be my new data. See if you have something new data that is coming up in the params dot YAML. You can probably go ahead and create a new path. And from that you can pick up your data. Then finally I will go ahead and see my accuracy score. My accuracy score will be nothing, but I will try to find out the differences between my predictions, and then I will go ahead and log metrics to MLflow.
+
+Okay then "mlflow.log_metric". And here is my "accuracy, accuracy". Okay so here it is. And finally I will go ahead and see I'm logging the metrics with the help of "mlflow.log_metric". Again in the same log it will probably go ahead. And this is with respect to the evaluation, new new things with respect to the new data that you are able to get right.
+
+So finally I will go ahead and run "model_accuracy: accuracy". And this will basically be my accuracy just to print okay. So perfect. We have also written our model evaluation.
+
+And here I will go ahead and write "if name == 'main'". Then I go ahead and call. My evaluate function will be nothing but params. And here I'm going to give my data. And this will be my params with model okay. So model path that I have data and model path.
+
+So perfect I think we have implemented this thing also. And now it's time that you know, after we have probably written the evaluate.py file. Now we should be running together. We should try to combine all this pipeline and run. And that is what I'm actually going to do it in the next video.
+
+So yes, this was it from my side. I'll see you in the next video. Thank you.
+
+**Summary:**
+
+**What has been done:**
+
+Created evaluate.py
+
+New file inside src to handle model evaluation.
+
+Imported Required Libraries
+
+pandas, pickle, sklearn.metrics (accuracy_score), yaml, os, and mlflow.
+
+Ensures consistency with the training pipeline.
+
+Loaded Configuration
+
+Read params.yaml to fetch:
+
+Data path
+
+Model path
+
+Reused same config for consistency across train and evaluate steps.
+
+Defined Evaluation Function
+
+def evaluate(data_path, model_path) created.
+
+Steps inside function:
+
+Load data using pd.read_csv(data_path).
+
+Split into features X and target y.
+
+Set MLflow tracking URI (to log evaluation metrics remotely).
+
+Load saved model from pickle file (pickle.load(open(model_path, 'rb'))).
+
+Run predictions with model.predict(X).
+
+Calculate accuracy score (accuracy_score(y, y_pred)).
+
+Log accuracy to MLflow with mlflow.log_metric("accuracy", value).
+
+Print accuracy (model_accuracy: accuracy).
+
+Main Execution Block
+
+Wrapped everything in if __name__ == "__main__":.
+
+Called evaluate() function with:
+
+params["data"] (for dataset path).
+
+params["model_path"] (for model pickle file).
+
+Evaluation Completed
+
+Accuracy of the model on given/new data is computed.
+
+Metrics logged in MLflow (visible in experiments).
+
+Evaluation script is ready to be combined with preprocess and training pipelines.
+
+**Why it is needed:**
+
+Separate Evaluation Step:
+Keeps training and evaluation isolated, making the pipeline modular and reusable.
+
+Validation on New Data:
+Confirms how the trained model performs on unseen or updated datasets.
+
+Experiment Tracking:
+Logging evaluation metrics to MLflow helps compare training vs. evaluation performance in the same UI.
+
+Reproducibility:
+By using params.yaml for both training and evaluation, results are consistent and reproducible.
+
+Preparation for Full Pipeline:
+With preprocess, train, and evaluate steps coded separately, they can now be chained with DVC into a complete end-to-end ML pipeline.
+
+**Result:** We built a dedicated evaluation pipeline (evaluate.py) that loads the trained model, predicts on test/new data, calculates accuracy, and logs it into MLflow. This ensures the pipeline is modular, reproducible, and ready to be connected into the full end-to-end workflow with DVC.
+
+**6. Run The Complete Pipeline With DVC Stage And Repro**
+
+So guys, now we are going to continue our discussion with respect to our end to end machine learning project pipeline. Already we have developed our three main important components that is pre-process, train and evaluate. And we are also able to track it with the MLflow.
+
+Now what we will do is that we will will try to connect all these three, three independent components in the form of pipeline. And for this also we are going to use DVC because with the help of DVC we will track multiple parameters. We will track "params.yaml" also will track the data, also will track model versioning also and many more things.
+
+Okay, so first of all what we will do is that we will open our new terminal. Okay. You have to be in the venv environment like how I am there. Okay. So first of all I will go ahead and write "dvc init". So once I go ahead and write "dvc init". So here you will be able to see that ".dvc" file will be created. Okay. And right now for currently I will just delete this model file because I don't require it. And with respect to our data write data over here. You will be able to see this.
+
+Now what I will do the main raw data will try to track it. Okay, so here what I will be doing because raw data is coming from somewhere else, right? So we really need to go ahead and track those. So I will just go ahead and clear my screen. I will write "dvc add data/raw/data.csv". Because we need to track this because this is the first data that is probably coming up after that through the pipeline we will run, pre-process, then train, then we'll create our model and then we will evaluate.
+
+So I don't want my git to basically track this particular file. So once I do this. So here you can see that it has now been tracked by uh by my DVC. But it will say that hey, additionally if I just go ahead and open this inside this there are two more files that has got created. Okay. One is ".gitignore", one is "data.csv.dvc". This needs to be tracked by the git right. So I will just go ahead and copy this entirely okay.
+
+So let me just go ahead and copy this "git add data/raw/data.csv.dvc". And one more I will try to also add this okay "git add". So I'm basically going to add both this perfect okay. And then let me just go ahead and commit "git commit -m 'add raw data'". So I'll just committing this okay. Now once we commit it you know I can go ahead and do the "git push".
+
+But before that you know as I said I'm going to combine all these independent components like evaluate pre-processing and train.py in the form of a pipeline right now to in order to do that now, please have a look onto this because this is really important. Okay.
+
+Uh, one thing that you really need to understand is that, uh, we need to define like, if I really want to connect all these three important components, that is data preprocessing, training and evaluate, we will use another amazing functionality in DVC which is called as DVC stage.
+
+Okay, so uh, DVC stage basically means uh, DVC will be able to define that how your corresponding step of workflow, machine learning workflow, like processing, training or evaluation, how they really need to be executed. And this entire things can be tracked in the "dvc.yaml" file.
+
+So uh, just to go ahead and start and probably show it to you like how things work over here. What I will do is that quickly I will just go ahead and write DVC or let me just go and open my notebook. Okay. And let me just go ahead and copy one code that needs to be executed in the terminal. Okay.
+
+So here it says hey "dvc stage add -n process". Okay. Now I have to execute this "dvc stage add". Whenever we say "dvc stage add" It is basically when I whenever we define a stage in a DVC pipeline, uh, you can just imagine that I'm creating this pipeline for executing my pre-process pipeline itself. Okay.
+
+And this can further get connected to the next stage. So this is just one stage I can have multiple stages, right? I can have one more stage that will be for triggering training pipeline. One more stage can be there for triggering the evaluate pipeline. Right.
+
+So, uh, if I just probably tell you in a basic, fundamental way, like what we are actually doing with this particular staging, uh, command. Right. You will be able to see that with this, we will be able to clearly define our pipelines. So and why we are doing this, we are specifically doing this so that we'll be able to track multiple files.
+
+So if I just give you a basic definition over here, I'll just go ahead and copy and paste it in front of you. The "dvc stage add" command is used to define stages in a machine learning pipeline or data pipeline. This stage represents steps like data preprocessing and all.
+
+So in order to just give you an idea how things work, let's say that I have three main important steps okay. One is pre-processing okay. This is independently running. We can run run it independently. The other one is training okay. And the other one is evaluation. So three important, uh, independent components you can consider now. But my entire machine learning ML pipeline should run in this way. Right. My ML pipeline should be, first of all, running with pre-processing, then the output probably I want to probably take it. I will be taking it in my training pipeline, then finally my evaluation pipeline.
+
+And while doing all these things internally, you know, we may perform MLflow experiments, we may perform DVC data versioning or DVC data versioning. We may perform multiple things, right. We may do multiple things like this right now, considering all these things in order to define this in the form of pipeline. So DVC has one functionality which is called as DVC stage.
+
+And we can probably add any number of stage. We can add stage one which will be which will be for this, you know for executing this pre processing. Then after stage one we can combine this with stage two which will be responsible in executing this pipeline. And finally we will be also able to combine with stage three which will be executing this evaluation pipeline. Right. So all these things we will try to do it. And for that we just need to run some command. We don't need to write any code.
+
+So let's see this particular command. So here we have written "dvc stage add -n". "-n" basically means we are creating a new a new stage over here. And the new stage is nothing. But with the name of pre-process okay. Now this is my new stage over here.
+
+And so it is basically showing that, hey, this is nothing but the name of the stage that we really want to create. Okay. Then in the next parameter which is "-p", this "-p" option tracks tracks the parameter that are available over here that we have written over here. Now this parameter is where it is this pre-processed input or pre-processed output. You know that this input are already there in the YAML file right. Input and output.
+
+So to track that, you know, if if it is affecting the stage stage from the params dot YAML file and that point of time, if we really want to track it, we can go ahead and track it. The parameters are currently being tracked over here "process.input" and "process.output".
+
+Then coming to the third parameter uh "-d". "-d" is nothing, but it specifies the dependencies dependencies for the stage. Now dependencies of the stage is that I require two files, one is "pre-process.py" and the other dependencies. I definitely require my "raw_data.csv" file. Okay, then then. So this d basically means dependencies. Uh, p is nothing but tracking the parameters. N is nothing but name of a process.
+
+And if I go ahead and see with respect to "-o" specifies the output of the stage, now we know what is the output of the stage from "pre-process.py". It is nothing, but we need to create this particular file path. We need to create "data.csv". And in order to probably create this particular output, I need to execute this particular code which we had executed from the terminal.
+
+So what I will do, I will just go ahead and copy this entirely, and I will paste it over here. Anyhow, I will be giving you this in the readme file. You can also go ahead and execute it. Now the problem is that uh here it will not get executed in the command terminal. Right? Because over here I have multiple multi-line. So let me do one thing. Let me just open git bash. And I can also go ahead and write step by step all the commands that I really want. Okay.
+
+Let's say if my command is something like "dvc stage add pre-process" and all, so I can just go ahead and copy it over here. Otherwise with the help of git bash also we can do first of all in git bash you know how to activate your conda environment "source activate venv". Okay. Uh, sorry. It should be "source". Okay. So now it has got activated. My venv environment. So let me clear the screen. Okay.
+
+And now what I'm actually going to do I'll just go ahead and copy this and we will create our first stage. Okay I'll paste it. So let's go ahead and execute. This pre-process stage already exists in "dvc.yaml" file. Okay. Previously it got created right when we executed it. I'll just delete this and I will execute it once again. Okay. Clear. Come on. So now let's go ahead and execute this. So this has got executed perfect. Okay.
+
+So if you see there will be a YAML file which will get created "dvc.yaml" and here the stages will be defined. See this is my first stage. Amazing right? And that is why DVC is so powerful. Because after that, once we push it right you'll be able to see the results. Amazing results that you will be able to see.
+
+Okay, now after my first stage, my second stage, you I hope everybody knows what it is because I need to probably focus more on the, uh, running the, uh, training pipeline after that. Right after pre-processing. It is, uh, training pipeline. Now, with respect to the training pipeline, I will probably go ahead and write the code over here.
+
+Okay, so "dvc stage add train". So parameters I need to track is "train.data", "train.model", "train.random_state", "train.estimators", "train.maxdepth". So these all parameters are basically present in my YAML file. Then the dependencies is nothing but two files "source/train.py" and your pre-processed or instead of pre-processed I will just go ahead and write raw because there I have my entire data set. I'll keep it as raw. Only you can make the changes in pre-processed. As you wish.
+
+Okay, then, uh, your output here I will be creating as "model.pkl". Okay, so that is the output. And this is nothing but "python source/train.py". So let's go ahead and execute this. So this is my second stage that will get added over here.
+
+So I will go ahead and execute it. Let me press enter. Perfect. So this has also got it added. And here you can see in the "dvc.yaml". Here you have "python source/train.py". All these things are there. So the best part of this particular file will be that it will get executed in the same step. Okay.
+
+And the third one which is nothing but my evaluation evaluation for evaluation. Now you can think that how your DVC command will be. So "dvc stage add evaluate". Evaluate is the name of the third stage. Then I have dependency on this and my "model.pkl" file. I need to have this first only and then you have another dependencies on data pre-processed data. So I will just go ahead and write raw over here. And here you have "python source/evaluate.py".
+
+So let's go ahead and execute this. Also. Let's paste it I think it will get executed. Let's press enter. And the "evaluate.py" did I am I running uh reading the data set from params data? Okay, I have changed that in the "params.yaml" file. Okay, so dv configure everything has happened. Great great great added stage uh evaluate in this to track changes get run run run run. So everything is added and "dvc.yaml" file is also updated.
+
+Okay. Now in order to run this entire pipeline okay, run this entire pipeline, I will just go ahead and write "dvc repro". Okay. Now "dvc repro", what it does is that it will be running, uh, the entire pipeline, all entire stages that is available. So if I press enter right now, you can see no "model.pkl" file is there. Okay, so now we will be able to see that entire pipeline will run.
+
+Okay. Let's press enter. Hope so. Fingers crossed. So here you can see "python source/pre-process.py" run stage train "python source/train.py". Everything is going to execute. So here you can see fitting is happening. My MLflow tracking will automatically happen. And it should be able to probably track each and everything. And now my evaluate will also get executed after that. Right. So right now this "train.py" is running. See it is running in the form of a pipeline itself, which is quite amazing. Okay.
+
+And this looks good. This looks really, really good. Okay. And here you can see "python source/evaluate.py". Great great great great great great. And here everything is run. Now let's see in my whether we are able to see some experiments or not. So experiments is over here. This looks good. This is my recent experiment. So see, this is nothing. But my accuracy that I'm able to see artifacts is not there. This is the evaluation metrics, right? "evaluate.py".
+
+But if I probably go ahead and see this, here is my entire accuracy metrics. Along with that I have my classification report everything. If you also want to probably go ahead and see in the experiments, you can also go ahead and check out in the MLflow UI and in the MLflow UI. You will be able to see that this is my. This is my accuracy for the evaluation. Okay.
+
+And the second one is specifically my model, which is giving me 77.9%. And if I go ahead and see in the artifacts, if I go ahead and see my classification report or confusion matrix, I should be able to see all these details, which is right. Very amazing. Right. So in short, we are running the entire pipeline over here. Okay.
+
+But still, uh, there are a lot of work because we have to definitely do a lot of commits. Right. So let me again go back to the command prompt. So till here everything is, done well, but at the end of the day, we need to go ahead and add all the files that is required with respect to the commit. Right. So first of all, I will go to remote, go to DVC and we will set up our uh DVC, DAGs of DVC remote.
+
+So let me go ahead and copy this. Okay. So two important information that I have. Again I will go ahead and open my git bash. I will just go ahead and clear my screen over here. And we need to set up the DVC hub remote. Right. So let's set up this okay. And I have already explained about these steps in a previous video. I will also copy this and we'll go ahead and set up the credentials. Okay.
+
+Credentials. Paste it execute it paste it execute it right so perfectly it has got executed. Now what I can do I can probably say "dvc pull -r origin". Okay, so it will just try to pull and see whether everything is fine. Then I will say "dvc push -r origin". So it will just go ahead and push it. All my DVC files that are important files which has been tracked by DVC. So it is pushing to the S3. Perfect.
+
+Now I will go to my command prompt and quickly go ahead and commit all those things. So let's see whether I am not committing unnecessary things. Mhm. Mhm. Perfect. Raw is there. This is there. "git add ." "git commit -m 'final changes'" "git push origin main". So my push should happen.
+
+And now if I just go ahead and reload it, I should be able to see my data pipeline and hear the beautiful data pipeline is here. See, initially I had this data raw "data.csv". See blue color is nothing, but it is DVC managed. Green color is nothing but git managed. You have your "model.pkl" file. Okay. Uh, which is again DVC manage which is beautiful. Okay. "data.csv" again DVC manage. And here you can see my entire pipeline. Isn't it just amazing. Okay.
+
+And you can see the entire pipeline even if you probably go inside your data folder. Uh whatever data you have. Right. Like let's say your raw data, if you go ahead and see in "data.csv" here, you will be able to see the history. And this is where it is tracking. It is getting tracked with the MD5 MD5 file. Right. And this is beautiful right. All the entire pipeline is in front of you. And it shows that how things are basically getting executed. The visualization Mechanism of doing all these things right.
+
+Uh, one very important information. I will just try to upload all these things in my readme file. Uh, let me just go ahead and update this in my readme file. Okay. So quickly. For adding stages I will just go ahead and use this. Okay. Perfect. Now you can also go ahead and preview it. Uh open preview. And here are all your commands. Okay.
+
+So I hope you like this particular video. A long tutorial, a long amazing module, but this will definitely give you a lot of confidence if you have executed it successfully. Right? So yes, this was it from my side. I will see you all in the next video. And please go ahead step by step and just follow the process that how I have actually done it okay. So yeah this was it. I will see you in the next video. Thank you. Take care.
+
+**What has been done:**
+
+Independent Components Built – Three key modules were developed:
+
+Pre-process (data cleaning/transformation)
+
+Train (model training)
+
+Evaluate (model testing/metrics)
+These were already working individually and tracked with MLflow.
+
+Pipeline Creation with DVC – Instead of running each component separately, all were connected into a single ML pipeline using DVC (Data Version Control).
+
+DVC Stages Defined –
+
+Stage 1: Pre-process → takes raw data, outputs processed data.
+
+Stage 2: Train → takes processed data, outputs model.pkl.
+
+Stage 3: Evaluate → takes the trained model + data, outputs evaluation metrics.
+These stages were tracked in dvc.yaml.
+
+Pipeline Execution – Used dvc repro to run the full workflow (preprocess → train → evaluate) automatically, ensuring all steps are linked.
+
+Versioning & Tracking –
+
+Raw data tracked via dvc add.
+
+Model versions, parameters (params.yaml), and outputs tracked in Git + DVC.
+
+MLflow simultaneously tracked experiments, metrics, and artifacts.
+
+Remote Setup – Connected to a DVC remote (S3) so that datasets, models, and pipeline outputs are stored and version-controlled in the cloud.
+
+Visualization – DVC generated a DAG (Directed Acyclic Graph) of the pipeline showing dependencies and flow (raw data → pre-process → train → evaluate).
+
+**Why it is needed"**
+
+Reproducibility – Anyone can re-run the pipeline (dvc repro) and get the same results.
+
+Version Control – Every dataset, model, and parameter change is tracked, enabling rollbacks and comparisons.
+
+Automation – Instead of manually running scripts, the pipeline executes in the right sequence.
+
+Experiment Tracking – MLflow ensures all metrics and experiments are logged.
+
+Collaboration – With Git + DVC, multiple team members can work seamlessly, pulling the right versions of data and models.
+
+Scalability – Future updates (new data, new models) can easily be added as new stages in the pipeline.
+
+**Result:** We created a complete end-to-end ML pipeline where preprocessing, training, and evaluation are connected using DVC. The pipeline tracks datasets, parameters, models, and metrics while logging experiments in MLflow, ensuring reproducibility and transparency. It can be executed with a single command to generate the trained model, evaluation metrics, and a visual pipeline representation.
