@@ -52,6 +52,8 @@
 
 **L) End To End Machine Learning Pipeline Using GIT, DVC,MLFLOW And DAGSHUB**
 
+**M) End To End NLP Project With HuggingFace And Transformers**
+
 **A) Getting Started with MLFlow Tracking Server**
 
 1. Type "mlflow ui: in command prompt and it provides mlflow tracking URL; Once if we abort this, we won't be tracking anything
@@ -3978,3 +3980,568 @@ Collaboration – With Git + DVC, multiple team members can work seamlessly, pul
 Scalability – Future updates (new data, new models) can easily be added as new stages in the pipeline.
 
 **Result:** We created a complete end-to-end ML pipeline where preprocessing, training, and evaluation are connected using DVC. The pipeline tracks datasets, parameters, models, and metrics while logging experiments in MLflow, ensuring reproducibility and transparency. It can be executed with a single command to generate the trained model, evaluation metrics, and a visual pipeline representation.
+
+# **M) End To End NLP Project With HuggingFace And Transformers**
+
+**1. Introduction To Huggingface And Problem Statement**
+
+So now we are going to implement a new end-to-end NLP project using Hugging Face models. If you’re not familiar with Hugging Face, it’s an amazing platform that provides a variety of pre-trained models which you can integrate into your projects to build complete end-to-end solutions. Hugging Face also provides API endpoints, making it ideal for generative AI applications because most open-source models are available there. Many companies that release open-source models integrate them with Hugging Face, so knowing how to use these models and integrate them into your projects is essential.
+
+First, go to Hugging Face
+ and sign up for an account. I have already signed up, and once logged in, you can go to the "Models" section. Hugging Face provides models for multiple domains: multi-modal, computer vision (like depth estimation, image classification, object detection, image segmentation, text-to-image), natural language processing (tasks like text classification, token classification, question answering, zero-shot classification), audio (text-to-speech, text-to-audio, audio-to-audio), tabular machine learning (classification and regression), and reinforcement/graph machine learning.
+
+In this project, we will focus on text summarization. Once you click on “Text Summarization” in the models section, you will see a list of available models. You can pick any summarization model and integrate it generically so that similar steps will work for other models as well. For example, we can select the “Facebook BART CNN Daily Mail” model. Here you can find details like datasets used for training (C4 and HugeNews) and other information about the model. Another option is the “Falcon AI Text Summarization” model, which is a fine-tuned T5 small variant.
+
+Text summarization basically means reducing long text into a concise summary. To illustrate, we can use websites like CoolBot
+ which provide text summarization tools. You can input a long story, such as one generated using ChatGPT about a lion and a king, and get a summarized version with selected keywords. This is exactly what we will implement programmatically using Hugging Face models.
+
+To use the selected model programmatically, we will rely on the Transformers library and PyTorch. Hugging Face provides sample code for each model. For example, for the BART CNN Daily Mail model, you can use it as follows:
+
+from transformers import pipeline
+
+# Initialize the summarization pipeline
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
+# Input text to summarize
+text = "Once upon a time in Kingdom Nestlé nestled between vast forest and hills, there lived a lion who was known as the king of all animals..."
+
+# Get the summarized text
+summary = summarizer(text, max_length=100, min_length=30, do_sample=False)
+print(summary)
+
+
+This approach is generic, so you can swap in any other Hugging Face summarization model and the same steps will largely work. Hugging Face’s Transformers library is designed such that loading a model, using AutoTokenizer, fine-tuning, and inference follow similar patterns across models.
+
+In our project, we will also focus on fine-tuning a selected model. We will use datasets available in Hugging Face, such as the SamSum dataset, which contains annotated dialogue summaries. For example, to load the dataset, you can do:
+
+from datasets import load_dataset
+
+# Load the SamSum dataset
+dataset = load_dataset("samsum")
+
+# View sample data
+print(dataset['train'][0])
+
+
+Once we explore the dataset, we will preprocess it and fine-tune our selected model on it. After fine-tuning, we can integrate the model into an end-to-end project pipeline, including data ingestion, preprocessing, model training, and inference. This project will give a complete hands-on understanding of deploying a Hugging Face NLP solution.
+
+So, in summary, this project will teach you how to:
+
+Navigate Hugging Face and select a pre-trained model.
+
+Understand text summarization and example applications.
+
+Use the Transformers library for summarization with Python:
+
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+# Load tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained("facebook/bart-large-cnn")
+model = AutoModelForSeq2SeqLM.from_pretrained("facebook/bart-large-cnn")
+
+# Tokenize and summarize
+inputs = tokenizer(text, return_tensors="pt", max_length=1024, truncation=True)
+summary_ids = model.generate(inputs["input_ids"], max_length=150, min_length=40, length_penalty=2.0, num_beams=4)
+summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+print(summary_text)
+
+
+Explore datasets from Hugging Face and use them for fine-tuning.
+
+Integrate the model into an end-to-end NLP pipeline for real-world use.
+
+This introduction covers everything about what we are going to do in this project. In the next video, we will start building the project step by step, exploring the dataset, fine-tuning the model, and performing summarization.
+
+**2. Github Repo And Project Structure Set up**
+
+So now we are going to start our project implementation. In this particular video, I will discuss how to set up your GitHub repository and also define a project structure suitable for this NLP project.
+
+First, navigate to your folder location where you keep all your projects and create a new folder, for example, named Summarizer. This will be our project name. Open the folder using VS Code by typing code . in your command prompt. This will launch VS Code in the newly created project folder.
+
+Next, we need to create a GitHub repository. Go to GitHub
+ and click on "New Repository." Name it TextSummarizer, keep it private, add a README file, and choose a license (General Public License). Once the repository is created, copy the repository path. Instead of creating the folder locally, we can clone it directly:
+
+git clone <repository-path>
+
+
+After cloning, open the folder in VS Code using code . again. You will now see the .git configuration, README file, and license already present in your project folder.
+
+The next step is to create a Python environment. Use Conda for this:
+
+conda create -p venv python=3.10
+conda activate venv
+
+
+After activating the environment, we will create a requirements.txt file to list all necessary libraries. For this project, we will need:
+
+transformers
+sentencepiece
+datasets
+scikit-learn
+pandas
+nltk
+tqdm
+pyyaml
+matplotlib
+torch
+boto3
+fastapi
+
+
+Install all dependencies with:
+
+pip install -r requirements.txt
+
+
+Now, we will create a template Python file (template.py) to automate the creation of our project structure. Start by importing necessary modules:
+
+import os
+from pathlib import Path
+import logging
+
+
+Set up basic logging to monitor the creation of directories and files:
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+Define the project structure for TextSummarizer. We will create folders and files like:
+
+__init__.py in project root and subfolders
+
+components/__init__.py
+
+utils/logging.py
+
+config/config.yaml, params.yaml
+
+pipeline/, entity/ folders with __init__.py
+
+app.py, main.py, Dockerfile, requirements.txt
+
+research/research.ipynb
+
+Use the following logic to create files if they do not exist:
+
+list_of_files = [
+    ".gitkeep",
+    "__init__.py",
+    "components/__init__.py",
+    "utils/logging.py",
+    "config/config.yaml",
+    "params.yaml",
+    "app.py",
+    "main.py",
+    "Dockerfile",
+    "requirements.txt",
+    "research/research.ipynb"
+]
+
+for file_path in list_of_files:
+    file_path = Path(file_path)
+    if not file_path.parent.exists():
+        os.makedirs(file_path.parent)
+    if not file_path.exists() or file_path.stat().st_size == 0:
+        with open(file_path, 'w') as f:
+            pass  # Creating empty file
+        logging.info(f"Created file: {file_path}")
+    else:
+        logging.info(f"File already exists: {file_path}")
+
+
+After creating the template, run it:
+
+python template.py
+
+
+This will automatically generate the entire project structure including folders and empty files.
+
+Next, create a .gitignore file to exclude certain folders from Git tracking, for example, venv/ and artifacts/. All remaining files will be tracked. Then, add the files to Git, commit, and push to your GitHub repository:
+
+git add .
+git commit -m "Project structure"
+git push origin main
+
+
+At this point, the requirements.txt installation should be completed as well. We now have a clean project structure ready for further implementation.
+
+In the next tutorial, we will focus on logging and common functionalities. This includes functions to read YAML files, write outputs, and define shared utilities for our project. This will form the core of the TextSummarizer source folder.
+
+So far, we have successfully:
+
+Created and cloned the GitHub repository.
+
+Set up a Conda environment and installed all required packages.
+
+Built a template script to automatically generate the project folder structure.
+
+Configured Git for version control and pushed the initial project structure.
+
+This completes the project structure setup. In the next video, we will implement logging and the common functionalities that will help manage configurations, data loading, and model interactions.
+
+**3. Logging And Utils Common Functionalities**
+
+In this video, we are going to implement our logging functionalities and define the utils common functionalities that will be used throughout this project. First, navigate to the src folder inside TextSummarizer. Here, we already have a logging folder. Open the __init__.py file inside this folder to implement our custom logging functionality.
+
+Start by importing the necessary libraries:
+
+import os
+import sys
+import logging
+
+
+For Python logging, there are three important steps. First, define the logging directory. For this project, we will create a folder named logs at the project root:
+
+log_dir = "logs"
+os.makedirs(log_dir, exist_ok=True)
+
+
+Next, define a logging format string that includes the time, log level, module, and message:
+
+log_format = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+log_file_path = os.path.join(log_dir, "logs.log")
+
+
+Now, set up the logging configuration using both a file handler and a stream handler to display logs in the terminal as well as write them to the log file:
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=log_format,
+    handlers=[
+        logging.FileHandler(log_file_path),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+
+This completes our custom logging setup. To test it, open the main.py file. First, import the logger and define it:
+
+from src.text_summarizer.logging import logging
+
+logger = logging.getLogger("SummarizerLogger")
+logger.info("Logging is implemented")
+
+
+Run the file in your active venv environment:
+
+python main.py
+
+
+You should see log messages in the terminal, and the logs folder will contain a logs.log file with all messages. This confirms that our custom logging functionality is working.
+
+Next, we will define common functionalities inside utils/common.py. Import the necessary libraries:
+
+import os
+from box.exceptions import BoxValueError
+import yaml
+from src.text_summarizer.logging import logger
+from ensure import ensure_annotations
+from box import ConfigBox
+from pathlib import Path
+from typing import Any
+
+
+The first common functionality we implement is reading YAML files. Using ConfigBox allows us to access dictionary values using dot notation instead of key indexing. For example:
+
+dict_info = {"name": "Krish", "last_name": "Nayak"}
+dict_info = ConfigBox(dict_info)
+print(dict_info.name)  # Output: Krish
+
+
+We also use ensure_annotations to enforce type checking for function inputs. For example, a multiplication function:
+
+@ensure_annotations
+def multiplication(x: int, y: int) -> int:
+    return x * y
+
+multiplication(2, 3)  # Output: 6
+multiplication(2, "3")  # Raises error: argument y of type str
+
+
+This ensures that all functions receive inputs of the correct type, which is critical for robust project code.
+
+Now, the function to read YAML files can be implemented as:
+
+@ensure_annotations
+def read_yaml(path_to_yaml: Path) -> ConfigBox:
+    try:
+        with open(path_to_yaml) as yaml_file:
+            content = yaml.safe_load(yaml_file)
+        return ConfigBox(content)
+    except BoxValueError as e:
+        logger.error(f"Error reading YAML file at {path_to_yaml}: {e}")
+        raise e
+
+
+Another common functionality is creating directories:
+
+@ensure_annotations
+def create_directories(path_to_directories: list, verbose=True):
+    for path in path_to_directories:
+        os.makedirs(path, exist_ok=True)
+        if verbose:
+            logger.info(f"Directory created at: {path}")
+
+
+These two functions—reading YAML files and creating directories—will be heavily used throughout the project for configuration management and project setup.
+
+With these implementations, our logging and common utilities are ready. In the next video, we will explore which Hugging Face model we are going to use and the dataset for our text summarization project.
+
+**4. Finetuning HuggingFace Models In Google Colab**
+
+So far, we have completed the common functionalities and created the project structure with template.py. Along with that, we have implemented logging and some common utility functions such as reading YAML files, creating directories, and other helper functions.
+
+The next step is to demonstrate how to work with Hugging Face models using Jupyter Notebook. Specifically, I will show you how to fine-tune a pre-trained model on our dataset.
+
+Setting up Google Colab
+
+Open Google Colab.
+
+Open the file text_summarized.ipynb from the research folder in the project.
+
+Change the runtime to GPU:
+
+If you have a paid Colab account, select L for GPU.
+
+Otherwise, select T for GPU.
+
+Save and connect the runtime.
+
+Once connected, we will use the Google Pegasus CNN/DailyMail model for text summarization. The dataset we will use has three fields:
+
+dialogue: The text of the conversation
+
+summary: Human-written summary of the dialogue
+
+unique ID: Unique identifier for the example
+
+The dataset is split into train, validation, and test sets.
+
+Loading and Using the Model
+
+Since Pegasus is a sequence-to-sequence model, we need:
+
+Tokenizer – to convert text into tokens compatible with the model.
+
+AutoModelForSeq2SeqLM – to load the pre-trained sequence-to-sequence model.
+
+We will also use the Hugging Face transformers library, along with datasets, evaluate, and accelerate.
+
+Accelerate is particularly important because:
+
+It enables multi-device training (multiple GPUs or TPUs) with minimal code changes.
+
+Supports mixed precision for faster training and reduced memory usage.
+
+Provides Zero Redundancy Optimizer (ZeRO) for efficiently handling large models.
+
+Preparing the Dataset
+
+Download and unzip the dataset from the GitHub link using wget.
+
+Load the dataset using datasets.load_from_disk.
+
+Check dataset details: number of rows, features, and example dialogues & summaries.
+
+For fine-tuning, we need to convert the data into tokenized features:
+
+input_ids: Token IDs for dialogues
+
+attention_mask: Attention mask for the model
+
+labels: Token IDs for target summaries
+
+We apply tokenization to the train, validation, and test sets.
+
+Data Collator
+
+The DataCollatorForSeq2Seq helps:
+
+Batch the data efficiently
+
+Prepare it for model training
+
+We initialize it with the tokenizer and model.
+
+Training the Model
+
+We define TrainingArguments and the Trainer:
+
+output_dir: Where to save checkpoints
+
+num_train_epochs: 1 (just for demonstration)
+
+per_device_train_batch_size: 1
+
+evaluation_strategy: steps
+
+logging_steps: 10
+
+weight_decay: 0.01
+
+The Trainer takes:
+
+model
+
+args
+
+train_dataset and eval_dataset
+
+data_collator
+
+tokenizer
+
+Then we start training using trainer.train().
+
+Evaluation
+
+For evaluation, we:
+
+Split the data into smaller batches for efficient processing.
+
+Use the generate method of the model to produce summaries.
+
+Decode the tokenized summaries back into text.
+
+Calculate metrics like ROUGE-1, ROUGE-2, ROUGE-L, and BLEU.
+
+Scores close to 1 indicate a strong overlap between generated and reference summaries.
+
+Scores between 0.5–0.7 indicate moderate overlap.
+
+Scores below 0.5 indicate poor match (expected here since we trained for only 1 epoch).
+
+Saving the Model
+
+After training, we save:
+
+The model: model.save_pretrained("Pegasus_Samsung")
+
+The tokenizer: tokenizer.save_pretrained("Pegasus_Samsung")
+
+Later, we can reload them and create a pipeline for generating summaries with custom parameters like:
+
+max_length
+
+length_penalty
+
+Example usage:
+
+from transformers import pipeline
+
+summarizer = pipeline("summarization", model="Pegasus_Samsung", tokenizer="Pegasus_Samsung")
+summary = summarizer("Your text here", max_length=128, length_penalty=1.0)
+
+Summary
+
+We learned how to load a pre-trained Hugging Face model (Google Pegasus)
+
+Tokenize and prepare a custom dataset
+
+Fine-tune the model for one epoch
+
+Evaluate using ROUGE metrics
+
+Save and reload the model for inference
+
+This approach is generic and can be applied to any Hugging Face model.
+
+In the next session, we will focus on implementing the end-to-end solution using this trained model.
+
+**5. Data Ingestion Implementation- Part 1**
+
+Hello everyone! In this session, we will continue building an end-to-end project using the Hugging Face API. Previously, we created a Jupyter notebook where we trained a model and explored its parameters. The goal now is to convert that notebook into a modular, production-ready project. Our first step in this modular workflow is data ingestion.
+
+First, make sure you download your Jupyter notebook file (.ipynb) and upload it to your research folder. Rename it to something like text_summarizer.ipynb. This notebook contains all previous steps, which we will now convert into modular code. The final project workflow will include components such as data ingestion, data transformation, model training, model evaluation, pipeline creation, and deployment. We will define configurations, classes, and reusable modules so that the project can scale and be production-ready.
+
+To manage the workflow, we create a config.yaml file that holds paths, directories, and artifact locations. For example, for data ingestion, the config.yaml might include: "artifacts_root: artifacts", "data_ingestion:", " root_dir: artifacts/data_ingestion", " source_URL: <your-dataset-URL>", " local_data_file: artifacts/data_ingestion/data.zip", and " unzip_dir: artifacts/data_ingestion/unzip". This configuration allows us to define inputs and outputs of our modules clearly.
+
+Next, we define a Python data class for data ingestion so that we can hold the configuration in a structured format. We use "from dataclasses import dataclass" and "from pathlib import Path", then define "@dataclass class DataIngestionConfig:" with fields "root_dir: Path", "source_URL: Path", "local_data_file: Path", and "unzip_dir: Path". This ensures that our data ingestion component knows exactly where to read inputs and where to write outputs.
+
+We then create a Configuration Manager to read these YAML files and initialize directories. The Configuration Manager uses "self.config = read_yaml(config_path)" and "self.params = read_yaml(params_path)" to load the files and "create_directories([self.config.artifacts_root])" to ensure the artifact folder exists. To get data ingestion configuration, we define a method "def get_data_ingestion_config(self) -> DataIngestionConfig:" which reads "cfg = self.config.data_ingestion" and returns "DataIngestionConfig(root_dir=cfg.root_dir, source_URL=cfg.source_URL, local_data_file=cfg.local_data_file, unzip_dir=cfg.unzip_dir)".
+
+Once the configuration manager is ready, we implement the Data Ingestion component. This component first downloads the dataset if it does not exist by checking "if not os.path.exists(self.config.local_data_file): urllib.request.urlretrieve(self.config.source_URL, self.config.local_data_file)", and logs "logger.info(f'File downloaded: {self.config.local_data_file}')". If the file already exists, it logs "File already exists". Next, it extracts the zip file into the specified folder using "os.makedirs(self.config.unzip_dir, exist_ok=True)" and "with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref: zip_ref.extractall(self.config.unzip_dir)".
+
+Finally, to execute the data ingestion, we initialize the configuration manager and the component. "config_manager = ConfigurationManager()", then "data_ingestion_config = config_manager.get_data_ingestion_config()". Next, we initialize the component with "data_ingestion = DataIngestion(config=data_ingestion_config)" and call the methods "data_ingestion.download_file()" and "data_ingestion.extract_zip()". After execution, the artifacts folder contains the downloaded zip file and the extracted dataset, including train, test, and validation CSV files.
+
+With this approach, we have implemented a modular data ingestion module that can be reused and scaled. In the next steps, we can create additional modules such as data transformation, model training, model evaluation, and pipelines in a similar modular way, following industry-standard practices.
+
+**6. Data Ingestion Implementation- Part 2**
+
+Hello guys! Today, we are going to continue the discussion with respect to data ingestion. Already, in part one, we designed an entire Jupyter notebook wherein we executed every step sequentially. Our aim was to generate the artifact folder, and currently, we have successfully created it. In the next step, I am going to convert the entire Jupyter notebook into modular Python code using .py files. We will follow the same steps that we previously implemented in the notebook. The first step involves updating the config.yaml file, which is already done, so no action is required here. Next, we usually update params.yaml; however, for data ingestion, this is not required at this stage.
+
+Moving forward, we need to update the config entity. This is a crucial step because the config entity defines the structure for our data ingestion configuration. In the source folder, inside the entity package, there is an __init__.py file. You can either create a new file like config_entity.py or directly use the existing one. Inside this entity file, we first define a data class as follows: "from dataclasses import dataclass" and "from pathlib import Path", then "@dataclass class DataIngestionConfig:" with fields "root_dir: Path", "source_URL: Path", "local_data_file: Path", and "unzip_dir: Path". This ensures that our component knows where to read inputs and where to store outputs.
+
+The next step involves updating the configuration manager, which is located in src/config/configuration.py. Here, we update libraries and import the DataIngestionConfig from the entity package using "from src.textSummarizer.entity import DataIngestionConfig". The configuration manager reads the config.yaml and returns the DataIngestionConfig using a method "def get_data_ingestion_config(self) -> DataIngestionConfig:" which retrieves the paths for local files, unzip directories, and the source URL.
+
+Once the configuration manager is ready, we move on to implement the data ingestion component. Inside the components folder, we create a file named data_ingestion.py. This file contains a class DataIngestion which has two primary functionalities: "download_file" and "extract_zip". The download_file method checks if the file already exists: "if not os.path.exists(self.config.local_data_file): urllib.request.urlretrieve(self.config.source_URL, self.config.local_data_file)" and logs "logger.info(f'File downloaded: {self.config.local_data_file}')". If the file exists, it logs "File already exists". The extract_zip method extracts the downloaded file to the specified directory using "os.makedirs(self.config.unzip_dir, exist_ok=True)" and "with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref: zip_ref.extractall(self.config.unzip_dir)". The component imports the configuration using "from src.textSummarizer.entity import DataIngestionConfig".
+
+After creating the data ingestion component, we proceed to create the pipeline. Inside the pipeline folder, we create data_ingestion_pipeline.py for stage one of the pipeline. We import the configuration manager and the data ingestion component using "from src.textSummarizer.config.configuration import ConfigurationManager" and "from src.textSummarizer.components.data_ingestion import DataIngestion". A class DataIngestionTrainingPipeline is created with an "__init__" method and a function "initiate_data_ingestion(self):" that initializes the configuration manager, fetches the data ingestion configuration, creates a DataIngestion object, and executes "download_file" and "extract_zip".
+
+Finally, we test the pipeline in main.py. We import the pipeline using "from src.textSummarizer.pipeline.data_ingestion_pipeline import DataIngestionTrainingPipeline" and the logger using "from src.textSummarizer.logging import logger". We define a constant for the stage name: "STAGE_NAME = 'Data Ingestion Stage'". Using a try-except block, we log "logger.info(f'Stage {STAGE_NAME} initiated')" and execute the pipeline: "data_ingestion_pipeline = DataIngestionTrainingPipeline()" and "data_ingestion_pipeline.initiate_data_ingestion()". Upon completion, we log "logger.info(f'Stage {STAGE_NAME} completed')". Any exceptions are caught and logged using "logger.exception(e)" and then raised again using "raise e".
+
+After setting up everything, we can delete the existing artifact folder to test the pipeline afresh and run the main file using "python main.py". If everything is set up correctly, the dataset file will download, the zip file will extract, and the artifact folder will be created automatically. This modular approach ensures a reusable and production-ready data ingestion pipeline. Finally, we can commit all files to the repository using "git add ." followed by "git commit -m 'Data ingestion completed'" and "git push origin main".
+
+In the next session, we will continue with the data transformation module, following the same modular approach, converting the Jupyter notebook steps into .py files. The methodology will be identical to the data ingestion process, ensuring that all steps from configuration to pipeline execution are fully automated.
+
+**7. Data Transformation Implementation**
+
+Hello guys! Today, we are going to continue the discussion with respect to our end-to-end project using the Hugging Face API. In our previous video, we implemented the data ingestion part, and now we proceed to implement data transformation, which is essentially feature engineering. In the text_summarizer notebook, we performed preprocessing by converting each feature with the help of a tokenizer, creating three essential inputs for the model: input_ids, attention_mask, and labels. We need to integrate the same process into our modular end-to-end project. First, in the research folder, we create a new notebook named 2__data_transformation.ipynb, select the kernel, and test it with simple code to ensure it’s running correctly.
+
+We begin by importing the OS module and checking the current working directory using "import os" and "os.getcwd()". We navigate to the parent folder with "os.chdir('..')" to make sure we are in the text_summarizer root directory. Next, we update the config.yaml file for data transformation, specifying three important fields: the root_dir for the artifact folder, the data_path for input data, and the tokenizer_name for the Hugging Face tokenizer. After updating the config, we proceed to define a data class for the data transformation config using "from dataclasses import dataclass" and "from pathlib import Path". We create "@dataclass class DataTransformationConfig:" with fields "root_dir: Path", "data_path: Path", and "tokenizer_name: Path" to hold configuration parameters for the transformation component.
+
+Next, we implement the configuration manager by importing "from src.textSummarizer.constants import *" and "from src.textSummarizer.utils.common import read_yaml, create_directories". We define a function "def get_data_transformation_config(self) -> DataTransformationConfig:" that reads the YAML file, creates directories with "create_directories(config.root_dir)", and returns an instance of DataTransformationConfig with values "root_dir=config.root_dir", "data_path=config.data_path", and "tokenizer_name=config.tokenizer_name". This ensures that all paths and tokenizer details are properly initialized.
+
+After setting up the configuration, we implement the data transformation component. We import the required libraries: "import os", "from src.textSummarizer.logging import logger", "from transformers import AutoTokenizer", and "from datasets import load_from_disk". We create a class "class DataTransformation:" with an "__init__" method that initializes the configuration and tokenizer using "self.config = config" and "self.tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_name)". Then, we implement the function "def convert_example_to_features(self, example_batch):" which uses the tokenizer to convert examples into features, returning the input_ids, attention_mask, and labels. We also define a "convert" method which loads the dataset with "dataset = load_from_disk(self.config.data_path)", applies the convert_example_to_features function using "dataset.map(self.convert_example_to_features)", and saves the transformed dataset to disk as "dataset.save_to_disk(os.path.join(self.config.root_dir, 'samsum_dataset'))". This ensures that all transformed features are properly stored for training.
+
+Once the component is implemented, we create a pipeline. In the pipeline folder, we create a new file "stage_two_data_transformation_pipeline.py". Similar to data ingestion, we import the configuration manager and the data transformation component using "from src.textSummarizer.config.configuration import ConfigurationManager" and "from src.textSummarizer.components.data_transformation import DataTransformation". We define a class "class DataTransformationTrainingPipeline:" with an "__init__" method and a function "initiate_data_transformation(self):" which initializes the data transformation component using "config = ConfigurationManager().get_data_transformation_config()" and "data_transformation = DataTransformation(config)". We then call "data_transformation.convert()" to perform the mapping and save the dataset.
+
+Finally, in main.py, we integrate this stage by adding a new stage for data transformation. We import the pipeline using "from src.textSummarizer.pipeline.stage_two_data_transformation_pipeline import DataTransformationTrainingPipeline". We define a stage name "STAGE_NAME = 'Data Transformation Stage'" and use a try-except block to log "logger.info(f'Stage {STAGE_NAME} initiated')" and execute the pipeline using "data_transformation_pipeline = DataTransformationTrainingPipeline()" and "data_transformation_pipeline.initiate_data_transformation()". After completion, we log "logger.info(f'Stage {STAGE_NAME} completed')".
+
+To test the end-to-end pipeline, we delete the existing artifact folder for data transformation and run "python main.py" in the terminal. This executes both the data ingestion and data transformation stages, creating the transformed dataset with input_ids, attention_mask, and labels saved in the artifact folder. Logs are also generated, and we can optionally add them to .gitignore. Finally, we commit all changes using "git add .", "git commit -m 'Data transformation completed'", and "git push origin main".
+
+This completes the data transformation stage in our Hugging Face end-to-end project. The next step will be implementing the model trainer, following the same modular approach as data ingestion and data transformation. All components are now integrated and ready for the next stage of the pipeline.
+
+**8. Model Trainer Implementation**
+
+In this stage of our end-to-end project, we focus on model training. We begin by creating a new notebook, model_trainer.ipynb, which will host all the training code for our model. The first step is to import essential libraries such as os and Pathlib, set the working directory to the project root, and ensure that all paths are correctly configured. This sets the stage for consistent execution and proper organization of outputs.
+
+Next, we update our config.yaml to include key information required for the model trainer: the root directory, the path to the processed data from the data transformation stage, and the Hugging Face model checkpoint that we will use as a pre-trained model. Alongside this, we modify params.yaml to define our training parameters, including the number of epochs, warmup steps, weight decay, logging frequency, evaluation strategy, save steps, and gradient accumulation steps. This approach ensures flexibility, allowing us to adjust training parameters without altering the core code.
+
+With configurations in place, we create a Model Trainer configuration class using Python’s dataclass. This class holds all necessary variables for training, including paths and hyperparameters. Data types are carefully matched to the values in params.yaml to avoid type-related errors. We then implement a configuration manager that reads both the config.yaml and params.yaml, creates necessary artifact directories for storing outputs, and returns a fully initialized ModelTrainerConfig object. This modular approach helps keep the training pipeline organized and reusable.
+
+For the training process itself, we initialize the tokenizer and model from Hugging Face using the model checkpoint specified in our configuration. We also define a data collator for sequence-to-sequence tasks and load the training dataset from disk. Training arguments are set according to our parameters, either by reading from the configuration or hardcoding them temporarily for testing. The Trainer object is initialized with the model, tokenizer, data collator, and training arguments, and training is initiated by calling trainer.train(). After training completes, the model and tokenizer are saved to the artifact directory, ready for downstream evaluation and inference.
+
+Since training on a local CPU can be very slow, we recommend performing training on a GPU-enabled environment such as Google Colab, and then downloading the saved model and tokenizer files into the local project directory. This approach significantly reduces training time and ensures reproducibility. Once the model is saved, the notebook code can be modularized: the ModelTrainerConfig class is placed in the entity module, the configuration manager is updated, and the training code is moved to a model_trainer.py component in the components folder. A dedicated Model Trainer pipeline is created in the pipeline module to orchestrate configuration initialization, model training, and artifact storage. Finally, the main script is updated to include this stage in the end-to-end workflow.
+
+By the end of this stage, we have a fully trained model stored in our artifact directory, along with a tokenizer, ready to be evaluated in the next stage. We also ensure proper version control by committing and pushing the changes to the repository, while excluding large model files from Git using .gitignore. This completes the model training stage of our pipeline, setting the foundation for evaluation and deployment.
+
+**9. Model Evaluation Implementation**
+
+In the final stage of our pipeline, we focus on model evaluation. This step is crucial because it allows us to measure the performance of the trained model on a test dataset and record all relevant metrics. We begin by creating a new Jupyter notebook called model_evaluation.ipynb inside the research folder. After selecting the kernel and running a simple sanity check like 1 + 1, we ensure the environment is ready. Next, we import the os module and verify the current working directory using os.getcwd() to confirm we are inside the research folder. At this point, we organize our workspace by closing unnecessary files and preparing to set up the evaluation configuration.
+
+The first step in preparation is to update the config.yaml file to include all paths relevant for model evaluation. This includes the root_dir, data_path (pointing to the dataset), model_path (pointing to the trained model saved during training), tokenizer_path, and metric_file_path where evaluation results will be stored. For example, inside our config.yaml, we add entries like: "model_path: artifacts/model_trainer/model" and "metric_file_path: artifacts/model_evaluation/metrics.csv". With this in place, we create a Model Evaluation Config class using Python’s dataclass to hold all these paths and configurations: "@dataclass class ModelEvaluationConfig: root_dir: Path; data_path: Path; model_path: Path; tokenizer_path: Path; metric_file_path: Path".
+
+After setting up the configuration class, we proceed to create a configuration manager. This manager reads all paths from the YAML file and ensures necessary directories exist using a utility function like "create_directory([config.root_dir, config.model_path, config.tokenizer_path])". This step provides a centralized way to manage configurations and avoids hardcoding paths throughout the evaluation pipeline. Once the configuration manager is ready, we move to the model evaluation component, which will handle actual performance measurement.
+
+The evaluation component begins by importing all necessary libraries, including "import evaluate". Unlike training, we do not need to import load_dataset, because we only need the test data and metrics evaluation. Using the trained model and tokenizer from the artifacts folder, we define a helper function to generate batches from the dataset, for example: "def generate_batches(dataset, batch_size): for i in range(0, len(dataset), batch_size): yield dataset[i:i+batch_size]". Next, we define the calculate metrics function, which iterates over the test dataset batches, runs inference using the model, and calculates relevant metrics using the evaluate library. For example, "metric = evaluate.load('rouge'); result = metric.compute(predictions=preds, references=refs)".
+
+Once metrics are calculated, we save them in a CSV file using "pd.DataFrame([metrics]).to_csv(config.metric_file_path, index=False)". The evaluation component also includes an evaluate function, which orchestrates the whole process: loading the model, tokenizer, and dataset, running inference, calculating metrics, and saving them to the artifact folder. This ensures that the evaluation is reproducible and modular. Any temporary errors, like rogue metrics referenced before assignment, are resolved by calling the functions correctly within the class or using appropriate variable scopes.
+
+After defining the component, we move on to the pipeline integration. A dedicated model_evaluation.py file is created in the components folder, where we copy the entire evaluation logic. This file imports the ModelEvaluationConfig from entity, the configuration manager, and utility functions. Then, a training pipeline module is updated to include a new method like "def initiate_model_evaluation(self): config = ConfigurationManager().get_model_evaluation_config(); evaluator = ModelEvaluation(config); evaluator.evaluate()". Finally, the main.py is updated to include the model evaluation stage as stage four: "from components.model_evaluation_pipeline import ModelEvaluationTrainingPipeline; pipeline = ModelEvaluationTrainingPipeline(); pipeline.initiate_model_evaluation()".
+
+Executing python main.py runs the entire pipeline including model evaluation. The evaluation loads the trained model from the artifacts folder, performs inference on the test dataset, calculates performance metrics such as ROUGE scores, and saves the results in "artifacts/model_evaluation/metrics.csv". While this process may take some time on CPU, using GPU (e.g., in Google Colab) significantly speeds up inferencing. After this stage, we have a fully modularized pipeline with reproducible model evaluation, and the metrics can be used for reporting or further analysis. This completes the model evaluation stage, setting the stage for deployment and API integration in the final step of the project.
+
+**10. Prediction Pipeline And API Integration**
+
+In this final stage, we focus on creating the prediction pipeline and building a front-end API using FastAPI to interact with our text summarization model. The first step is to create a new file called prediction_pipeline.py inside the src/text_summarizer/pipeline folder. This pipeline will handle loading the trained model and tokenizer, preparing the input text, running inference, and returning the summarized text. For instance, we import the configuration manager to get paths and parameters: "from src.text_summarizer.config.configuration_manager import ConfigurationManager". Next, we initialize the pipeline using the trained tokenizer and model paths stored in the artifacts folder, for example: "tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path); model = AutoModelForSeq2SeqLM.from_pretrained(config.model_path)".
+
+Once the model and tokenizer are loaded, we define a prediction function that takes an input text and runs it through the model. This function creates a summarization pipeline using Hugging Face's pipeline class: "summarizer = pipeline('summarization', model=model, tokenizer=tokenizer)". The function then takes a text string and outputs the summarized result, which can be printed or returned. For example: "result = summarizer(input_text, max_length=150, min_length=50, do_sample=False); return result[0]['summary_text']". The logic of this function mirrors what we had already implemented in the text_summarizer.ipynb notebook, ensuring consistency between the notebook and the modular pipeline.
+
+With the prediction pipeline ready, we move on to creating the FastAPI app to serve our model as an API. We start by importing FastAPI and our prediction pipeline: "from fastapi import FastAPI; from src.text_summarizer.pipeline.prediction_pipeline import PredictionPipeline". Then we initialize the FastAPI app: "app = FastAPI()". We create a home route ("/") to test if the API is running, and define a route for training ("/train") which calls our main training script: "@app.post('/train'); def train(): os.system('python main.py'); return {'status': 'Training started'}". While training via API is optional, this demonstrates the modularity and control FastAPI provides.
+
+Next, we define the prediction route ("/predict"), which takes a text input, calls the prediction function from our pipeline, and returns the summarized output. For example: "@app.post('/predict'); def predict(text: str): obj = PredictionPipeline(); summary = obj.predict(text); return {'input': text, 'summary': summary}". This allows any front-end or client to send a POST request with a text payload and receive a summarized result in JSON format. The route is fully functional and mimics the notebook workflow but in a scalable, modular API format.
+
+Finally, we run the FastAPI server using Uvicorn from the command line: "uvicorn app:app --host 127.0.0.1 --port 8080 --reload". Once the server is running, we can navigate to http://127.0.0.1:8080/docs to see the automatically generated Swagger UI, which provides a simple interface to test both the training and prediction endpoints. For testing, we can input a string like "What is text summarization?" in the /predict endpoint and get the summarized response returned by the model. Longer text, such as a small story, can also be tested to see how the model performs on more substantial inputs.
+
+After testing, we commit our code to Git for version control. We use commands like "git add .; git commit -m 'Implemented prediction pipeline and FastAPI endpoints'; git push origin main". This ensures that the entire project—including the prediction pipeline and API—can be deployed or shared easily. The API serves as a front-end for users to interact with the model, providing a practical and end-to-end implementation for text summarization, from training to inference and real-time API-based predictions.
